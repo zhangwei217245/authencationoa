@@ -549,9 +549,10 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.AspectJ.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.AspectJ.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.OtherSupport.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.OtherSupport.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.MySQLDriver.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.MySQLDriver.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.Proxool.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.Proxool.classpath" todir="${dist.ear.dir}"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.hibernate-persistence.classpath} ${manifest.libs.toplink.classpath} ${manifest.libs.spring-webmvc.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.JDTS.classpath} ${manifest.libs.JasperReport.classpath} ${manifest.libs.Log4J.classpath} ${manifest.libs.Commons.classpath} ${manifest.libs.AspectJ.classpath} ${manifest.libs.OtherSupport.classpath} ${manifest.libs.MySQLDriver.classpath} "/>
+            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.hibernate-persistence.classpath} ${manifest.libs.toplink.classpath} ${manifest.libs.spring-webmvc.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.JDTS.classpath} ${manifest.libs.JasperReport.classpath} ${manifest.libs.Log4J.classpath} ${manifest.libs.Commons.classpath} ${manifest.libs.AspectJ.classpath} ${manifest.libs.OtherSupport.classpath} ${manifest.libs.MySQLDriver.classpath} ${manifest.libs.Proxool.classpath} "/>
         </manifest>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
@@ -567,6 +568,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.AspectJ.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.OtherSupport.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.MySQLDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.Proxool.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" if="do.tmp.war.package" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

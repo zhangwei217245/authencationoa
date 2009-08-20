@@ -11,15 +11,27 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+           
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="AuthencationOAPU"/>
     </bean>
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    
     <bean id="tgroupJpaControl" class="com.vv.auth.persist.service.controller.TGroupJpaController"/>
 <!--   <bean id="tuserJpaControl" class="com.vv.auth.persist.service.controller.TUserJpaController"/>-->
     <bean id="trightJpaControl" class="com.vv.auth.persist.service.controller.TRightJpaController"/>
     <bean id="vcustomerJpaController" class="com.vv.auth.persist.service.controller.VcustomerJpaController"/>
+
+    <bean id="jpaDaoService" class="com.vv.auth.persist.service.JpaDaoService" scope="prototype">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    
     <bean id="tuserService" class="com.vv.auth.persist.service.TuserService">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
@@ -49,9 +61,7 @@
         <property name="serverCerPath" value="D:\tomcat.keystore"/>
         <property name="clientCerPath" value="D:\customercer"/>
     </bean>
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    
 
     <bean id="attachmentPathBean" class="com.vv.auth.struts.document.AttachmentPathBean">
         <property name="attachmentPath" value="D:\attachment"/>
@@ -75,7 +85,4 @@
     </bean>
     <bean id="actionExecuteLogger" class="com.vv.auth.aop.ActionExecuteLogger"/>
   
-    <tx:annotation-driven transaction-manager="txManager"/>
-  
-
 </beans>

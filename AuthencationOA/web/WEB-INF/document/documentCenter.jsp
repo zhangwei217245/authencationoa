@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
-<html:html locale="true">
+<html:html>
 <%@ include file="/WEB-INF/util/title.jsp"%>
 <head>
     <title><bean:message key="document.center"/></title>

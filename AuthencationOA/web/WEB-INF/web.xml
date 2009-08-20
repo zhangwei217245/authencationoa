@@ -41,9 +41,20 @@
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>action</servlet-name>
         <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>proxool</servlet-name>
+        <servlet-class>
+        org.logicalcobwebs.proxool.admin.servlet.AdminServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>proxool</servlet-name>
+        <url-pattern>/Admin/proxool</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

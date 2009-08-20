@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <%@page import="com.vv.auth.struts.util.PortConfig" %>
-<html:html locale="true">
+<html:html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="welcome.title"/></title>

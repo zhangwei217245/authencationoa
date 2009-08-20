@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+           <!--<aop:aspectj-autoproxy/>-->
+    <bean name="/Welcome" class="com.vv.auth.struts.login.LoginAction"/>
+    <bean name="/login" class="com.vv.auth.struts.login.LoginAction"/>
+    <bean name="/reset" class="com.vv.auth.struts.login.ResetAction"/>
+    <bean name="/secureset" class="com.vv.auth.struts.login.ResetAction"/>
+    <bean name="/validimg" class="com.vv.auth.struts.platform.base.ValidateImgAction">
+        <property name="codeDigit" value="4"/>
+    </bean>
+    <bean name="/initRegister" class="com.vv.auth.struts.register.RegisterAction"/>
+    <bean name="/execRegister" class="com.vv.auth.struts.register.RegisterAction"/>
+    <bean name="/checkEmail" class="com.vv.auth.struts.register.RegisterAction"/>
+    <bean name="/checkLoginName" class="com.vv.auth.struts.register.RegisterAction"/>
+    <bean name="/permissionerror" class="com.vv.auth.struts.register.RegisterAction"/>
+
+    <!-- add permission below -->
+    <!-- add menu & path 用户组管理-->
+    <bean name="/GroupMana/showGroups" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/addGroupinit" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/addGroup" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/delGroup" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/setGroupUserinit" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/setGroupUser" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/setGroupRightinit" class="com.vv.auth.struts.group.GroupAction"/>
+    <bean name="/GroupMana/setGroupRight" class="com.vv.auth.struts.group.GroupAction"/>
+    <!-- add menu & path 权限管理 -->
+    <bean name="/RightMana/showRights" class="com.vv.auth.struts.right.RightAction"/>
+    <bean name="/RightMana/addRightinit" class="com.vv.auth.struts.right.RightAction"/>
+    <bean name="/RightMana/addRight" class="com.vv.auth.struts.right.RightAction"/>
+    <bean name="/RightMana/delRight" class="com.vv.auth.struts.right.RightAction"/>
+
+    <bean name="/functionA" class="com.vv.auth.struts.functionA.FunctionA"/>
+    <bean name="/functionB" class="com.vv.auth.struts.functionB.FunctionB"/>
+    <bean name="/functionC" class="com.vv.auth.struts.functionC.FunctionC"/>
+
+    <!-- add menu & path 服务端证书注册 -->
+    <bean name="/ServerCer/initServerCerReg" class="com.vv.auth.struts.serverCer.ServerCerAction"/>
+    <bean name="/ServerCer/serverCerReg" class="com.vv.auth.struts.serverCer.ServerCerAction"/>
+    <!-- add menu & path 服务端证书搜索 -->
+    <bean name="/ServerCer/showCerReg" class="com.vv.auth.struts.serverCer.ServerCerAction"/>
+
+    <!-- 不用添加-->
+    <bean name="/ClientCer/initClientCerReg" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <bean name="/ClientCer/clientCerReg" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <!-- add menu & path 用户管理 -->
+    <bean name="/ClientCer/searchUser" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <bean name="/ClientCer/verifyUser" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <bean name="/ClientCer/deleteUser" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <!-- add menu & path 个人证书下载-->
+    <bean name="/ClientCer/initDownloadCer" class="com.vv.auth.struts.clientCer.ClientCerAction"/>
+    <bean name="/ClientCer/DownloadCer" class="com.vv.auth.struts.clientCer.clientCerDownloadAction"/>
+    <!-- add menu & path 会议申请-->
+    <bean name="/ConferenceMana/searchConference" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/initApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/submitApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/viewApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/initEditApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/editApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <!-- add menu & path 会议审核-->
+    <bean name="/ConferenceMana/adminSearchConference" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/adminviewApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <bean name="/ConferenceMana/adminVerifyConference" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
+    <!--公文流转——文档类型配置-->
+    <bean name="/Document/documentTypeinit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+    <bean name="/Document/documentTypeAdd" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+    <bean name="/Document/documentShowType" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+    <bean name="/Document/documentTypeEditInit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+    <bean name="/Document/documentTypeEdit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+    <bean name="/Document/documentTypeDelete" class="com.vv.auth.struts.document.DocumentTypeAction"/>
+   <!--公文流转——文档创建与查看-->
+    <bean name="/Document/documentCenter" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/documentTree" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/createDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/saveDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/showCreatedDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/viewDocDetail" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/documentDownload" class="com.vv.auth.struts.document.DocumentDownloadAction"/>
+    <bean name="/Document/modifyDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/updateDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/showPendingDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/auditDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/batchAuditDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+    <bean name="/Document/showAuditedDocument" class="com.vv.auth.struts.document.DocumentAction"/>
+   <!--公文流转——文档审核-->
+    <bean name="/Document/documentContentShow" class="com.vv.auth.struts.document.DocumentAction"></bean>
+    <bean name="/Document/documentContentChoose" class="com.vv.auth.struts.document.DocumentAction"></bean>
+    <bean name="/Document/documentView" class="com.vv.auth.struts.document.DocumentAction"></bean>
+   <!--日志查看-->
+    <bean name="/Monitor/monitorShow" class="com.vv.auth.struts.monitor.MonitorAction"/>
+    <bean name="/Monitor/monitorShowInit" class="com.vv.auth.struts.monitor.MonitorAction"/>
+
+</beans>

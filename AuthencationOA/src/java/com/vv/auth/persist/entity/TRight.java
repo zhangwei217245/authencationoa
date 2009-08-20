@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +54,7 @@ public class TRight implements Serializable, IEntity {
     @Basic(optional = false)
     @Column(name = "right_path", nullable = false, length = 1000)
     private String rightPath;
-    @ManyToMany(mappedBy = "tRightCollection")
+    @ManyToMany(mappedBy = "tRightCollection",cascade=CascadeType.ALL)
     private Collection<TGroup> tGroupCollection = new ArrayList<TGroup>();
 
     ;

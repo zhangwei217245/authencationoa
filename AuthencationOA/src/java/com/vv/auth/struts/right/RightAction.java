@@ -6,6 +6,7 @@ package com.vv.auth.struts.right;
 
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.service.IRightService;
+import com.vv.auth.persist.service.JpaDaoService;
 import com.vv.auth.persist.service.controller.TRightJpaController;
 import com.vv.auth.persist.service.controller.exceptions.NonexistentEntityException;
 import com.vv.auth.struts.platform.base.BaseAction;
@@ -29,8 +30,11 @@ public class RightAction extends BaseAction {
 
     @Resource
     private IRightService trightService;
+    /*@Resource
+    private TRightJpaController trightJpaControl;*/
     @Resource
-    private TRightJpaController trightJpaControl;
+    private JpaDaoService jpaDaoService;
+
     private Pagination pagination;
 
     @Override
@@ -72,9 +76,9 @@ public class RightAction extends BaseAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         String rightid = request.getParameter("rightid");
         try {
-            trightJpaControl.destroy(new Integer(rightid));
-        } catch (NonexistentEntityException e) {
-            throw new BaseException("error.rightnotexists");
+            jpaDaoService.destroy(TRight.class, rightid);
+        } catch (Exception e) {
+            throw new BaseException("errors.general");
         }
         request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
         return mapping.findForward(SUCCESS);
@@ -84,9 +88,11 @@ public class RightAction extends BaseAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         //saveToken(request);
         //List<TRight> rightlist = trightJpaControl.findTRightEntities();
+        String jpql = " FROM TRight t";
         pagination = new Pagination(request, response);
-        pagination.setRecordCount(trightJpaControl.getTRightCount());
-        List<TRight> rightlist = trightJpaControl.findTRightEntities(pagination.getPageSize(), pagination.getFirstResult());
+
+        pagination.setRecordCount(jpaDaoService.getEntityCount("SELECT count(t) "+jpql, null));
+        List rightlist=jpaDaoService.findEntities("SELECT t "+jpql, null, false,  pagination.getFirstResult(), pagination.getPageSize());
 
         request.setAttribute("rightlist", rightlist);
         request.setAttribute("pagination", pagination.toString());

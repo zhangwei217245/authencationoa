@@ -11,64 +11,248 @@
 -->
 
     <global>
-
-        <!-- An example global constant
         <constant>
-            <constant-name>postalCode</constant-name>
-            <constant-value>^\d{5}\d*$</constant-value>
+            <constant-name>rightpath</constant-name>
+            <constant-value>^\/\w+(\/\w+)*\.do$</constant-value>
         </constant>
-        end example-->
+        <constant>
+            <constant-name>password</constant-name>
+            <constant-value>^[0-9a-zA-Z]{8,16}$</constant-value>
+        </constant>
+        <constant>
+            <constant-name>mobile</constant-name>
+            <constant-value>^(013|015|018|13|15|18)\d{9}$</constant-value>
+        </constant>
+        <constant>
+            <constant-name>userName</constant-name>
+            <constant-value>^[a-zA-Z]{1}(\w|-){5,19}$</constant-value>
+        </constant>
+        <constant>
+            <constant-name>allChn</constant-name>
+            <constant-value>^[\u4E00-\u9FA5]*$</constant-value>
+        </constant>
 
     </global>
 
     <formset>
 
         <!-- An example form -->
-        <form name="logonForm">
+        <form name="userlogin">
             <field
                 property="username"
                 depends="required">
-                    <arg key="logonForm.username"/>
+                    <arg0 key="label.username"/>
+                    <arg1 key="msg.tip.username"/>
+
+            </field>
+            <field
+                property="password"
+                depends="required">
+                    <arg0 key="label.password"/>
+                    <arg1 key="msg.tip.password"/>
+            </field>
+            <field
+                property="validcode"
+                depends="required,imgcode">
+                    <arg key="label.validimg"/>
+            </field>
+        </form>
+        <form name="userRegister">
+            <field
+                property="email"
+                depends="required,email">
+                    <arg key="label.email"/>
+            </field>
+            <field property="loginName"
+                depends="required,mask">
+                    <arg0 key="label.loginName"/>
+                    <arg1 key="msg.tip.username"/>
+                    <var>
+                        <var-name>mask</var-name>
+                        <var-value>${userName}</var-value>
+                    </var>
+            </field>
+            <field property="username"
+                depends="required,mask">
+                    <arg0 key="label.username"/>
+                    <arg1 key="msg.tip.username"/>
+                    <var>
+                        <var-name>mask</var-name>
+                        <var-value>${userName}</var-value>
+                    </var>
+            </field>
+            <field property="mobile"
+                depends="required,mask">
+                    <arg key="label.mobile"/>
+                    <var>
+                        <var-name>mask</var-name>
+                        <var-value>${mobile}</var-value>
+                    </var>
             </field>
             <field
                 property="password"
                 depends="required,mask">
-                    <arg key="logonForm.password"/>
+                    <arg0 key="label.password"/>
+                    <arg1 key="msg.tip.password"/>
                     <var>
                         <var-name>mask</var-name>
-                        <var-value>^[0-9a-zA-Z]*$</var-value>
+                        <var-value>${password}</var-value>
                     </var>
+            </field>
+            <field
+                property="confirmPassword"
+                depends="required,confirmpwd">
+            </field>
+            <field
+                property="validcode"
+                depends="required,imgcode">
+                    <arg key="label.validimg"/>
+            </field>
+        </form>
+        <form name="groupform">
+            <field property="groupName" depends="required,mask">
+                <arg0 key="label.groupName"/>
+                <arg1 key="msg.tip.username"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>${userName}</var-value>
+                </var>
+            </field>
+            <field property="tg_desc" depends="required">
+                <arg0 key="label.groupDesc"/>
+            </field>
+        </form>
+        <form name="rightform">
+            <field property="rightName" depends="required">
+                <arg0 key="label.rightName"/>
+            </field>
+            <field property="rightType" depends="required">
+                <arg0 key="label.rightType"/>
+            </field>
+            <field property="rightPath" depends="required,mask">
+                <arg0 key="label.rightPath"/>
+                <arg1 key="msg.tip.rightpath"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>${rightpath}</var-value>
+                </var>
+            </field>
+        </form>
+        <form name="serverCerform">
+            <field property="name" depends="required">
+                <arg0 key="cer.name"/>
+            </field>
+            <field property="departname" depends="required">
+                <arg0 key="cer.departname"/>
+            </field>
+            <field property="oname" depends="required">
+                <arg0 key="cer.oname"/>
+            </field>
+            <field property="cname" depends="required">
+                <arg0 key="cer.cname"/>
+            </field>
+            <field property="pname" depends="required">
+                <arg0 key="cer.pname"/>
+            </field>
+            <field property="ctname" depends="required">
+                <arg0 key="cer.ctname"/>
+            </field>
+            <field property="ctfname" depends="required">
+                <arg0 key="cer.ctfname"/>
+            </field>
+            <field property="albyte" depends="required">
+                <arg0 key="cer.albyte"/>
+            </field>
+            <field property="cpass" depends="required,mask">
+                <arg0 key="cer.cpass"/>
+                <arg1 key="msg.tip.password"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>${password}</var-value>
+                </var>
+            </field>
+            <field property="ppass" depends="required,mask">
+                <arg0 key="cer.ppass"/>
+                <arg1 key="msg.tip.password"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>${password}</var-value>
+                </var>
+            </field>
+            <field property="location" depends="required">
+                <arg0 key="cer.location"/>
+            </field>
+            <field property="dday" depends="required,posIntRange">
+                <arg0 key="cer.dday"/>
+                <arg1 key="0"/>
+                <arg2 key="2147483647"/>
+            </field>
+        </form>
+        <form name="clientCerform">
+            <field property="name" depends="required">
+                <arg0 key="cer.name"/>
+                <arg1 key="msg.tip.username"/>
+                <var>
+                    <var-name>mask</var-name>
+                    <var-value>${userName}</var-value>
+                </var>
+            </field>
+            <field property="departname" depends="required">
+                <arg0 key="cer.departname"/>
+            </field>
+            <field property="oname" depends="required">
+                <arg0 key="cer.oname"/>
+            </field>
+            <field property="cname" depends="required">
+                <arg0 key="cer.cname"/>
+            </field>
+            <field property="pname" depends="required">
+                <arg0 key="cer.pname"/>
+            </field>
+            <field property="ctname" depends="required">
+                <arg0 key="cer.ctname"/>
+            </field>
+            <field
+                property="password"
+                depends="required,mask">
+                    <arg0 key="label.password"/>
+                    <arg1 key="msg.tip.password"/>
+                    <var>
+                        <var-name>mask</var-name>
+                        <var-value>${password}</var-value>
+                    </var>
+            </field>
+            <field
+                property="confirmPassword"
+                depends="required,confirmpwd">
+            </field>
+            <field
+                property="validcode"
+                depends="required,imgcode">
+                    <arg key="label.validimg"/>
+            </field>
+            <field property="dday" depends="required,posIntRange">
+                <arg0 key="cer.dday"/>
+                <arg1 key="0"/>
+                <arg2 key="2147483647"/>
+            </field>
+        </form>
+        <form name="documentTypeForm">
+            <field property="vc2name" depends="required">
+                <arg0 key="document.type.name"/>
             </field>
         </form>
 
+        <form name="documentForm">
+            <field property="vc2title" depends="required,maxlength">
+                <arg key="document.title" position="0"/>
+                <arg name="maxlength" key="${var:maxlength}" resource="false" position="1"/>
+                <var>
+                    <var-name>maxlength</var-name>
+                    <var-value>50</var-value>
+                </var>
+            </field>
+        </form>
     </formset>
-
-    <!-- An example formset for another locale -->
-    <formset language="fr">
-
-        <constant>
-            <constant-name>postalCode</constant-name>
-            <constant-value>^[0-9a-zA-Z]*$</constant-value>
-        </constant>
-
-        <!-- An example form -->
-        <form name="logonForm">
-            <field
-                property="username"
-                depends="required">
-                    <arg key="logonForm.username"/>
-            </field>
-            <field
-                property="password"
-                depends="required,mask">
-                    <arg key="logonForm.password"/>
-                    <var>
-                        <var-name>mask</var-name>
-                        <var-value>^[0-9a-zA-Z]*$</var-value>
-                    </var>
-            </field>
-        </form>
-
-   </formset>
 
 </form-validation>

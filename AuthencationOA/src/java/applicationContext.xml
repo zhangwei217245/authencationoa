@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+    <context:annotation-config/>
+    <aop:aspectj-autoproxy/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="AuthencationOAPU"/>
+    </bean>
+    <bean id="tgroupJpaControl" class="com.vv.auth.persist.service.controller.TGroupJpaController"/>
+<!--   <bean id="tuserJpaControl" class="com.vv.auth.persist.service.controller.TUserJpaController"/>-->
+    <bean id="trightJpaControl" class="com.vv.auth.persist.service.controller.TRightJpaController"/>
+    <bean id="vcustomerJpaController" class="com.vv.auth.persist.service.controller.VcustomerJpaController"/>
+    <bean id="tuserService" class="com.vv.auth.persist.service.TuserService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="tgroupService" class="com.vv.auth.persist.service.TgroupService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="trightService" class="com.vv.auth.persist.service.TrightService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="rcustomerService" class="com.vv.auth.persist.service.RcustomerService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="certificateregService" class="com.vv.auth.persist.service.CertificateregService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="conferenceApplyService" class="com.vv.auth.persist.service.ConferenceApplyService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="serverCerCreate" class="com.vv.auth.certification.serverInsertFileProcess"/>
+    <bean id="serverCerDestroy" class="com.vv.auth.certification.serverDelFileProcess"/>
+    <bean id="customerCerCreate" class="com.vv.auth.certification.customerInsertFileProcess"/>
+    <bean id="customerCerDestroy" class="com.vv.auth.certification.customerDelFileProcess"/>
+
+
+    <bean id="cerPathBean" class="com.vv.auth.certification.CerPath">
+        <property name="serverCerPath" value="D:\tomcat.keystore"/>
+        <property name="clientCerPath" value="D:\customercer"/>
+    </bean>
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="attachmentPathBean" class="com.vv.auth.struts.document.AttachmentPathBean">
+        <property name="attachmentPath" value="D:\attachment"/>
+    </bean>
+    <bean id="documentService" class="com.vv.auth.persist.service.DocumentService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="documentPathService" class="com.vv.auth.persist.service.DocumentpathService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="documentTypeService" class="com.vv.auth.persist.service.DocumenttypeService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="documentVerifyService" class="com.vv.auth.persist.service.DocumentverifyService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+  
+    <bean id="monitorService" class="com.vv.auth.persist.service.MonitorService">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <bean id="actionExecuteLogger" class="com.vv.auth.aop.ActionExecuteLogger"/>
+  
+    <tx:annotation-driven transaction-manager="txManager"/>
+  
+
+</beans>

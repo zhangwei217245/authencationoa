@@ -145,8 +145,8 @@ public class JpaDaoService extends JpaDaoSupport{
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public Object getEntityCount(final String jpql,final Map<String,? extends Object> params) {
-        return getJpaTemplate().execute(new JpaCallback() {
+    public Integer getEntityCount(final String jpql,final Map<String,? extends Object> params) {
+        return ((Long)getJpaTemplate().execute(new JpaCallback() {
 
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 try {
@@ -167,7 +167,7 @@ public class JpaDaoService extends JpaDaoSupport{
                     em.close();
                 }
             }
-        });
+        })).intValue();
 
     }
     @Deprecated

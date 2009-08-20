@@ -19,7 +19,7 @@
 
 
     <center>
-
+        <div class="divunderline">${requestScope.pagination}</div>
         <table border="0" cellpadding="0" cellspacing="0" class="datatable" width="80%">
             <thead>
                 <tr>
@@ -61,6 +61,7 @@
                 </tr>
             </logic:empty>
         </table>
+         <div class="divtopline">${requestScope.pagination}</div>
     </center>
     
     

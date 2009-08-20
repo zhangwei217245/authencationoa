@@ -1,0 +1,236 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.vv.auth.persist.keep;
+
+import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+/**
+ *
+ * @author X-Spirit
+ */
+@Entity
+@Table(name = "certificatereg", catalog = "sslca", schema = "dbo")
+@NamedQueries({@NamedQuery(name = "Certificatereg.findAll", query = "SELECT c FROM Certificatereg c"),
+@NamedQuery(name = "Certificatereg.findRegExpired", query="SELECT c FROM Certificatereg c WHERE c.ddayover<CURRENT_DATE"),
+@NamedQuery(name = "Certificatereg.findRegNotExpired", query="SELECT c FROM Certificatereg c WHERE c.ddayover>CURRENT_DATE"),
+@NamedQuery(name = "Certificatereg.findByKsdid", query = "SELECT c FROM Certificatereg c WHERE c.ksdid = :ksdid"),
+@NamedQuery(name = "Certificatereg.findByName", query = "SELECT c FROM Certificatereg c WHERE c.name = :name"),
+@NamedQuery(name = "Certificatereg.findByNameAndLocation", query = "SELECT c FROM Certificatereg c WHERE c.name = :name AND c.location = :location"),
+@NamedQuery(name = "Certificatereg.findByOname", query = "SELECT c FROM Certificatereg c WHERE c.oname = :oname"),
+@NamedQuery(name = "Certificatereg.findByCname", query = "SELECT c FROM Certificatereg c WHERE c.cname = :cname"),
+@NamedQuery(name = "Certificatereg.findByPname", query = "SELECT c FROM Certificatereg c WHERE c.pname = :pname"),
+@NamedQuery(name = "Certificatereg.findByCtname", query = "SELECT c FROM Certificatereg c WHERE c.ctname = :ctname"),
+@NamedQuery(name = "Certificatereg.findByCtfname", query = "SELECT c FROM Certificatereg c WHERE c.ctfname = :ctfname"),
+@NamedQuery(name = "Certificatereg.findByAlbyte", query = "SELECT c FROM Certificatereg c WHERE c.albyte = :albyte"),
+@NamedQuery(name = "Certificatereg.findByCpass", query = "SELECT c FROM Certificatereg c WHERE c.cpass = :cpass"),
+@NamedQuery(name = "Certificatereg.findByPpass", query = "SELECT c FROM Certificatereg c WHERE c.ppass = :ppass"),
+@NamedQuery(name = "Certificatereg.findByLocation", query = "SELECT c FROM Certificatereg c WHERE c.location = :location"),
+@NamedQuery(name = "Certificatereg.findByDday", query = "SELECT c FROM Certificatereg c WHERE c.dday = :dday"),
+@NamedQuery(name = "Certificatereg.findByDdaybeg", query = "SELECT c FROM Certificatereg c WHERE c.ddaybeg = :ddaybeg"),
+@NamedQuery(name = "Certificatereg.findByDdayover", query = "SELECT c FROM Certificatereg c WHERE c.ddayover = :ddayover")})
+public class Certificatereg implements Serializable,IEntity {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "ksdid", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer ksdid;
+    @Column(name = "name", length = 50)
+    private String name;
+    @Column(name = "departname", length = 50)
+    private String departname;
+    @Column(name = "oname", length = 50)
+    private String oname;
+    @Column(name = "cname", length = 50)
+    private String cname;
+    @Column(name = "pname", length = 50)
+    private String pname;
+    @Column(name = "ctname", length = 50)
+    private String ctname;
+    @Column(name = "ctfname", length = 50)
+    private String ctfname;
+    @Column(name = "albyte")
+    private Long albyte;
+    @Column(name = "cpass", length = 50)
+    private String cpass;
+    @Column(name = "ppass", length = 50)
+    private String ppass;
+    @Column(name = "location", length = 50)
+    private String location;
+    @Column(name = "dday")
+    private Long dday;
+    @Column(name = "ddaybeg")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ddaybeg;
+    @Column(name = "ddayover")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ddayover;
+
+    public Certificatereg() {
+    }
+
+    public Certificatereg(Integer ksdid) {
+        this.ksdid = ksdid;
+    }
+
+    public Integer getKsdid() {
+        return ksdid;
+    }
+
+    public void setKsdid(Integer ksdid) {
+        this.ksdid = ksdid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDepartname() {
+        return departname;
+    }
+
+    public void setDepartname(String departname) {
+        this.departname = departname;
+    }
+
+    public String getOname() {
+        return oname;
+    }
+
+    public void setOname(String oname) {
+        this.oname = oname;
+    }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
+
+    public String getCtname() {
+        return ctname;
+    }
+
+    public void setCtname(String ctname) {
+        this.ctname = ctname;
+    }
+
+    public String getCtfname() {
+        return ctfname;
+    }
+
+    public void setCtfname(String ctfname) {
+        this.ctfname = ctfname;
+    }
+
+    public Long getAlbyte() {
+        return albyte;
+    }
+
+    public void setAlbyte(Long albyte) {
+        this.albyte = albyte;
+    }
+
+    public String getCpass() {
+        return cpass;
+    }
+
+    public void setCpass(String cpass) {
+        this.cpass = cpass;
+    }
+
+    public String getPpass() {
+        return ppass;
+    }
+
+    public void setPpass(String ppass) {
+        this.ppass = ppass;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Long getDday() {
+        return dday;
+    }
+
+    public void setDday(Long dday) {
+        this.dday = dday;
+    }
+
+    public Date getDdaybeg() {
+        return ddaybeg;
+    }
+
+    public void setDdaybeg(Date ddaybeg) {
+        this.ddaybeg = ddaybeg;
+    }
+
+    public Date getDdayover() {
+        return ddayover;
+    }
+
+    public void setDdayover(Date ddayover) {
+        this.ddayover = ddayover;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (ksdid != null ? ksdid.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Certificatereg)) {
+            return false;
+        }
+        Certificatereg other = (Certificatereg) object;
+        if ((this.ksdid == null && other.ksdid != null) || (this.ksdid != null && !this.ksdid.equals(other.ksdid))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.vv.auth.persist.entity.Certificatereg[ksdid=" + ksdid + "]";
+    }
+
+}

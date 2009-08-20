@@ -1,0 +1,49 @@
+
+
+.dtree {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666;
+	white-space: nowrap;
+}
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #333;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover {
+  color:#ffffff;
+  text-decoration: underline;
+  background-color: #81acff;
+  padding: 2px 1px 2px 1px;
+}
+.dtree a.node:active{
+  color: #ffffff;
+  text-decoration: underline;
+  background-color: #2980d7;
+  padding: 1px 2px 1px 2px;
+  font-weight: 600;
+}
+.dtree a.nodeSel:hover {
+  padding: 2px 1px 2px 1px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: underline;
+  background-color: #81acff;
+}
+.dtree a.nodeSel {
+  padding: 1px 2px 1px 2px;
+  font-weight: 600;
+  background-color: #2980d7;
+  color: #ffffff;
+}
+.dtree .clip {
+	overflow: hidden;
+}

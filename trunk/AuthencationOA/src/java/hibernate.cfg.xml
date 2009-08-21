@@ -3,14 +3,14 @@
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <!--<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/dbo</property>
     <property name="hibernate.connection.username">sa</property>
-    <property name="hibernate.connection.password">610</property>-->
-    <property name="hibernate.connection.provider_class">org.hibernate.connection.ProxoolConnectionProvider</property>
+    <property name="hibernate.connection.password">610</property>
+    <!--<property name="hibernate.connection.provider_class">org.hibernate.connection.ProxoolConnectionProvider</property>
     <property name="hibernate.proxool.pool_alias">dbo</property>
-    <property name="hibernate.proxool.xml">proxoolcfg.xml</property>
-    <property name="hibernate.show_sql">false</property>
+    <property name="hibernate.proxool.xml">proxoolcfg.xml</property>-->
+    <property name="hibernate.show_sql">true</property>
     <!--<property name="hbm2ddl.auto">update</property>-->
   </session-factory>
 </hibernate-configuration>

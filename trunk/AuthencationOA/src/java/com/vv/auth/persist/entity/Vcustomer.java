@@ -84,6 +84,7 @@ public class Vcustomer implements Serializable, IEntity {
     @Basic(optional = false)
     @Column(name = "verifystatus", nullable = false, length = 1)
     private String verifystatus;
+    @Basic(optional = false)
     @ManyToMany(mappedBy = "vcustomerCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Collection<TGroup> tGroupCollection = new ArrayList<TGroup>();
 

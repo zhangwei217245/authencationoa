@@ -3,7 +3,7 @@ package com.vv.auth.struts.platform.base;
 import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.entity.Vcustomer;
-import com.vv.auth.persist.service.JpaDaoService;
+import com.vv.auth.persist.service.IJpaDaoService;
 import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
@@ -217,7 +217,7 @@ public abstract class BaseAction extends Action {
      */
     private void setUserMap(HttpServletRequest request, String username) throws Exception {
         WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession(false).getServletContext());
-        JpaDaoService jpaDaoService = (JpaDaoService)ctx.getBean("jpaDaoService");
+        IJpaDaoService jpaDaoService = (IJpaDaoService)ctx.getBean("jpaDaoService");
         Map params = new HashMap();
         params.put("name", username);
         List userList = jpaDaoService.findByNamedQueryAndNamedParams("Vcustomer.findByName", params);

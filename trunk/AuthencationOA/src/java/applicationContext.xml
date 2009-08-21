@@ -23,10 +23,10 @@
     <tx:annotation-driven transaction-manager="txManager"/>
 
     
-    <bean id="tgroupJpaControl" class="com.vv.auth.persist.service.controller.TGroupJpaController"/>
+    <!--<bean id="tgroupJpaControl" class="com.vv.auth.persist.service.controller.TGroupJpaController"/>-->
 <!--   <bean id="tuserJpaControl" class="com.vv.auth.persist.service.controller.TUserJpaController"/>-->
-    <bean id="trightJpaControl" class="com.vv.auth.persist.service.controller.TRightJpaController"/>
-    <bean id="vcustomerJpaController" class="com.vv.auth.persist.service.controller.VcustomerJpaController"/>
+    <!--<bean id="trightJpaControl" class="com.vv.auth.persist.service.controller.TRightJpaController"/>-->
+    <!--<bean id="vcustomerJpaController" class="com.vv.auth.persist.service.controller.VcustomerJpaController"/>-->
 
     <bean id="jpaDaoService" class="com.vv.auth.persist.service.JpaDaoService" scope="prototype">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>

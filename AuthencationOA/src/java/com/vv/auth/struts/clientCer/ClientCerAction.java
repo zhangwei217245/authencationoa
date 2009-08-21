@@ -200,10 +200,15 @@ public class ClientCerAction extends BaseAction {
 
     private ActionForward verifyUser(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String errmsg=null;
         try {
             String userid = request.getParameter("userid");
             Vcustomer user = tuserService.findUserById(Integer.parseInt(userid));
             List<Certificatereg> rstlst = certificateregService.findCertificateRegNotExpire();
+            if(Utility.isEmpty(rstlst)){
+                errmsg="error.certification.expired";
+                throw new BaseException("");
+            }
             Certificatereg cereg = rstlst.get(0);
             customerCerCreate.execute(user, cereg);
             user.setVerifystatus("Y");
@@ -211,7 +216,11 @@ public class ClientCerAction extends BaseAction {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("" + e);
-            throw new BaseException("errors.general");
+            if (Utility.isNotEmpty(errmsg)){
+                throw new BaseException(errmsg);
+            }else{
+                throw new BaseException("errors.general");
+            }
         }
         request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
         return mapping.findForward(SUCCESS);

@@ -5,10 +5,8 @@
 package com.vv.auth.struts.right;
 
 import com.vv.auth.persist.entity.TRight;
+import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.IRightService;
-import com.vv.auth.persist.service.JpaDaoService;
-import com.vv.auth.persist.service.controller.TRightJpaController;
-import com.vv.auth.persist.service.controller.exceptions.NonexistentEntityException;
 import com.vv.auth.struts.platform.base.BaseAction;
 import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
@@ -33,7 +31,7 @@ public class RightAction extends BaseAction {
     /*@Resource
     private TRightJpaController trightJpaControl;*/
     @Resource
-    private JpaDaoService jpaDaoService;
+    private IJpaDaoService jpaDaoService;
 
     private Pagination pagination;
 

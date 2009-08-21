@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author x-spirit
  */
 @Transactional
-public class JpaDaoService extends JpaDaoSupport{
+public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
 
     public <T extends Object> void create(T entity) {
         getJpaTemplate().persist(entity);

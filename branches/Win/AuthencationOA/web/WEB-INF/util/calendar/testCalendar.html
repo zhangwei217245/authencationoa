@@ -1,0 +1,22 @@
+<html>
+
+
+<head>
+<title>DYNAMIC CALENDAR</title>
+<script src="calendar.js"> </script>
+
+</head>
+
+<body bgcolor="#ffffff">
+<div id="divblock"> </div>
+<form name="frmm1">
+  <p>Date&nbsp; : &nbsp;
+<input type="text" name="enterdate" value="">
+<input type="button" value="Calendar" name="btn" onclick="javascript: if(document.all) makeCal(document.all.divblock, window.document.frmm1.enterdate,Month_Array,10,10,'dd-mm-yyyy'); else makeCal(document.layers.divblock, window.document.frmm1.entereddate,Month_array,10,10,'dd-mm-yyyy') "></p>
+
+<input type="text" name="date" class="inputtype" value="" maxlength="10" />
+<IMG SRC="calendar.gif" border="0" STYLE="cursor: hand" onclick="javascript: if(document.all)fnCalendar( window.document.frmm1.date,Month_Array,10,20,'yyyy-MM-dd');
+	             else fnCalendar( window.document.frmm1.date,Month_Array,10,20,'MM/dd/yyyy')" >
+</form>
+</body>
+</html>

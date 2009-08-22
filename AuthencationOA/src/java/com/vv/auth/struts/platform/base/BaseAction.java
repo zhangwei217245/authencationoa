@@ -3,7 +3,7 @@ package com.vv.auth.struts.platform.base;
 import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.entity.Vcustomer;
-import com.vv.auth.persist.service.IJpaDaoService;
+import com.vv.auth.persist.service.controller.VcustomerJpaController;
 import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -24,12 +25,8 @@ import org.apache.struts.action.ActionMessages;
 import com.vv.auth.struts.util.Utility;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * @author joss
@@ -165,7 +162,7 @@ public abstract class BaseAction extends Action {
     protected void processBaseException(ActionErrors errors, BaseException ex) {
         String lsErrMsg = ex.getErrorMessage();
         if (lsErrMsg != null && lsErrMsg.length() > 0) {
-            errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage(lsErrMsg.replace("\"", "")));
+            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(lsErrMsg.replace("\"", "")));
         }
     }
 
@@ -216,12 +213,9 @@ public abstract class BaseAction extends Action {
      * @param user
      */
     private void setUserMap(HttpServletRequest request, String username) throws Exception {
-        WebApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession(false).getServletContext());
-        IJpaDaoService jpaDaoService = (IJpaDaoService)ctx.getBean("jpaDaoService");
-        Map params = new HashMap();
-        params.put("name", username);
-        List userList = jpaDaoService.findByNamedQueryAndNamedParams("Vcustomer.findByName", params);
-        Vcustomer user = (Vcustomer)userList.get(0);
+        VcustomerJpaController vcustomerJpaController = new VcustomerJpaController();
+        List<Vcustomer> userList = vcustomerJpaController.findVcustomerByName(username);
+        Vcustomer user = userList.get(0);
         ConcurrentMap usermap = new ConcurrentHashMap();
         usermap.put("name", user.getName());
         //usermap.put("email", user.getEmail());

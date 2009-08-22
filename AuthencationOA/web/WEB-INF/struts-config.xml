@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE struts-config PUBLIC
-          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
-          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
 
 
 <struts-config>
@@ -18,9 +18,9 @@
         <form-bean name="documentTypeForm" type="com.vv.auth.struts.document.DocumentTypeForm"/>
         <form-bean name="monitorShowForm" type="com.vv.auth.struts.monitor.MonitorForm"/>
     </form-beans>
-
+    
     <global-exceptions>
-
+    
     </global-exceptions>
 
     <global-forwards>
@@ -29,7 +29,7 @@
     </global-forwards>
 
     <action-mappings>
-
+        
         <!-- =========================== UserLogin Begin====================================== -->
         <action path="/validimg" scope="request" validate="false"/>
         <action path="/Welcome" name="userlogin" scope="request" validate="false" parameter="initlogin" input="/WEB-INF/login.jsp">
@@ -44,7 +44,7 @@
         </action>
         <action path="/secureset" scope="request" validate="false" parameter="secureset"/>
         <!-- =========================== UserLogin End  ====================================== -->
-
+        
         <!-- =========================== Register Begin ====================================== -->
         <action path="/initRegister" input="/Welcome.do" attribute="userRegister" name="userRegister" scope="request" parameter="initRegister" validate="false">
             <forward name="success" path="/WEB-INF/user/register.jsp"/>
@@ -82,7 +82,7 @@
             <forward name="success" path="/GroupMana/showGroups.do"/>
         </action>
         <!-- =========================== GroupMana  End   ====================================== -->
-
+        
         <!-- =========================== RightMana  Begin   ====================================== -->
         <action path="/RightMana/showRights" name="rightform" scope="request" parameter="showRights" validate="false">
             <forward name="success" path="/WEB-INF/right/showright.jsp"/>
@@ -118,9 +118,9 @@
         <action path="/ServerCer/showCerReg" name="serverCerform" scope="request" parameter="showCerReg" validate="false">
             <forward name="success" path="/WEB-INF/serverCer/showServerCer.jsp"/>
         </action>
-
+        
         <!-- =========================== ServerCer  End ====================================== -->
-
+        
         <!-- =========================== ClientCer  Start ====================================== -->
         <action path="/ClientCer/initClientCerReg" name="clientCerform" scope="request" parameter="initClientCerReg" validate="false" input="/WEB-INF/clientCer/clientCerReg.jsp">
             <forward name="success" path="/WEB-INF/clientCer/clientCerReg.jsp"/>
@@ -141,9 +141,9 @@
             <forward name="success" path="/WEB-INF/clientCer/showDownloadCer.jsp"/>
         </action>
         <action path="/ClientCer/DownloadCer" name="clientCerform" scope="request" parameter="/images/errorFile.html" validate="false"/>
-
+        
         <!-- =========================== ClientCer  End ====================================== -->
-
+        
         <!-- =========================== ConferenceMana  Start ====================================== -->
         <action path="/ConferenceMana/searchConference" name="conferenceForm" scope="request" parameter="searchConference" validate="false" input="/WEB-INF/conferenceApply/showConference.jsp">
             <forward name="success" path="/WEB-INF/conferenceApply/showConference.jsp"/>
@@ -247,7 +247,7 @@
         <action path="/Document/showAuditedDocument" name="documentForm" scope="request" parameter="showAuditedDocument" validate="false" input="/Document/showCreatedDocument.do">
             <forward name="success" path="/WEB-INF/document/showAuditedDocument.jsp"/>
         </action>
-
+        
         <!--=========================== Document End =================================================-->
 
 
@@ -259,13 +259,13 @@
             <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
     </action-mappings>
-
+    
     <controller>
       <set-property property="processorClass"
           value="org.springframework.web.struts.DelegatingRequestProcessor"/>
     </controller>
-    <message-resources parameter="com/vv/auth/struts/ApplicationResource"/>
-
+    <message-resources parameter="com/vv/auth/struts/ApplicationResource"/>    
+    
     <!-- ========================= Spring    plugin ================================= -->
     <plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
       <set-property property="contextConfigLocation"
@@ -278,5 +278,5 @@
             property="pathnames"
             value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
     </plug-in>
-
+  
 </struts-config>

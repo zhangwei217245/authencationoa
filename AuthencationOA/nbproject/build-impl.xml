@@ -538,35 +538,27 @@ exists or setup the property manually. For example like this:
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
         <copyfiles files="${libs.struts.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.struts.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.toplink.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.toplink.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.spring-webmvc.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.spring-webmvc.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.commons.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.commons.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.Aspectj.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.Aspectj.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.jasperReport.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.jasperReport.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.support.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.support.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.dbDriver.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.dbDriver.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.spring-framework.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.spring-framework.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.JDTS.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.JDTS.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.JasperReport.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.JasperReport.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.Log4J.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.Log4J.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.Commons.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.Commons.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.AspectJ.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.AspectJ.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.OtherSupport.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.OtherSupport.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.MySQLDriver.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.MySQLDriver.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${libs.CGLIB-NODEP.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.CGLIB-NODEP.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.toplink.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.toplink.classpath" todir="${dist.ear.dir}"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.toplink.classpath} ${manifest.libs.spring-webmvc.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.JDTS.classpath} ${manifest.libs.JasperReport.classpath} ${manifest.libs.Log4J.classpath} ${manifest.libs.Commons.classpath} ${manifest.libs.AspectJ.classpath} ${manifest.libs.OtherSupport.classpath} ${manifest.libs.MySQLDriver.classpath} ${manifest.libs.CGLIB-NODEP.classpath} "/>
+            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.commons.classpath} ${manifest.libs.Aspectj.classpath} ${manifest.libs.jasperReport.classpath} ${manifest.libs.support.classpath} ${manifest.libs.dbDriver.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.toplink.classpath} "/>
         </manifest>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copyfiles files="${libs.struts.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.toplink.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.spring-webmvc.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.commons.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.Aspectj.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.jasperReport.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.support.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.dbDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.spring-framework.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.JDTS.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.JasperReport.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.Log4J.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.Commons.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.AspectJ.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.OtherSupport.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.MySQLDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.CGLIB-NODEP.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.toplink.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" if="do.tmp.war.package" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

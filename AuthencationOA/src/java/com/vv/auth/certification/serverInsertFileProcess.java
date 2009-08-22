@@ -5,7 +5,6 @@
 package com.vv.auth.certification;
 
 import com.vv.auth.persist.entity.Certificatereg;
-import com.vv.auth.struts.util.FileUtility;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,12 +12,16 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import javax.annotation.Resource;
 
 /**
  *
  * @author hp
  */
 public class serverInsertFileProcess {
+
+    @Resource
+    private CerPath cerPathBean;
 
     public void execute(Certificatereg cereg) throws Exception {
         try {
@@ -28,7 +31,7 @@ public class serverInsertFileProcess {
             String cmd_0 = "keytool -genkey -v -alias " + cereg.getName() + " -keyalg RSA -keysize " + cereg.getAlbyte() + " -keystore " + cereg.getLocation() + " -dname \"CN=" + cereg.getName() + ",OU=" + cereg.getDepartname() + "，O=" + cereg.getOname() + ",L=" + cereg.getCname() + ",ST=" + cereg.getPname() + ",C=" + cereg.getCtfname() + "\" -storepass " + cereg.getCpass() + " -keypass " + cereg.getPpass() + " -validity " + cereg.getDday().intValue() + "";
             String cmd_1 = "exit";
 
-            Process process = Runtime.getRuntime().exec("cmd");
+            Process process = Runtime.getRuntime().exec(cerPathBean.getTerminalCommand());
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
             CmdStatus cs = CmdStatus.getInstance();
@@ -46,7 +49,7 @@ public class serverInsertFileProcess {
             e.printStackTrace();
         }
     }
-
+    @Deprecated
     public void delFolder(String folderPath) {
         try {
             delAllFile(folderPath); // 删除完里面所有内容
@@ -58,7 +61,7 @@ public class serverInsertFileProcess {
             e.printStackTrace();
         }
     }
-
+    @Deprecated
     public boolean delAllFile(String path) {
         boolean flag = false;
         File file = new File(path);
@@ -87,13 +90,13 @@ public class serverInsertFileProcess {
         }
         return flag;
     }
-
+    @Deprecated
     public void serverInsertCer(Certificatereg cereg) throws Exception {
         this.serverInsertCer(cereg.getName(), cereg.getAlbyte().toString(), cereg.getLocation(), cereg.getDepartname(),
                 cereg.getOname(), cereg.getCname(), cereg.getPname(),
                 cereg.getCtfname(), cereg.getCpass(), cereg.getPpass(), cereg.getDday().toString());
     }
-
+    @Deprecated
     /**
      *
      * @param name
@@ -149,7 +152,7 @@ public class serverInsertFileProcess {
         }
         delFolder("c:/hh");
     }
-
+    @Deprecated
     public void shutDown() throws Exception {
         String ss = "taskkill /IM cmd.exe";
         String separator = File.separator;

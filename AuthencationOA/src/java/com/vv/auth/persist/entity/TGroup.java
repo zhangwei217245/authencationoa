@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
 @NamedQueries({@NamedQuery(name = "TGroup.findAll", query = "SELECT t FROM TGroup t"),
     @NamedQuery(name = "TGroup.findByTgId", query = "SELECT t FROM TGroup t WHERE t.tgId = :tgId"),
     @NamedQuery(name = "TGroup.findByGroupName", query = "SELECT t FROM TGroup t WHERE t.groupName = :groupName"),
-    @NamedQuery(name = "TGroup.findByGroupNameAndDesc", query = "SELECT t FROM TGroup t WHERE t.groupName = :groupName AND t.tgDesc LIKE :tgDesc"),
     @NamedQuery(name = "TGroup.findByParentTgId", query = "SELECT t FROM TGroup t WHERE t.parentTgId = :parentTgId"),
     @NamedQuery(name = "TGroup.findByGenTime", query = "SELECT t FROM TGroup t WHERE t.genTime = :genTime"),
     @NamedQuery(name = "TGroup.findByTgDesc", query = "SELECT t FROM TGroup t WHERE t.tgDesc LIKE :tgDesc")})
@@ -57,10 +56,10 @@ public class TGroup implements Serializable, IEntity {
     @Column(name = "tg_desc", length = 200)
     private String tgDesc;
     @JoinTable(name = "TGroupRightRelation", joinColumns = {@JoinColumn(name = "tg_id", referencedColumnName = "tg_id")}, inverseJoinColumns = {@JoinColumn(name = "tr_id", referencedColumnName = "tr_id")})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<TRight> tRightCollection = new ArrayList<TRight>();
     @JoinTable(name = "TUserGroupRelation", joinColumns = {@JoinColumn(name = "tg_id", referencedColumnName = "tg_id")}, inverseJoinColumns = {@JoinColumn(name = "userid", referencedColumnName = "userid")})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Vcustomer> vcustomerCollection = new ArrayList<Vcustomer>();
 
     public TGroup() {

@@ -43,7 +43,7 @@
                 depends="required">
                     <arg0 key="label.username"/>
                     <arg1 key="msg.tip.username"/>
-
+                    
             </field>
             <field
                 property="password"
@@ -101,7 +101,7 @@
             </field>
             <field
                 property="confirmPassword"
-                depends="required,confirmpwd">
+                depends="required,confirmpwd">                    
             </field>
             <field
                 property="validcode"
@@ -242,7 +242,7 @@
                 <arg0 key="document.type.name"/>
             </field>
         </form>
-
+        
         <form name="documentForm">
             <field property="vc2title" depends="required,maxlength">
                 <arg key="document.title" position="0"/>

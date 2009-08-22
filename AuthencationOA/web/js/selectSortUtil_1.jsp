@@ -189,7 +189,7 @@ SortUtil.prototype.addoption=function(lablarg,vallarg,labrarg,valrarg)
         {
                 var value = select1.options[index].value;
                 var item = select1.options[index].text;
-
+                
                 <%--//如果仅是复制项目，则检查是否有重复的--%>
                 var bool = 0;
                 if(!this.move){

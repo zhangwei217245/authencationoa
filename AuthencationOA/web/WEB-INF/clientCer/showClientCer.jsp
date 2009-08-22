@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
        <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="welcome.title"/></title>
@@ -27,17 +27,17 @@
         <h4><bean:message key="title.serverCerReg.search"/></h4>
         <div class="divunderline"></div>
         <html:form action="/ClientCer/searchUser.do">
-
-            <table width="800" align="center" style="text-align:center;vertical-align:middle">
+            <center>
+            <table width="60%" align="center" style="vertical-align:middle">
     		<tr>
-                <td width="25%"><bean:message key="label.username"/></td>
-    			<td width="25%">
+                    <td width="20%" style="text-align:right;"><bean:message key="label.username"/></td>
+    			<td width="30%">
                         <html:text property="searchname"/>
                 </td>
-                <td width="25%">
+                <td width="20%" style="text-align:right;">
                     <bean:message key="label.cershowtype"/>
                 </td>
-                <td width="25%">
+                <td width="30%">
                     <html:select property="certype">
                         <html:option value="all" key="label.all"/>
                         <html:option value="expired" key="label.cer.showtype.expired"/>
@@ -47,7 +47,7 @@
                 
     		</tr>
             <tr>
-                <td><bean:message key="label.verifytype"/></td>
+                <td style="text-align:right;"><bean:message key="label.verifytype"/></td>
                 <td>
                     <html:select property="verifystatus">
                         <html:option value="" key="label.all"/>
@@ -55,12 +55,15 @@
                         <html:option value="N" key="label.verifytype.N"/>
                     </html:select>
                 </td>
-                <td colspan="2">
+                <td style="text-align:right;">
                     <input type="submit" value="<bean:message key="button.find"/>"/>
                 </td>
+                <td>&nbsp;</td>
             </tr>
     	</table>
+        </center>
         <div class="divunderline"></div>
+        <center>
         <logic:notEmpty name="rstlst">
             <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
                 <thead>
@@ -113,7 +116,7 @@
                 </tbody>
             </table>
         </logic:notEmpty>
-
+        </center>
 
         </html:form>
 

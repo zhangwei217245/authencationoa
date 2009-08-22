@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
        <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="welcome.title"/></title>
@@ -34,6 +34,7 @@
 
         <h4><bean:message key="title.showuserinfo"/></h4>
 <div class="divunderline"></div>
+<center>
         <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
@@ -70,7 +71,7 @@
                         </tr>
                 </tbody>
             </table>
-
+</center>
             <iframe id="downloadFrame" width="1" height="1" style="width:1px;height:1px;" src="about:blank"></iframe>
     </body>
 

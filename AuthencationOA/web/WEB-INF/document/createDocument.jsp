@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title><bean:message key="document.create"/></title>
@@ -17,7 +17,6 @@
                         <td><bean:message key="document.type"/><span class="required">*</span></td>
                         <td>
                             <html:select property="numtypeid">
-                                <html:option value="" key="label.please"/>
                                 <html:optionsCollection name="typelist"/>
                             </html:select>
                         </td>

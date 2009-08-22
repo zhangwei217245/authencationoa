@@ -7,19 +7,20 @@ package com.vv.auth.struts.group;
 import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.entity.Vcustomer;
-import com.vv.auth.persist.service.IJpaDaoService;
+import com.vv.auth.persist.service.IGroupService;
 import com.vv.auth.persist.service.IRightService;
+import com.vv.auth.persist.service.controller.TGroupJpaController;
+import com.vv.auth.persist.service.controller.TRightJpaController;
+import com.vv.auth.persist.service.controller.VcustomerJpaController;
+import com.vv.auth.persist.service.controller.exceptions.NonexistentEntityException;
 import com.vv.auth.struts.platform.base.BaseAction;
 import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
-import com.vv.auth.struts.util.Pagination;
 import com.vv.auth.struts.util.Utility;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,21 +34,16 @@ import org.apache.struts.action.ActionMapping;
  */
 public class GroupAction extends BaseAction {
 
-    /*@Resource
+    @Resource
     private IGroupService tgroupService;
     @Resource
     private TGroupJpaController tgroupJpaControl;
     @Resource
     private VcustomerJpaController vcustomerJpaController;
     @Resource
-    private TRightJpaController trightJpaControl;*/
-
-    @Resource
-    private IJpaDaoService jpaDaoService;
+    private TRightJpaController trightJpaControl;
     @Resource
     private IRightService trightService;
-
-    private Pagination pagination;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,
@@ -80,11 +76,10 @@ public class GroupAction extends BaseAction {
         GroupForm form = (GroupForm) aform;
         if (isTokenValid(request, true)) {
             TGroup group = new TGroup(null, form.getGroupName(), new Date(), form.getTg_desc());
-            Map params = new HashMap();
-            params.put("groupName", group.getGroupName());
-            params.put("tgDesc", group.getTgDesc());
-            if (jpaDaoService.findByNamedQueryAndNamedParams("TGroup.findByGroupNameAndDesc", params).size() <= 0) {
-                jpaDaoService.create(group);
+            if (tgroupService.findGroupByName(group.getGroupName()).size() <= 0 && tgroupService.findGroupByDesc(group.getTgDesc()).size() <= 0) {
+                //TRight right1=trightService.findRightByTypeAndPath("menu", "/ClientCer/initDownloadCer.do").get(0);
+                //TRight right2=trightService.findRightByTypeAndPath("menu", "/ClientCer/initDownloadCer.do").get(0);
+                tgroupService.saveGroup(group);
             } else {
                 throw new BaseException("error.groupexists");
             }
@@ -100,9 +95,9 @@ public class GroupAction extends BaseAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         String groupid = request.getParameter("groupid");
         try {
-            jpaDaoService.destroy(TGroup.class, new Integer(groupid));
-        } catch (Exception e) {
-            throw new BaseException("error.general");
+            tgroupJpaControl.destroy(new Integer(groupid));
+        } catch (NonexistentEntityException e) {
+            throw new BaseException("error.groupnotexists");
         }
         request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
         return mapping.findForward(SUCCESS);
@@ -114,16 +109,16 @@ public class GroupAction extends BaseAction {
         String groupid = form.getTgId();
 
         try {
-            TGroup group = jpaDaoService.findOneEntityById(TGroup.class, groupid);
+            TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             group.getTRightCollection().clear();
             String[] rights = form.getTgright();
             for (String rightid : rights) {
-                TRight right = jpaDaoService.findOneEntityById(TRight.class,rightid);
+                TRight right = trightJpaControl.findTRight(new Integer(rightid));
                 //right.getTGroupCollection().clear();//保证一个用户只能属于一个组
                 right.getTGroupCollection().add(group);
                 group.getTRightCollection().add(right);
             }
-            jpaDaoService.edit(group);
+            tgroupJpaControl.edit(group);
         } catch (Exception e) {
             log.error("", e);
             e.printStackTrace();
@@ -138,16 +133,15 @@ public class GroupAction extends BaseAction {
         String groupid = request.getParameter("groupid");
         GroupForm form = (GroupForm) aform;
         try {
-            TGroup group = jpaDaoService.findOneEntityById(TGroup.class,groupid);
+            TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             request.setAttribute("groupname", group.getGroupName());
             request.setAttribute("groupdesc", group.getTgDesc());
             //Collection<Vcustomer> rightinGroup = group.getVcustomerCollection();
             List rightoutGroup = new ArrayList();
             List rightinGroup = new ArrayList();
 
-            List allrights = jpaDaoService.findByNamedQueryAndNamedParams("TRight.findAll", null);
-            for (Object obj : allrights) {
-                TRight right = (TRight)obj;
+            List<TRight> allrights = trightJpaControl.findTRightEntities();
+            for (TRight right : allrights) {
                 Collection<TGroup> rightgroup = right.getTGroupCollection();
                 if (!rightgroup.contains(group)) {
                     rightoutGroup.add(right);
@@ -172,16 +166,16 @@ public class GroupAction extends BaseAction {
         GroupForm form = (GroupForm) aform;
         String groupid = form.getTgId();
         try {
-            TGroup group = jpaDaoService.findOneEntityById(TGroup.class, groupid);
+            TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             group.getVcustomerCollection().clear();
             String[] users = form.getTguser();
             for (String userid : users) {
-                Vcustomer vcustomer = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
+                Vcustomer vcustomer = vcustomerJpaController.findVcustomer(new Integer(userid));
                 vcustomer.getTGroupCollection().clear();//保证一个用户只能属于一个组
                 vcustomer.getTGroupCollection().add(group);
                 group.getVcustomerCollection().add(vcustomer);
             }
-            jpaDaoService.edit(group);
+            tgroupJpaControl.edit(group);
         } catch (Exception e) {
             log.error("", e);
             e.printStackTrace();
@@ -196,16 +190,15 @@ public class GroupAction extends BaseAction {
         String groupid = request.getParameter("groupid");
         GroupForm form = (GroupForm) aform;
         try {
-            TGroup group = jpaDaoService.findOneEntityById(TGroup.class, groupid);
+            TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             request.setAttribute("groupname", group.getGroupName());
             request.setAttribute("groupdesc", group.getTgDesc());
             //Collection<Vcustomer> userinGroup = group.getVcustomerCollection();
             List useroutGroup = new ArrayList();
             List userinGroup = new ArrayList();
 
-            List allusers = jpaDaoService.findByNamedQueryAndNamedParams("Vcustomer.findAll", null);
-            for (Object obj : allusers) {
-                Vcustomer user = (Vcustomer)obj;
+            List<Vcustomer> allusers = vcustomerJpaController.findVcustomerEntities();
+            for (Vcustomer user : allusers) {
                 Collection<TGroup> usergroup = user.getTGroupCollection();
                 if (!usergroup.contains(group)) {
                     useroutGroup.add(user);
@@ -228,13 +221,9 @@ public class GroupAction extends BaseAction {
     private ActionForward showGroups(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         //saveToken(request);
-        String jpql = " FROM TGroup t";
-        int listCount = jpaDaoService.getEntityCount("SELECT count(t) "+jpql, null);
-        pagination = new Pagination(request, response);
-        pagination.setRecordCount(listCount);
-        List grouplist = jpaDaoService.findEntities("SELECT t "+jpql, null, false, pagination.getFirstResult(), pagination.getPageSize());
+        List<TGroup> grouplist = tgroupJpaControl.findTGroupEntities();
         request.setAttribute("grouplist", grouplist);
-        request.setAttribute("pagination", pagination.toString());
+
         return mapping.findForward(SUCCESS);
     }
 }

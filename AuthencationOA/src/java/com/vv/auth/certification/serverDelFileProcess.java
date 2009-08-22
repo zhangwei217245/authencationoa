@@ -54,7 +54,7 @@ public class serverDelFileProcess {
             e.printStackTrace();
         }
     }
-
+    @Deprecated
     public void delServerCer(String name, String uloc, String upassa) throws Exception {
         String s = "keytool -delete -alias " + name + " -keystore " + uloc + " -storepass " + upassa + "";//从密钥库删除记录
         String separator = File.separator;
@@ -95,7 +95,7 @@ public class serverDelFileProcess {
 
         delFolder("c:/hh");
     }
-
+    @Deprecated
     public void shutDown() throws Exception {
         String ss = "taskkill /IM cmd.exe";
         String separator = File.separator;

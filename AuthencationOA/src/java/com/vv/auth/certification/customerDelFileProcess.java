@@ -12,18 +12,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import javax.annotation.Resource;
 
 /**
  *
  * @author hp
  */
 public class customerDelFileProcess {
-
+    @Resource
+    private CerPath cerPathBean;
     public void execute(String name, String location, String cpass, String delfolder) {
         String cmd_0 = "keytool -delete -alias " + name + " -keystore " + location + " -storepass " + cpass + "";
         String cmd_1 = "exit";
         try {
-            Process process = Runtime.getRuntime().exec("cmd");
+            Process process = Runtime.getRuntime().exec(cerPathBean.getTerminalCommand());
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
             CmdStatus cs = CmdStatus.getInstance();
@@ -86,7 +88,7 @@ public class customerDelFileProcess {
         }
         return flag;
     }
-
+    @Deprecated
     public void delFromServer(String name, String location, String cpass) throws Exception //删除文件 并从库中抽取
     {
         String s = "keytool -delete -alias " + name + " -keystore " + location + " -storepass " + cpass + "";

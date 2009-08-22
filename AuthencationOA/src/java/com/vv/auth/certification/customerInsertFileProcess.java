@@ -42,7 +42,7 @@ public class customerInsertFileProcess {
         String cmd_3 = "y";
         String cmd_4 = "exit";
         try {
-            Process process = Runtime.getRuntime().exec("cmd");
+            Process process = Runtime.getRuntime().exec(cerPathBean.getTerminalCommand());
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
             CmdStatus cs = CmdStatus.getInstance();
@@ -69,11 +69,11 @@ public class customerInsertFileProcess {
             e.printStackTrace();
         }
     }
-
+    @Deprecated
     public void genCerImportCer(Vcustomer user) throws Exception {
         this.genCerImportCer(user.getName(), user.getDepartname(), user.getOname(), user.getCname(), user.getPname(), user.getCtname(), user.getPassword(), user.getDday());
     }
-
+    @Deprecated
     public void genCerImportCer(String name, String departname, String oname, String cname, String pname, String ctname, String password, String dday) throws Exception {
 
         String separator = File.separator;
@@ -116,11 +116,11 @@ public class customerInsertFileProcess {
 //            e.printStackTrace();
 //        }
     }
-
+    @Deprecated
     public void exportCer(Vcustomer user) throws Exception {
         this.exportCer(user.getName(), user.getPassword());
     }
-
+    @Deprecated
     public void exportCer(String name, String password) throws Exception {
         String separator = File.separator;
 //			        String directory = "c:" + separator + "customercer"+separator+name;
@@ -150,7 +150,7 @@ public class customerInsertFileProcess {
 //            e.printStackTrace();
 //        }
     }
-
+    @Deprecated
     public void importServer(String name, String serverlocation, String servercpass) throws Exception {
 
         String separator = File.separator;

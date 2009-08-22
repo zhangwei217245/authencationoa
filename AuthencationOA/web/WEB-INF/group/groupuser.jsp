@@ -49,7 +49,7 @@
                                 <fieldset style="height:100%">
                                     <legend><bean:message key="label.group.userout"/></legend>
                                     <div>
-                                    <select name="useroutGroup" style="width:80%" ondblclick="addopt()" size="15">
+                                        <select id="useroutGroup" name="useroutGroup" style="width:80%" ondblclick="addopt()" size="15">
                                         <logic:iterate id="userout" name="useroutGroup" type="com.vv.auth.persist.entity.Vcustomer" scope="request" indexId="uoid">
                                             <option value="<bean:write name="userout" property="userid"/>"><bean:write name="userout" property="name"/></option>
                                         </logic:iterate>
@@ -67,7 +67,7 @@
                                 <fieldset style="height:100%;vertical-align:middle">
                                     <legend><bean:message key="label.group.userin"/></legend>
                                     <div style="text-align:center;vertical-align:middle">
-                                       <select name="tguser" style="width:80%" ondblclick="delopt()" size="15" multiple>
+                                        <select id="tguser" name="tguser" style="width:80%" ondblclick="delopt()" size="15" multiple>
                                         <logic:iterate id="userin" name="userinGroup" type="com.vv.auth.persist.entity.Vcustomer" scope="request" indexId="uiid">
                                             <option value="<bean:write name="userin" property="userid"/>"><bean:write name="userin" property="name"/></option>
                                         </logic:iterate>

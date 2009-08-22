@@ -9,9 +9,19 @@ package com.vv.auth.certification;
  * @author hp
  */
 public class CerPath {
-
+    private String terminalCommand;
     private String serverCerPath;
     private String clientCerPath;
+
+    public String getTerminalCommand() {
+        return terminalCommand;
+    }
+
+    public void setTerminalCommand(String terminalCommand) {
+        this.terminalCommand = terminalCommand;
+    }
+
+    
 
     public String getClientCerPath() {
         return clientCerPath;

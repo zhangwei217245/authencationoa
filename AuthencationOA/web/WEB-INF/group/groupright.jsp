@@ -49,7 +49,7 @@
                                 <fieldset style="height:100%">
                                     <legend><bean:message key="label.group.rightout"/></legend>
                                     <div>
-                                    <select name="rightoutGroup" style="width:90%" ondblclick="addopt()" size="15">
+                                        <select id="rightoutGroup" name="rightoutGroup" style="width:90%" ondblclick="addopt()" size="15">
                                         <logic:iterate id="rightout" name="rightoutGroup" type="com.vv.auth.persist.entity.TRight" scope="request" indexId="roid">
                                             <option value="<bean:write name="rightout" property="trId"/>"><bean:write name="rightout" property="rightName"/>
                                             --&nbsp;<bean:write name="rightout" property="rightDesc"/>&nbsp;--&nbsp;
@@ -75,7 +75,7 @@
                                 <fieldset style="height:100%;vertical-align:middle">
                                     <legend><bean:message key="label.group.rightin"/></legend>
                                     <div style="text-align:center;vertical-align:middle">
-                                       <select name="tgright" style="width:90%" ondblclick="delopt()" size="15" multiple>
+                                        <select id="tgright" name="tgright" style="width:90%" ondblclick="delopt()" size="15" multiple>
                                         <logic:iterate id="rightin" name="rightinGroup" type="com.vv.auth.persist.entity.TRight" scope="request" indexId="riid">
                                             <option value="<bean:write name="rightin" property="trId"/>">
                                                 <bean:write name="rightin" property="rightName"/>

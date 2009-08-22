@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title><bean:message key="document.created"/></title>
@@ -99,7 +99,13 @@
                                   <bean:message key="document.status.${doc.vc2use}"/>
                               </td>
                               <td>
-                                  
+                                  <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="label.document.viewdetail"/></a>
+                                  &nbsp;&nbsp;
+                                  <logic:equal name="doc" property="vc2result" value="N">
+                                      <logic:equal name="doc" property="numcurrstep" value="0">
+                                      <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                                      </logic:equal>
+                                  </logic:equal>
                               </td>
                               </tr>
                           </logic:iterate>

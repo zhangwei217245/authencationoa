@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <%@page import="com.vv.auth.struts.util.PortConfig" %>
-<html:html>
+<html:html locale="true">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="welcome.title"/></title>
@@ -22,7 +22,7 @@
             </div>
         </logic:notPresent>
         <html:form action="/login" onsubmit="return validateUserlogin(this);">
-            
+            <center>
             <table width="800" align="center" style="text-align:center;vertical-align:middle;margin-top:100px">
                 <tr>
                     <td align="center" width="80%">
@@ -77,7 +77,7 @@
                     </td>
                 </tr>
             </table>
-            
+            </center>
             
             
         </html:form>

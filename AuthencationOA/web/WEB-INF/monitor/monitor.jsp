@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title><bean:message key="review.syslog"/></title>
@@ -27,7 +27,7 @@
                     <h4><bean:message key="review.syslog"/></h4>
                     <div class="divunderline"></div>
               <html:form action="/Monitor/monitorShow.do" method="post">
-                  
+                  <center>
                    <table width="800" align="center" style="text-align:left;vertical-align:middle">
                        <tr>
                            <td><bean:message key="review.username"/></td>
@@ -53,7 +53,7 @@
                            <td colspan="2"><input type="submit" value="<bean:message key="button.find"/>"/></td>
                        </tr>
                    </table>
-                  
+                  </center>
                    <div class="divtopline">${requestScope.pagination}</div>
                        <center>
                   <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">

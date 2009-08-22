@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-   <html:html>
+   <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title><bean:message key="title.document.type.add"/></title>
@@ -66,7 +66,7 @@
                                 <fieldset style="height:100%">
                                     <legend><bean:message key="label.documenttype.path.groupout"/></legend>
                                     <div>
-                                    <select name="groupsout" style="width:80%" ondblclick="addopt()" size="15">
+                                        <select id="groupsout" name="groupsout" style="width:80%" ondblclick="addopt()" size="15">
                                         <logic:iterate id="outgroup" name="outGroups" type="com.vv.auth.persist.entity.TGroup" scope="request" indexId="goid">
                                             <option value="<bean:write name="outgroup" property="tgId"/>"><bean:write name="outgroup" property="groupName"/></option>
                                         </logic:iterate>
@@ -84,7 +84,7 @@
                                 <fieldset style="height:100%;vertical-align:middle">
                                     <legend><bean:message key="label.documenttype.path.groupin"/></legend>
                                     <div style="text-align:center;vertical-align:middle">
-                                       <select name="groupsin" style="width:80%" ondblclick="delopt()" size="15" multiple>
+                                        <select id="groupsin" name="groupsin" style="width:80%" ondblclick="delopt()" size="15" multiple>
                                         <logic:iterate id="ingroup" name="inGroups" type="com.vv.auth.persist.entity.TGroup" scope="request" indexId="giid">
                                             <option value="<bean:write name="ingroup" property="tgId"/>"><bean:write name="ingroup" property="groupName"/></option>
                                         </logic:iterate>

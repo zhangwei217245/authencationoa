@@ -15,7 +15,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/drag.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/prototype.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/func2.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/selectSortUtil.jsp"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/selectSortUtil_1.jsp"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/SortTable.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/copytoclipboard.jsp"></script>
 

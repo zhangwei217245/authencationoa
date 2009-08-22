@@ -118,7 +118,7 @@ public class DocumentAction extends BaseAction {
     private ActionForward createDocument(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         saveToken(request);
-        List<LabelValueBean> typelist = getDocTypeOptions();
+        List<LabelValueBean> typelist = getDocTypeOptions("label.please");
         request.setAttribute("typelist", typelist);
         return mapping.findForward(SUCCESS);
     }
@@ -190,7 +190,7 @@ public class DocumentAction extends BaseAction {
         String errmsg = null;
         DocumentForm form = (DocumentForm) aform;
         Map params = new HashMap();
-        setOptionList(request);
+        setOptionList(request,"label.all");
         try {
             Integer myuid = Utility.getCurrSessionUserid(request);
             Vcustomer me = tuserService.findUserById(myuid);
@@ -244,32 +244,39 @@ public class DocumentAction extends BaseAction {
         return mapping.findForward(SUCCESS);
     }
 
-    private void setOptionList(HttpServletRequest request) throws Exception {
-        request.setAttribute("doctypeList", getDocTypeOptions());
-        request.setAttribute("resultList", getResultList());
-        request.setAttribute("statusList", getStatusList());
+    private void setOptionList(HttpServletRequest request,String emptyItemKey) throws Exception {
+        request.setAttribute("doctypeList", getDocTypeOptions(emptyItemKey));
+        request.setAttribute("resultList", getResultList(emptyItemKey));
+        request.setAttribute("statusList", getStatusList(emptyItemKey));
     }
 
-    private List<LabelValueBean> getResultList() throws Exception {
+    private List<LabelValueBean> getResultList(String emptyItemKey) throws Exception {
         List<LabelValueBean> optlist = new ArrayList<LabelValueBean>();
-        optlist.add(new LabelValueBean(Utility.getMessage("label.all"), ""));
+        if(Utility.isNotEmpty(emptyItemKey)){
+            optlist.add(new LabelValueBean(Utility.getMessage(emptyItemKey), ""));
+        }
+        
         optlist.add(new LabelValueBean(Utility.getMessage("document.department.result.Y"), "Y"));
         optlist.add(new LabelValueBean(Utility.getMessage("document.department.result.N"), "N"));
         return optlist;
     }
 
-    private List<LabelValueBean> getStatusList() throws Exception {
+    private List<LabelValueBean> getStatusList(String emptyItemKey) throws Exception {
         List<LabelValueBean> optlist = new ArrayList<LabelValueBean>();
-        optlist.add(new LabelValueBean(Utility.getMessage("label.all"), ""));
+        if(Utility.isNotEmpty(emptyItemKey)){
+            optlist.add(new LabelValueBean(Utility.getMessage(emptyItemKey), ""));
+        }
         optlist.add(new LabelValueBean(Utility.getMessage("document.status.Y"), "Y"));
         optlist.add(new LabelValueBean(Utility.getMessage("document.status.N"), "N"));
         return optlist;
     }
 
-    private List<LabelValueBean> getDocTypeOptions() throws Exception {
+    private List<LabelValueBean> getDocTypeOptions(String emptyItemKey) throws Exception {
         List<LabelValueBean> optlist = new ArrayList<LabelValueBean>();
         List<IEntity> docTypes = documentTypeService.findByNamedQueryAndNamedParams("Documenttype.findAll", null);
-        optlist.add(new LabelValueBean(Utility.getMessage("label.all"), ""));
+        if(Utility.isNotEmpty(emptyItemKey)){
+            optlist.add(new LabelValueBean(Utility.getMessage(emptyItemKey), ""));
+        }
         for (IEntity e : docTypes) {
             Documenttype doctype = (Documenttype) e;
             optlist.add(new LabelValueBean(doctype.getVc2name(), doctype.getNumtypeid().toString()));

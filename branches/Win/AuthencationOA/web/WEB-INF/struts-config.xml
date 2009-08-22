@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+
+<struts-config>
+    <form-beans>
+        <form-bean name="userlogin" type="com.vv.auth.struts.login.LoginForm"/>
+        <form-bean name="userRegister" type="com.vv.auth.struts.register.RegisterForm"/>
+        <form-bean name="groupform" type="com.vv.auth.struts.group.GroupForm"/>
+        <form-bean name="rightform" type="com.vv.auth.struts.right.RightForm"/>
+        <form-bean name="serverCerform" type="com.vv.auth.struts.serverCer.ServerCerForm"/>
+        <form-bean name="clientCerform" type="com.vv.auth.struts.clientCer.ClientCerForm"/>
+        <form-bean name="conferenceForm" type="com.vv.auth.struts.conferenceMana.ConferenceForm"/>
+        <form-bean name="documentForm" type="com.vv.auth.struts.document.DocumentForm"/>
+        <form-bean name="documentTypeForm" type="com.vv.auth.struts.document.DocumentTypeForm"/>
+        <form-bean name="monitorShowForm" type="com.vv.auth.struts.monitor.MonitorForm"/>
+    </form-beans>
+    
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+        <forward name="welcome"  path="/Welcome.do"/>
+        <forward name="nopermission" path="/permissionerror.jsp"/>
+    </global-forwards>
+
+    <action-mappings>
+        
+        <!-- =========================== UserLogin Begin====================================== -->
+        <action path="/validimg" scope="request" validate="false"/>
+        <action path="/Welcome" name="userlogin" scope="request" validate="false" parameter="initlogin" input="/WEB-INF/login.jsp">
+            <forward name="authened" path="/WEB-INF/login.jsp"/>
+            <forward name="notauthened" path="/permissionerror.jsp"/>
+        </action>
+        <action path="/login" input="/Welcome.do" attribute="userlogin" name="userlogin" scope="request" parameter="userlogin">
+            <forward name="success" path="/WEB-INF/login.jsp" redirect="true"/>
+        </action>
+        <action path="/reset" scope="request" parameter="reset" validate="false">
+            <forward name="success" path="/Welcome.do"/>
+        </action>
+        <action path="/secureset" scope="request" validate="false" parameter="secureset"/>
+        <!-- =========================== UserLogin End  ====================================== -->
+        
+        <!-- =========================== Register Begin ====================================== -->
+        <action path="/initRegister" input="/Welcome.do" attribute="userRegister" name="userRegister" scope="request" parameter="initRegister" validate="false">
+            <forward name="success" path="/WEB-INF/user/register.jsp"/>
+        </action>
+        <action path="/execRegister" input="/initRegister.do" attribute="userRegister" name="userRegister" scope="request" parameter="execRegister" validate="true">
+            <forward name="success" path="/WEB-INF/user/regsuccess.jsp"/>
+        </action>
+        <action path="/checkEmail" scope="request" parameter="checkEmail"/>
+        <action path="/checkLoginName" scope="request" parameter="checkEmail"/>
+        <!-- =========================== Register End   ====================================== -->
+
+        <!-- =========================== GroupMana Start   ====================================== -->
+        <action path="/GroupMana/showGroups" name="groupform" scope="request" parameter="showGroups" validate="false">
+            <forward name="success" path="/WEB-INF/group/showgroup.jsp"/>
+        </action>
+        <action path="/GroupMana/addGroupinit" name="groupform" scope="request" parameter="addGroupinit" validate="false">
+            <forward name="success" path="/WEB-INF/group/addgroup.jsp"/>
+        </action>
+        <action path="/GroupMana/addGroup" name="groupform" scope="request" parameter="addGroup" validate="true" input="/GroupMana/addGroupinit.do">
+            <forward name="success" path="/GroupMana/showGroups.do"/>
+        </action>
+        <action path="/GroupMana/delGroup" name="groupform" scope="request" parameter="delGroup" validate="false" input="/GroupMana/showGroups.do">
+            <forward name="success" path="/GroupMana/showGroups.do"/>
+        </action>
+        <action path="/GroupMana/setGroupUserinit" name="groupform" scope="request" parameter="setGroupUserinit" validate="false" input="/GroupMana/showGroups.do">
+            <forward name="success" path="/WEB-INF/group/groupuser.jsp"/>
+        </action>
+        <action path="/GroupMana/setGroupUser" name="groupform" scope="request" parameter="setGroupUser" validate="false" input="/GroupMana/setGroupUserinit.do">
+            <forward name="success" path="/GroupMana/showGroups.do"/>
+        </action>
+        <action path="/GroupMana/setGroupRightinit" name="groupform" scope="request" parameter="setGroupRightinit" validate="false" input="/GroupMana/showGroups.do">
+            <forward name="success" path="/WEB-INF/group/groupright.jsp"/>
+        </action>
+        <action path="/GroupMana/setGroupRight" name="groupform" scope="request" parameter="setGroupRight" validate="false" input="/GroupMana/setGroupRightinit.do">
+            <forward name="success" path="/GroupMana/showGroups.do"/>
+        </action>
+        <!-- =========================== GroupMana  End   ====================================== -->
+        
+        <!-- =========================== RightMana  Begin   ====================================== -->
+        <action path="/RightMana/showRights" name="rightform" scope="request" parameter="showRights" validate="false">
+            <forward name="success" path="/WEB-INF/right/showright.jsp"/>
+        </action>
+        <action path="/RightMana/addRightinit" name="rightform" scope="request" parameter="addRightinit" validate="false">
+            <forward name="success" path="/WEB-INF/right/addright.jsp"/>
+        </action>
+        <action path="/RightMana/addRight" name="rightform" scope="request" parameter="addRight" validate="true" input="/RightMana/addRightinit.do">
+            <forward name="success" path="/RightMana/showRights.do"/>
+        </action>
+        <action path="/RightMana/delRight" name="rightform" scope="request" parameter="delRight" validate="false" input="/RightMana/showRights.do">
+            <forward name="success" path="/RightMana/showRights.do"/>
+        </action>
+        <!-- =========================== RightMana   End    ====================================== -->
+         <!-- =========================== function  Start ====================================== -->
+         <action path="/functionA" scope="request">
+             <forward name="success" path="/WEB-INF/functionA/functionA.jsp"/>
+         </action>
+          <action path="/functionB" scope="request">
+             <forward name="success" path="/WEB-INF/functionB/functionB.jsp"/>
+         </action>
+          <action path="/functionC" scope="request">
+             <forward name="success" path="/WEB-INF/functionC/functionC.jsp"/>
+         </action>
+        <!-- =========================== function  End ====================================== -->
+        <!-- =========================== ServerCer  Start ====================================== -->
+        <action path="/ServerCer/initServerCerReg" name="serverCerform" scope="request" parameter="initServerCerReg" validate="false">
+            <forward name="success" path="/WEB-INF/serverCer/serverCerReg.jsp"/>
+        </action>
+        <action path="/ServerCer/serverCerReg" name="serverCerform" scope="request" parameter="serverCerReg" validate="true" input="/ServerCer/initServerCerReg.do">
+            <forward name="success" path="/ServerCer/showCerReg.do"/>
+        </action>
+        <action path="/ServerCer/showCerReg" name="serverCerform" scope="request" parameter="showCerReg" validate="false">
+            <forward name="success" path="/WEB-INF/serverCer/showServerCer.jsp"/>
+        </action>
+        
+        <!-- =========================== ServerCer  End ====================================== -->
+        
+        <!-- =========================== ClientCer  Start ====================================== -->
+        <action path="/ClientCer/initClientCerReg" name="clientCerform" scope="request" parameter="initClientCerReg" validate="false" input="/WEB-INF/clientCer/clientCerReg.jsp">
+            <forward name="success" path="/WEB-INF/clientCer/clientCerReg.jsp"/>
+        </action>
+        <action path="/ClientCer/clientCerReg" name="clientCerform" scope="request" parameter="clientCerReg" validate="true" input="/ClientCer/initClientCerReg.do">
+            <forward name="success" path="/WEB-INF/user/regsuccess.jsp"/>
+        </action>
+        <action path="/ClientCer/searchUser" name="clientCerform" scope="request" parameter="searchUser" validate="false" input="/WEB-INF/clientCer/showClientCer.jsp">
+            <forward name="success" path="/WEB-INF/clientCer/showClientCer.jsp"/>
+        </action>
+        <action path="/ClientCer/verifyUser" name="clientCerform" scope="request" parameter="verifyUser" validate="false" input="/ClientCer/searchUser.do">
+            <forward name="success" path="/ClientCer/searchUser.do"/>
+        </action>
+        <action path="/ClientCer/deleteUser" name="clientCerform" scope="request" parameter="deleteUser" validate="false" input="/ClientCer/searchUser.do">
+            <forward name="success" path="/ClientCer/searchUser.do"/>
+        </action>
+        <action path="/ClientCer/initDownloadCer" name="clientCerform" scope="request" parameter="initDownloadCer" validate="false" input="/WEB-INF/clientCer/showDownloadCer.jsp">
+            <forward name="success" path="/WEB-INF/clientCer/showDownloadCer.jsp"/>
+        </action>
+        <action path="/ClientCer/DownloadCer" name="clientCerform" scope="request" parameter="/images/errorFile.html" validate="false"/>
+        
+        <!-- =========================== ClientCer  End ====================================== -->
+        
+        <!-- =========================== ConferenceMana  Start ====================================== -->
+        <action path="/ConferenceMana/searchConference" name="conferenceForm" scope="request" parameter="searchConference" validate="false" input="/WEB-INF/conferenceApply/showConference.jsp">
+            <forward name="success" path="/WEB-INF/conferenceApply/showConference.jsp"/>
+        </action>
+        <action path="/ConferenceMana/initApply" name="conferenceForm" scope="request" parameter="initApply" validate="false" input="/WEB-INF/conferenceApply/addApply.jsp">
+            <forward name="success" path="/WEB-INF/conferenceApply/addApply.jsp"/>
+        </action>
+        <action path="/ConferenceMana/submitApply" name="conferenceForm" scope="request" parameter="submitApply" validate="false" input="/ConferenceMana/initApply.do">
+            <forward name="success" path="/ConferenceMana/searchConference.do"/>
+        </action>
+        <action path="/ConferenceMana/viewApply" name="conferenceForm" scope="request" parameter="viewApply" validate="false" input="/ConferenceMana/searchConference.do">
+            <forward name="success" path="/WEB-INF/conferenceApply/showApply.jsp"/>
+        </action>
+        <action path="/ConferenceMana/initEditApply" name="conferenceForm" scope="request" parameter="initEditApply" validate="false" input="/ConferenceMana/searchConference.do">
+            <forward name="success" path="/WEB-INF/conferenceApply/editApply.jsp"/>
+        </action>
+        <action path="/ConferenceMana/editApply" name="conferenceForm" scope="request" parameter="editApply" validate="false" input="/ConferenceMana/initEditApply.do">
+            <forward name="success" path="/ConferenceMana/searchConference.do"/>
+        </action>
+
+        <action path="/ConferenceMana/adminSearchConference" name="conferenceForm" scope="request" parameter="adminSearchConference" validate="false" input="/WEB-INF/conferenceApply/adminshowConference.jsp">
+            <forward name="success" path="/WEB-INF/conferenceApply/adminshowConference.jsp"/>
+        </action>
+        <action path="/ConferenceMana/adminviewApply" name="conferenceForm" scope="request" parameter="adminviewApply" validate="false" input="/WEB-INF/conferenceApply/adminshowApply.jsp">
+            <forward name="success" path="/WEB-INF/conferenceApply/adminshowApply.jsp"/>
+        </action>
+        <action path="/ConferenceMana/adminVerifyConference" name="conferenceForm" scope="request" parameter="adminVerifyConference" validate="false" input="/ConferenceMana/adminSearchConference.do">
+            <forward name="success" path="/ConferenceMana/adminSearchConference.do"/>
+        </action>
+        <!-- =========================== ConferenceMana  End   ====================================== -->
+
+        <!-- =========================== Document Type Start ===============================================-->
+        <action path="/Document/documentTypeinit" name="documentTypeForm" scope="request" parameter="documentTypeinit" validate="false">
+            <forward name="success" path="/WEB-INF/document/documentType.jsp"/>
+        </action>
+        <action path="/Document/documentTypeAdd" name="documentTypeForm" scope="request" parameter="documentTypeAdd" validate="true" input="/Document/documentTypeinit.do" >
+            <forward name="success" path="/Document/documentShowType.do"/>
+        </action>
+        <action path="/Document/documentTypeEditInit" name="documentTypeForm" scope="request" parameter="documentTypeEditInit" validate="false">
+            <forward name="success" path="/WEB-INF/document/documentTypeEdit.jsp"/>
+        </action>
+        <action path="/Document/documentTypeEdit" name="documentTypeForm" scope="request" parameter="documentTypeEdit" validate="true" input="/Document/documentTypeEditInit.do">
+            <forward name="success" path="/Document/documentShowType.do"/>
+        </action>
+        <action path="/Document/documentTypeDelete" name="documentTypeForm" scope="request" parameter="documentTypeDelete" validate="false" input="/Document/documentShowType.do">
+            <forward name="success" path="/Document/documentShowType.do"/>
+        </action>
+        <action path="/Document/documentShowType" name="documentTypeForm" scope="request" parameter="documentShowType" validate="false">
+            <forward name="success" path="/WEB-INF/document/documentTypeShow.jsp"/>
+        </action>
+
+        <!-- =========================== Document Type End ===============================================-->
+        <!-- =========================== Document Start ===============================================-->
+
+        <action path="/Document/documentCenter" name="documentForm"  scope="request" parameter="documentCenter" validate="false">
+            <forward name="success" path="/WEB-INF/document/documentCenter.jsp"/>
+        </action>
+
+        <action path="/documentTree" name="documentForm" scope="request" parameter="documentTree" validate="false">
+            <forward name="success" path="/WEB-INF/document/documentTree.jsp"/>
+        </action>
+
+        <action path="/Document/createDocument" name="documentForm" scope="request" parameter="createDocument" validate="false">
+            <forward name="success" path="/WEB-INF/document/createDocument.jsp"/>
+        </action>
+
+        <action path="/Document/saveDocument" name="documentForm" scope="request" parameter="saveDocument" validate="false" input="/Document/createDocument.do">
+            <forward name="success" path="/Document/showCreatedDocument.do"/>
+        </action>
+
+        <action path="/Document/showCreatedDocument" name="documentForm" scope="request" parameter="showCreatedDocument" validate="false" input="/WEB-INF/document/showCreatedDocument.jsp">
+            <forward name="success" path="/WEB-INF/document/showCreatedDocument.jsp"/>
+        </action>
+
+        <action path="/Document/viewDocDetail" name="documentForm" scope="request" parameter="viewDocDetail" validate="false" input="/Document/showCreatedDocument.do">
+            <forward name="success" path="/WEB-INF/document/documentDetail.jsp"/>
+        </action>
+
+        <action path="/Document/documentDownload" name="documentForm" scope="request" parameter="/images/errorFile.html" validate="false"/>
+
+        <action path="/Document/modifyDocument" name="documentForm" scope="request" parameter="modifyDocument" validate="false" input="/Document/showCreatedDocument.do">
+            <forward name="success" path="/WEB-INF/document/modifyDocument.jsp"/>
+        </action>
+
+        <action path="/Document/updateDocument" name="documentForm" scope="request" parameter="updateDocument" validate="false" input="/Document/updateDocument.do">
+            <forward name="success" path="/Document/showCreatedDocument.do"/>
+        </action>
+
+        <action path="/Document/showPendingDocument" name="documentForm" scope="request" parameter="showPendingDocument" validate="false" input="/Document/showCreatedDocument.do">
+            <forward name="success" path="/WEB-INF/document/showPendingDocument.jsp"/>
+        </action>
+
+        <action path="/Document/auditDocument" name="documentForm" scope="request" parameter="auditDocument" validate="false" input="/Document/showPendingDocument.do">
+            <forward name="success" path="/Document/showPendingDocument.do"/>
+        </action>
+
+        <action path="/Document/batchAuditDocument" name="documentForm" scope="request" parameter="batchAuditDocument" validate="false" input="/Document/showPendingDocument.do">
+            <forward name="success" path="/Document/showPendingDocument.do"/>
+        </action>
+
+        <action path="/Document/showAuditedDocument" name="documentForm" scope="request" parameter="showAuditedDocument" validate="false" input="/Document/showCreatedDocument.do">
+            <forward name="success" path="/WEB-INF/document/showAuditedDocument.jsp"/>
+        </action>
+        
+        <!--=========================== Document End =================================================-->
+
+
+        <!--===========================Monitor=================================================-->
+        <action path="/Monitor/monitorShow" name="monitorShowForm" scope="request" parameter="monitorShow" validate="false" input="/Monitor/monitorShowInit.do">
+            <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
+        </action>
+        <action path="/Monitor/monitorShowInit" name="monitorShowForm" scope="request" parameter="monitorShowInit" validate="false">
+            <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
+        </action>
+    </action-mappings>
+    
+    <controller>
+      <set-property property="processorClass"
+          value="org.springframework.web.struts.DelegatingRequestProcessor"/>
+    </controller>
+    <message-resources parameter="com/vv/auth/struts/ApplicationResource"/>    
+    
+    <!-- ========================= Spring    plugin ================================= -->
+    <plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+      <set-property property="contextConfigLocation"
+          value="classpath:applicationContext.xml,classpath:action-servlet.xml"/>
+    </plug-in>
+
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+  
+</struts-config>

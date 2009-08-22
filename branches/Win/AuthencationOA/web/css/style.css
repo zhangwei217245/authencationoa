@@ -1,0 +1,96 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-size: 10pt;
+}
+a {
+    font-weight:bolder;
+	color: #0066ff;
+	text-decoration: none;
+}
+
+a:hover {
+    font-weight:bolder;
+	color: #0099ff;
+	text-decoration: underline;
+}
+.abutton {
+    font-weight:bolder;
+    border:groove 2px #dddddd;
+    background:#cccccc;
+    color:black;
+    cursor:url;
+}
+.abutton:hover{
+    font-weight:bolder;
+    border:groove 2px #dddddd;
+    background:#cccccc;
+    color:black;
+    cursor:url;
+}
+table{
+    border-collapse: separate;
+}
+.menutable{
+    text-align:center;
+}
+.menutable tr td{
+    border-left:solid 1px #9999ff;
+    border-right:solid 1px #9999ff;
+}
+.menutable tr td:hover{
+    border-left:solid 1px #9999ff;
+    border-right:solid 1px #9999ff;
+    background:navy;
+}
+.formtable{
+    border:none;
+    text-align:left;
+}
+.formtable tr td{
+    border:none;
+    text-align:left;
+    padding-left:5px;
+}
+.formtable tr th{
+    border:none;
+    font-weight:bolder;
+    text-align:right;
+    padding-right:5px;
+}
+.datatable {
+    border:solid 2px black;
+}
+.datatable tr td{
+    font-size:10pt;
+    text-align:center;
+    border:solid 1px black;
+}
+.datatable tr th{
+    font-size:10pt;
+    font-weight:bolder;
+    text-align:center;
+    border:solid 1px black;
+}
+.divunderline{
+    border-bottom:dashed 1px gray;text-align:right;
+    margin-top:5px;margin-bottom:5px;
+}
+.divtopline{
+    border-top:dashed 1px gray;text-align:right;
+    margin-top:5px;margin-bottom:5px;
+}
+.required{
+    color: red;
+    font-weight: bold;
+    font-size: 12pt;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.not_required{
+    color:white;
+    font-weight: bold;
+    font-size: 12pt;
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -1,0 +1,33 @@
+.edit_btn{
+	margin-right:5px;
+	cursor:pointer;
+}
+.font_selecter{
+	width:95%;
+	height:20px;
+	border:1px dotted #b5b5b5;
+	text-align:left;
+	margin:1px 2px;
+	cursor:pointer;
+}
+.font_selected{
+	width:95%;
+	height:20px;
+	border:1px double #b5b5b5;
+	text-align:left;
+	margin:1px 2px;
+	background:#F5F5F5;
+	cursor:pointer;
+}
+.editer_a{
+	margin-left:5px;
+}
+.editer_faces{
+	margin-left:2px;
+	margin-top:2px;
+	cursor:pointer;
+}
+.edit_tag{
+	background:white;
+	height:40px;
+}

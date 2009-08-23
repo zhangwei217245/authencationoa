@@ -244,6 +244,9 @@ public class DocumentAction extends BaseAction {
         return mapping.findForward(SUCCESS);
     }
 
+    
+
+
     private void setOptionList(HttpServletRequest request,String emptyItemKey) throws Exception {
         request.setAttribute("doctypeList", getDocTypeOptions(emptyItemKey));
         request.setAttribute("resultList", getResultList(emptyItemKey));

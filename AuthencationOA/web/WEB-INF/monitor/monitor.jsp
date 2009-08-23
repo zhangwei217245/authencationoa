@@ -41,7 +41,7 @@
                            <td><bean:message key="review.datetime.beg" /></td>
                            <td>
                                <html:text property="beg" style="width:150px" readonly="true" ondblclick="chanageTime('beg');"/>
-                            <input type = "text"  id="beg_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('beg');" />
+                               <input type = "text"  id="beg_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('beg');" />
                             <IMG id="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('beg');" />
                             </td>
                            <td><bean:message key="review.datetime.over" /></td>

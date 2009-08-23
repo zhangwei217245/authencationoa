@@ -59,6 +59,7 @@
                 </table>
             </center>
                         <div class="divtopline" style="text-align:left"><h4><bean:message key="label.documenttype.path"/></h4></div>
+                        <center>
                 <table border="0" align="center" width="90%" height="40%">
                     <tbody>
                         <tr>
@@ -93,10 +94,10 @@
                                 </fieldset>
                             </td>
                             <td width="20%" height="80%" style="text-align:center;vertical-align:middle">
-                                <input id="btn_upfirst" type="button" onclick="upToFirst()" value="<bean:message key="option.upfirst"/>" style="width:50px"/><br/>
-                                <input id="btn_up" type="button" onclick="moveUp()" value="<bean:message key="option.up"/>" style="width:50px"/><br/>
-                                <input id="btn_down" type="button" onclick="moveDown()" value="<bean:message key="option.down"/>" style="width:50px"/><br/>
-                                <input id="btn_downlast" type="button" onclick="downToLast()" value="<bean:message key="option.downlast"/>" style="width:50px"/><br/>
+                                <input id="btn_upfirst" style="width:100px" type="button" onclick="upToFirst()" value="<bean:message key="option.upfirst"/>" style="width:50px"/><br/>
+                                <input id="btn_up" style="width:100px" type="button" onclick="moveUp()" value="<bean:message key="option.up"/>" style="width:50px"/><br/>
+                                <input id="btn_down" style="width:100px" type="button" onclick="moveDown()" value="<bean:message key="option.down"/>" style="width:50px"/><br/>
+                                <input id="btn_downlast" style="width:100px" type="button" onclick="downToLast()" value="<bean:message key="option.downlast"/>" style="width:50px"/><br/>
                             </td>
                         </tr>
                         <tr >
@@ -106,6 +107,7 @@
                         </tr>
                     </tbody>
                 </table>
+                            </center>
         </html:form>
     </body>
 </html:html>

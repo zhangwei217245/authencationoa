@@ -10,8 +10,19 @@ package com.vv.auth.certification;
  */
 public class CerPath {
     private String terminalCommand;
+    private String terminalRtStr;
     private String serverCerPath;
     private String clientCerPath;
+
+
+
+    public String getTerminalRtStr() {
+        return terminalRtStr;
+    }
+
+    public void setTerminalRtStr(String terminalRtStr) {
+        this.terminalRtStr = terminalRtStr;
+    }
 
     public String getTerminalCommand() {
         return terminalCommand;

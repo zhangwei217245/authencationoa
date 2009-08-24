@@ -14,7 +14,7 @@
         <h4><bean:message key="title.serverCerReg"/></h4>
         <div class="divunderline"></div>
         <html:form action="/ServerCer/serverCerReg.do" onsubmit="return validateServerCerform(this);">
-
+            <center>
             <table width="800" align="center" style="text-align:left;vertical-align:middle">
     		<tr>
                 <td width="30%"><bean:message key="cer.name"/></td>
@@ -108,7 +108,7 @@
 
 
     	</table>
-
+        </center>
         <div class="divunderline"></div>
 
         </html:form>

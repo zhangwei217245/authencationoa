@@ -38,8 +38,8 @@ public class serverInsertFileProcess {
             Thread tr = new Thread(new CmdReader(inputStream));
             tr.setDaemon(true);
             tr.start();
-            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd_0, 0, cs));
-            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd_1, 1, cs));
+            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd_0,cerPathBean.getTerminalRtStr(), 0, cs));
+            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd_1,cerPathBean.getTerminalRtStr(), 1, cs));
             tw0.start();
             Thread.sleep(5000);
             tw1.start();

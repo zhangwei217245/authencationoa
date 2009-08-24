@@ -45,15 +45,19 @@ public class customerInsertFileProcess {
             Process process = Runtime.getRuntime().exec(cerPathBean.getTerminalCommand());
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader errInputStream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             CmdStatus cs = CmdStatus.getInstance();
             Thread tr = new Thread(new CmdReader(inputStream));
+            Thread errtr = new Thread(new CmdReader(errInputStream));
+            errtr.setDaemon(true);
             tr.setDaemon(true);
+            errtr.start();
             tr.start();
-            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd_0, 0, cs));
-            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd_1, 1, cs));
-            Thread tw2 = new Thread(new CmdWriter(outputStream, cmd_2, 2, cs));
-            Thread tw3 = new Thread(new CmdWriter(outputStream, cmd_3, 3, cs));
-            Thread tw4 = new Thread(new CmdWriter(outputStream, cmd_4, 4, cs));
+            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd_0,cerPathBean.getTerminalRtStr(), 0, cs));
+            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd_1,cerPathBean.getTerminalRtStr(), 1, cs));
+            Thread tw2 = new Thread(new CmdWriter(outputStream, cmd_2,cerPathBean.getTerminalRtStr(), 2, cs));
+            Thread tw3 = new Thread(new CmdWriter(outputStream, cmd_3,cerPathBean.getTerminalRtStr(), 3, cs));
+            Thread tw4 = new Thread(new CmdWriter(outputStream, cmd_4,cerPathBean.getTerminalRtStr(), 4, cs));
             tw0.start();
             Thread.sleep(5000);
             tw1.start();
@@ -63,7 +67,9 @@ public class customerInsertFileProcess {
             tw3.start();
             Thread.sleep(5000);
             tw4.start();
+            //process.destroy();
             int i = process.waitFor();
+
             System.out.println("i=" + i);
         } catch (Exception e) {
             e.printStackTrace();

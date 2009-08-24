@@ -16,16 +16,26 @@ public class CmdWriter implements Runnable {
     public CmdWriter() {
     }
 
-    public CmdWriter(BufferedWriter outputStream, String line, int seq, CmdStatus cs) {
+    public CmdWriter(BufferedWriter outputStream, String line,String rtstr, int seq, CmdStatus cs) {
         this.outputStream = outputStream;
         this.line = line;
+        this.rtstr = rtstr;
         this.seq = seq;
         this.cs = cs;
     }
     BufferedWriter outputStream;
     String line;
+    String rtstr;
     int seq;
     CmdStatus cs;
+
+    public String getRtstr() {
+        return rtstr;
+    }
+
+    public void setRtstr(String rtstr) {
+        this.rtstr = rtstr;
+    }
 
     public CmdStatus getCs() {
         return cs;
@@ -64,7 +74,8 @@ public class CmdWriter implements Runnable {
         try {
             while (cs.getCode() == seq) {
                 System.out.println("before write");
-                outputStream.write(line + "\r\n");
+                outputStream.write(line+rtstr);
+                System.out.println("command is \""+line+"\"");
                 System.out.println("before flush");
                 outputStream.flush();
                 System.out.println("command " + seq + " executed");

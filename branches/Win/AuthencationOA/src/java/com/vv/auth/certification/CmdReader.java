@@ -43,8 +43,12 @@ public class CmdReader implements Runnable {
         System.out.println("listener started");
 
         try {
-            while ((line = inputStream.readLine()) != null) {
-                System.out.println(line);
+            while ((line = inputStream.readLine())!=null) {
+                //if(line!=null)
+                    System.out.println(line);
+                    System.out.flush();
+                //else
+                //    return;
             }
         } catch (IOException e) {
             e.printStackTrace();

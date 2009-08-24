@@ -42,6 +42,7 @@
             <span><a class="abutton" href="<%=request.getContextPath()%>/GroupMana/showGroups.do"><bean:message key="button.back"/></a></span>
         </div>
         <html:hidden property="tgId"/>
+        <center>
             <table border="0" align="center" width="90%" height="40%">
                     <tbody>
                         <tr>
@@ -100,6 +101,7 @@
                         </tr>
                     </tbody>
                 </table>
+                            </center>
         </html:form>
     </body>
 </html>

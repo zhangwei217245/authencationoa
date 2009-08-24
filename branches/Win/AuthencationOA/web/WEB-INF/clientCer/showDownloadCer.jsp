@@ -22,8 +22,8 @@
         <script>
             function downloadCer(userid){
                 var baseurl="<%=request.getContextPath()%>/ClientCer/DownloadCer.do";
-                var fileurl=baseurl+"?userid="+userid;
-                document.frames[0].location.href=fileurl;
+                var fileurl=baseurl+"?userid="+userid+"&"+Math.random();
+                document.getElementById("downloadFrame").src=fileurl;
             }
         </script>
         <html:base/>

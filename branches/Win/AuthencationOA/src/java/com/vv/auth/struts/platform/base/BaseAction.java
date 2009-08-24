@@ -216,6 +216,9 @@ public abstract class BaseAction extends Action {
         VcustomerJpaController vcustomerJpaController = new VcustomerJpaController();
         List<Vcustomer> userList = vcustomerJpaController.findVcustomerByName(username);
         Vcustomer user = userList.get(0);
+        if(user.getEnable().equals("N")){
+            throw new BaseException("user.not.exists");
+        }
         ConcurrentMap usermap = new ConcurrentHashMap();
         usermap.put("name", user.getName());
         //usermap.put("email", user.getEmail());

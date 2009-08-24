@@ -18,7 +18,7 @@
         <h4><bean:message key="title.userReg"/></h4>
         <div class="divunderline"></div>
         <html:form action="/ClientCer/clientCerReg.do" onsubmit="return validateClientCerform(this);">
-
+            <center>
             <table width="800" align="center" style="text-align:left;vertical-align:middle;margin-top:50px">
     		<tr>
                 <td width="30%"><bean:message key="label.username"/></td>
@@ -103,7 +103,7 @@
 
 
     	</table>
-
+        </center>
         <div class="divunderline"></div>
 
         </html:form>

@@ -11,11 +11,20 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
     <context:annotation-config/>
     <aop:aspectj-autoproxy/>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="AuthencationOAPU"/>
     </bean>
+
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+
+
     <bean id="tgroupJpaControl" class="com.vv.auth.persist.service.controller.TGroupJpaController"/>
 <!--   <bean id="tuserJpaControl" class="com.vv.auth.persist.service.controller.TUserJpaController"/>-->
     <bean id="trightJpaControl" class="com.vv.auth.persist.service.controller.TRightJpaController"/>
@@ -57,16 +66,18 @@
         <property name="serverCerPath" value="/home/x-spirit/tomcat.keystore"/>
         <property name="clientCerPath" value="/home/x-spirit/customercer"/>
     </bean>
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    
 
     <bean id="attachmentPathBean" class="com.vv.auth.struts.document.AttachmentPathBean">
         <!-- The properies below is for Windows -->
         <!--<property name="attachmentPath" value="D:\attachment"/>-->
         <!-- The properies below is for Linux -->
         <property name="attachmentPath" value="/home/x-spirit/attachment"/>
+    </bean>
 
+    <bean id="portConfig" class="com.vv.auth.struts.util.PortConfig">
+        <property name="httpPort" value="8084"/>
+        <property name="httpsPort" value="8443"/>
     </bean>
     <bean id="documentService" class="com.vv.auth.persist.service.DocumentService">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>

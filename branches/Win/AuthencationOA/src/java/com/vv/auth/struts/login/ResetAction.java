@@ -5,6 +5,7 @@
 package com.vv.auth.struts.login;
 
 import com.vv.auth.struts.util.PortConfig;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.Action;
@@ -17,6 +18,9 @@ import org.apache.struts.action.ActionMapping;
  * @author X-Spirit
  */
 public class ResetAction extends Action {
+
+    @Resource
+    private PortConfig portConfig;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm aform,
@@ -38,8 +42,8 @@ public class ResetAction extends Action {
             }
             //RequestDispatcher dispatcher = request.getRequestDispatcher("http://" + request.getServerName() + ":8080" + request.getContextPath());
             //dispatcher.forward(request, response);
-            System.out.println(new PortConfig().getHttpPort());
-            response.sendRedirect("http://" + request.getServerName() + ":" + new PortConfig().getHttpPort() + request.getContextPath());
+            System.out.println(portConfig.getHttpPort());
+            response.sendRedirect("http://" + request.getServerName() + ":" + portConfig.getHttpPort() + request.getContextPath());
 
         } catch (Exception ex) {
             ex.printStackTrace();

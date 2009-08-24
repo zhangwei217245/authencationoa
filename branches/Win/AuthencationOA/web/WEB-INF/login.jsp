@@ -1,5 +1,4 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
-<%@page import="com.vv.auth.struts.util.PortConfig" %>
 <html:html locale="true">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -70,7 +69,7 @@
                                     <a href="<%=request.getContextPath()%>/ClientCer/initClientCerReg.do"><bean:message key="a.register"/></a>
                                     &nbsp;
                                     &nbsp;
-                                    <a href="https://<%=request.getServerName()%>:<%=new PortConfig().getHttpsPort()%><%=request.getContextPath()%>/"><bean:message key="label.loginbycer"/></a>
+                                    <a href="https://<%=request.getServerName()%>:${requestScope.httpsPort}<%=request.getContextPath()%>/"><bean:message key="label.loginbycer"/></a>
                                     </td>
                             </tr>
                         </table>

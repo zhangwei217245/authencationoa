@@ -34,9 +34,13 @@ public class serverInsertFileProcess {
             Process process = Runtime.getRuntime().exec(cerPathBean.getTerminalCommand());
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader errInputStream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             CmdStatus cs = CmdStatus.getInstance();
-            Thread tr = new Thread(new CmdReader(inputStream));
+            Thread tr = new Thread(new CmdReader(inputStream,CmdReaderType.INFO));
+            Thread errtr = new Thread(new CmdReader(errInputStream,CmdReaderType.ERROR));
+            errtr.setDaemon(true);
             tr.setDaemon(true);
+            errtr.start();
             tr.start();
             Thread tw0 = new Thread(new CmdWriter(outputStream, cmd_0,cerPathBean.getTerminalRtStr(), 0, cs));
             Thread tw1 = new Thread(new CmdWriter(outputStream, cmd_1,cerPathBean.getTerminalRtStr(), 1, cs));
@@ -45,6 +49,7 @@ public class serverInsertFileProcess {
             tw1.start();
             int i = process.waitFor();
             System.out.println("i=" + i);
+            //process.destroy();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -15,7 +15,7 @@
         <span><a class="abutton" href="<%=request.getContextPath()%>/GroupMana/addGroupinit.do"><bean:message key="button.add"/></a></span>
     </div>
     
-
+        <div style="text-align:right">${requestScope.pagination}</div>
 
 
     <center>
@@ -62,7 +62,7 @@
             </logic:empty>
         </table>
     </center>
-    
+                <div class="divtopline">${requestScope.pagination}</div>
     
     
     </body>

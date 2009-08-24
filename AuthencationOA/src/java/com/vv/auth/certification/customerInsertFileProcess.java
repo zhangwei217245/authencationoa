@@ -47,8 +47,8 @@ public class customerInsertFileProcess {
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader errInputStream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             CmdStatus cs = CmdStatus.getInstance();
-            Thread tr = new Thread(new CmdReader(inputStream));
-            Thread errtr = new Thread(new CmdReader(errInputStream));
+            Thread tr = new Thread(new CmdReader(inputStream,CmdReaderType.INFO));
+            Thread errtr = new Thread(new CmdReader(errInputStream,CmdReaderType.ERROR));
             errtr.setDaemon(true);
             tr.setDaemon(true);
             errtr.start();

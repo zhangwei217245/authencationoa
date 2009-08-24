@@ -12,6 +12,7 @@ import com.vv.auth.struts.platform.base.BaseAction;
 import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
 import com.vv.auth.struts.util.MD5Text;
+import com.vv.auth.struts.util.PortConfig;
 import com.vv.auth.struts.util.Utility;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,8 @@ public class LoginAction extends BaseAction {
     private final static String SUCCESS = "success";
     @Resource
     private IUserService tuserService;
+    @Resource
+    private PortConfig portConfig;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,
@@ -59,6 +62,8 @@ public class LoginAction extends BaseAction {
     private ActionForward initLogin(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
+        request.setAttribute("httpsPort", portConfig.getHttpsPort());
+        request.setAttribute("httpPort", portConfig.getHttpPort());
         //if(verifyCert(request)){
         //forward=mapping.findForward("welcome");
 
@@ -130,6 +135,9 @@ public class LoginAction extends BaseAction {
             throw new BaseException("user.not.exists");
         } else {
             Vcustomer user = userList.get(0);
+            if(user.getEnable().equals("N")){
+                throw new BaseException("user.not.exists");
+            }
             //if(new MD5Text().MD5Encode(password).equals(user.getPassword())){
             if (password.equals(user.getPassword().trim())) {
                 //System.out.println(password);

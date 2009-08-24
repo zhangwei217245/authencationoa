@@ -10,8 +10,18 @@ package com.vv.auth.struts.util;
  */
 public class PortConfig {
 
-    private int httpPort = 8080;
-    private int httpsPort = 8443;
+    private int httpPort ;
+    private int httpsPort ;
+
+    public void setHttpPort(int httpPort) {
+        this.httpPort = httpPort;
+    }
+
+    public void setHttpsPort(int httpsPort) {
+        this.httpsPort = httpsPort;
+    }
+
+    
 
     public int getHttpPort() {
         return httpPort;

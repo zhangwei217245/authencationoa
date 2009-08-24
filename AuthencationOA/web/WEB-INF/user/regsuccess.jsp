@@ -5,31 +5,36 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="welcome.title"/></title>
-        <script>
-            function countDown(secs,surl){
-                document.getElementById("jumpTo").innerText=secs;
-                if(--secs>0){
-                    setTimeout("countDown("+secs+",'"+surl+"')",1000);
+        <script type="text/javascript">
+            var secnum=5;
+            function countDown(){
+                document.getElementById("jumpTo").innerHTML=secnum;
+                if(--secnum>0){
+                    t=setTimeout("countDown()",1000);
                 }else{
-                    location.href=surl;
+                    window.location.assign("<%=request.getContextPath()%>/Welcome.do");
                 }
             }
         </script>
         <html:base/>
     </head>
-    <body style="background-color: white">
+    <body style="background-color: white" onload="countDown()">
         <%@ include file="/WEB-INF/util/error.jsp"%>
 
-        
+        <center>
 
-            <table width="800" align="center" style="text-align:left;vertical-align:middle;margin-top:50px">
+            <table width="80%" align="center" style="text-align:center;vertical-align:middle;height:100%">
                 <thead>
                     <tr>
-                        <th align="center">
-                            <h1><bean:message key="user.regsuccess"/></h1>
-                        </th>
+                        <th style="height:30%">&nbsp;</th>
                     </tr>
                 </thead>
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <h1><bean:message key="user.regsuccess"/></h1>
+                    </td>
+                </tr>
                 <tr>
                     <td align="center">
                         <a href="<%=request.getContextPath()%>/Welcome.do" target="_top" style="color:#ff3333;font-weight:bold;">
@@ -37,13 +42,17 @@
                         </a>
                     </td>
                 </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="height:30%">&nbsp;</td>
+                    </tr>
+                </tfoot>
             </table>
-
+</center>
 
 
         
     </body>
-<script>
-    countDown(5,'<%=request.getContextPath()%>/Welcome.do')
-</script>
+
 </html:html>

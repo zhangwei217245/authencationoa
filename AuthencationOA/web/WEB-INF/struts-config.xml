@@ -252,11 +252,11 @@
 
 
         <!--===========================Monitor=================================================-->
-        <action path="/Monitor/monitorShow" name="monitorShowForm" scope="request" parameter="monitorShow" validate="false" input="/Monitor/monitorShowInit.do">
+        <action path="/Monitor/monitorShow" name="monitorShowForm" scope="request" parameter="monitorShow" validate="false" input="/WEB-INF/monitor/monitor.jsp">
             <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
         <action path="/Monitor/monitorShowInit" name="monitorShowForm" scope="request" parameter="monitorShowInit" validate="false">
-            <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
+            <forward name="success" path="/Monitor/monitorShow.do"></forward>
         </action>
     </action-mappings>
     

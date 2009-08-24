@@ -22,7 +22,7 @@
             </div>
         </logic:notPresent>
         <html:form action="/execRegister" onsubmit="return validateUserRegister(this);">
-
+            <center>
             <table width="800" align="center" style="text-align:center;vertical-align:middle;margin-top:100px">
                 <tr>
                     <td align="center" width="80%">
@@ -73,7 +73,7 @@
                     </td>
                 </tr>
             </table>
-
+            </center>
 
 
         </html:form>

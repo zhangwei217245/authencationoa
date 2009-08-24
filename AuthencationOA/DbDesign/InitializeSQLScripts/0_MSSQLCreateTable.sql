@@ -456,6 +456,7 @@ create table vcustomer (
    ddayover             datetime             not null,
    password             varchar(64)          not null,
    verifystatus         varchar(1)           not null,
+   enable               varchar(1)           not null,
    constraint PK_VCUSTOMER primary key nonclustered (userid)
 )
 go

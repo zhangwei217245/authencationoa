@@ -62,7 +62,7 @@
             </tr>
     	</table>
         </center>
-        <div class="divunderline"></div>
+                    <div class="divtopline">${requestScope.pagination}</div>
         <center>
         <logic:notEmpty name="rstlst">
             <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
@@ -117,7 +117,7 @@
             </table>
         </logic:notEmpty>
         </center>
-
+        <div class="divtopline">${requestScope.pagination}</div>
         </html:form>
 
     </body>

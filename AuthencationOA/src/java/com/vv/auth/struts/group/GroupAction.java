@@ -8,6 +8,7 @@ import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.persist.service.IGroupService;
+import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.IRightService;
 import com.vv.auth.persist.service.controller.TGroupJpaController;
 import com.vv.auth.persist.service.controller.TRightJpaController;
@@ -16,6 +17,7 @@ import com.vv.auth.persist.service.controller.exceptions.NonexistentEntityExcept
 import com.vv.auth.struts.platform.base.BaseAction;
 import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
+import com.vv.auth.struts.util.Pagination;
 import com.vv.auth.struts.util.Utility;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +46,10 @@ public class GroupAction extends BaseAction {
     private TRightJpaController trightJpaControl;
     @Resource
     private IRightService trightService;
+    @Resource
+    private IJpaDaoService jpaDaoService;
+
+    private Pagination pagination;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,
@@ -221,8 +227,15 @@ public class GroupAction extends BaseAction {
     private ActionForward showGroups(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         //saveToken(request);
-        List<TGroup> grouplist = tgroupJpaControl.findTGroupEntities();
+        StringBuffer sb = new StringBuffer(" from TGroup g");
+        String jpql = sb.toString();
+        pagination = new Pagination(request, response);
+        int listCount = jpaDaoService.getEntityCount("select count(g) "+jpql, null);
+        pagination.setRecordCount(listCount);
+
+        List<TGroup> grouplist = jpaDaoService.findEntities("select g "+jpql, null, false, pagination.getFirstResult(), pagination.getPageSize());
         request.setAttribute("grouplist", grouplist);
+        request.setAttribute("pagination", pagination.toString());
 
         return mapping.findForward(SUCCESS);
     }

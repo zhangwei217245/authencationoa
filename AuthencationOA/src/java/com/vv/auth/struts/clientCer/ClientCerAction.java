@@ -8,12 +8,15 @@ import com.vv.auth.certification.CerPath;
 import com.vv.auth.certification.customerDelFileProcess;
 import com.vv.auth.certification.customerInsertFileProcess;
 import com.vv.auth.persist.entity.Certificatereg;
+import com.vv.auth.persist.entity.IEntity;
 import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.persist.service.ICertificateregService;
+import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.IUserService;
 import com.vv.auth.struts.platform.base.BaseAction;
 import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
+import com.vv.auth.struts.util.Pagination;
 import com.vv.auth.struts.util.Utility;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +41,8 @@ public class ClientCerAction extends BaseAction {
     @Resource
     IUserService tuserService;
     @Resource
+    IJpaDaoService jpaDaoService;
+    @Resource
     customerInsertFileProcess customerCerCreate;
     @Resource
     CerPath cerPathBean;
@@ -45,6 +50,8 @@ public class ClientCerAction extends BaseAction {
     customerDelFileProcess customerCerDestroy;
     @Resource
     ICertificateregService certificateregService;
+    
+    private Pagination pagination;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,
@@ -133,7 +140,9 @@ public class ClientCerAction extends BaseAction {
             if ("Y".equalsIgnoreCase(user.getVerifystatus())) {
                 customerCerDestroy.execute(user.getName(), cereg.getLocation(), cereg.getCpass(), cerPathBean.getClientCerPath() + File.separator + user.getName());
             }
-            tuserService.deleteUser(Integer.parseInt(userid));
+            user.setVerifystatus("N");
+            user.setEnable("N");
+            tuserService.updateUser(user);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("" + e);
@@ -178,7 +187,8 @@ public class ClientCerAction extends BaseAction {
         String searchname = ccf.getSearchname();
         String certype = ccf.getCertype();
         String verifystatus = ccf.getVerifystatus();
-        StringBuffer jpql = new StringBuffer("select distinct object(o) from Vcustomer as o where 1=1");
+
+        StringBuffer jpql = new StringBuffer("from Vcustomer as o where o.enable='Y'");
         if (Utility.isNotEmpty(searchname)) {
             jpql.append(" and o.name like '%").append(searchname).append("%'");
         }
@@ -193,8 +203,17 @@ public class ClientCerAction extends BaseAction {
         }
 
         System.out.println(jpql.toString());
-        List<Vcustomer> list = tuserService.searchVcustomer(jpql.toString(), null);
+        String basequery = jpql.toString();
+        
+        int listCount = jpaDaoService.getEntityCount("select count(o) "+basequery, null);
+
+        pagination = new Pagination(request, response);
+        pagination.setRecordCount(listCount);
+        
+        List<IEntity> list = jpaDaoService.findEntities("select object(o) "+basequery, null, false, pagination.getFirstResult(), pagination.getPageSize());
+        //.searchVcustomer("select distinct object(o) "+jpql.toString(), null);
         request.setAttribute("rstlst", list);
+        request.setAttribute("pagination", pagination.toString());
         return mapping.findForward(SUCCESS);
     }
 

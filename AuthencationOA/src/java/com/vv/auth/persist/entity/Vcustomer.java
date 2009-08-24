@@ -84,6 +84,9 @@ public class Vcustomer implements Serializable, IEntity {
     @Basic(optional = false)
     @Column(name = "verifystatus", nullable = false, length = 1)
     private String verifystatus;
+    @Basic(optional = false)
+    @Column(name = "enable", nullable = false, length = 1)
+    private String enable;
     @ManyToMany(mappedBy = "vcustomerCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Collection<TGroup> tGroupCollection = new ArrayList<TGroup>();
 
@@ -107,6 +110,7 @@ public class Vcustomer implements Serializable, IEntity {
         this.ddayover = ddayover;
         this.password = password;
         this.verifystatus = verifystatus;
+        this.enable = "Y";
     }
 
     public Integer getUserid() {
@@ -205,6 +209,15 @@ public class Vcustomer implements Serializable, IEntity {
         this.verifystatus = verifystatus;
     }
 
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
+
+    
     public Collection<TGroup> getTGroupCollection() {
         return tGroupCollection;
     }

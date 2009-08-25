@@ -11,7 +11,9 @@ import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.service.IEntityService;
 import com.vv.auth.persist.service.IGroupService;
 import com.vv.auth.struts.platform.base.BaseAction;
+import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
+import com.vv.auth.struts.util.Utility;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +108,7 @@ public class DocumentTypeAction extends BaseAction {
                     documentTypeService.create(type);
                     processDocumentPath(request, type);
                     documentTypeService.edit(type);
+                    request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
                 } else {
                     errmsg = "document.type.duplicated";
                 }
@@ -206,6 +209,7 @@ public class DocumentTypeAction extends BaseAction {
                 processDocumentPath(request, type);
                 type.setVc2name(form.getVc2name());
                 documentTypeService.edit(type);
+                request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
             } else {
                 errmsg = "document.type.duplicated";
             }
@@ -242,6 +246,7 @@ public class DocumentTypeAction extends BaseAction {
                     errmsg = "document.type.inuse";
                 } else {
                     documentTypeService.destroy(type.getNumtypeid());
+                    request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
                 }
             } else {
                 errmsg = "document.type.notexists";

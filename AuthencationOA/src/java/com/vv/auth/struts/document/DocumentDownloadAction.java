@@ -6,6 +6,7 @@ package com.vv.auth.struts.document;
 
 import com.vv.auth.persist.entity.Document;
 import com.vv.auth.persist.service.IEntityService;
+import com.vv.auth.persist.service.IJpaDaoService;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ import org.apache.struts.actions.DownloadAction;
 public class DocumentDownloadAction extends DownloadAction {
 
     @Resource
-    private IEntityService documentService;
+    private IJpaDaoService jpaDaoService;
     @Resource
     AttachmentPathBean attachmentPathBean;
 
@@ -31,18 +32,13 @@ public class DocumentDownloadAction extends DownloadAction {
     protected StreamInfo getStreamInfo(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String id = request.getParameter("numdocid");
-        int numdocid = Integer.parseInt(id);
-        Map params = new HashMap();
-        params.put("numdocid", numdocid);
-        Document document = (Document) documentService.findByNamedQueryAndNamedParams("Document.findByNumdocid", params);
-
+        String docid = request.getParameter("numdocid");
+        Document document = jpaDaoService.findOneEntityById(Document.class, docid);
 
         String contentType = "application/octet-stream";
         String vc2additionname = document.getVc2additionname();
         String vc2addition = document.getVc2addition();
-        AttachmentPathBean apb = new AttachmentPathBean();
-        File fileLoad = new File(apb.getAttachmentPath() + File.separator + vc2addition);
+        File fileLoad = new File(attachmentPathBean.getAttachmentPath() + File.separator + vc2addition);
         response.setHeader("Content-disposition",
                 "attachment; filename=" + new String((vc2additionname).getBytes("gbk"), "iso8859_1"));// 设置文件名
         return new FileStreamInfo(contentType, fileLoad);

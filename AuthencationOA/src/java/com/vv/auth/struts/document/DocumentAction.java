@@ -7,13 +7,16 @@ package com.vv.auth.struts.document;
 import com.vv.auth.persist.entity.Document;
 import com.vv.auth.persist.entity.Documenttype;
 import com.vv.auth.persist.entity.IEntity;
+import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.persist.service.IEntityService;
 import com.vv.auth.persist.service.IGroupService;
+import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.IUserService;
 import com.vv.auth.struts.platform.base.BaseAction;
 
 
+import com.vv.auth.struts.platform.base.BaseContect;
 import com.vv.auth.struts.platform.base.BaseException;
 
 import com.vv.auth.struts.util.FileUtility;
@@ -54,6 +57,10 @@ public class DocumentAction extends BaseAction {
     private IGroupService tgroupService;
     @Resource
     private AttachmentPathBean attachmentPathBean;
+    @Resource
+    private IJpaDaoService jpaDaoService;
+
+
     private Pagination pagination;
 
     @Override
@@ -73,6 +80,10 @@ public class DocumentAction extends BaseAction {
             forward = saveDocument(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("showCreatedDocument")) {
             forward = showCreatedDocument(mapping, aform, request, response);
+        } else if (parameter.equalsIgnoreCase("viewDocDetail")) {
+            forward = viewDocDetail(mapping, aform, request, response);
+        } else if (parameter.equalsIgnoreCase("showPendingDocument")) {
+            forward = showPendingDocument(mapping, aform, request, response);
         }
 
         return forward;
@@ -157,7 +168,7 @@ public class DocumentAction extends BaseAction {
 
                 Document doc = new Document(null, doctype, form.getVc2title(), form.getVc2content(), filename, oriFilename, curruser);
                 documentService.create(doc);
-
+                request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
             } else {
                 saveToken(request);
                 errmsg = "error.duplicate.submit";
@@ -194,7 +205,7 @@ public class DocumentAction extends BaseAction {
         try {
             Integer myuid = Utility.getCurrSessionUserid(request);
             Vcustomer me = tuserService.findUserById(myuid);
-            String jpql = "FROM Document d WHERE 1=1 ";
+            String jpql = "FROM Document d WHERE d.userid =:userid ";
             StringBuffer sb = new StringBuffer(jpql);
             if (Utility.isNotEmpty(form.getVc2titlefq())) {
                 sb.append(" AND d.vc2title LIKE '%").append(form.getVc2titlefq()).append("%' ");
@@ -223,12 +234,11 @@ public class DocumentAction extends BaseAction {
                 params.put("doctype", doctype);
                 sb.append(" AND d.numtypeid =:doctype ");
             }
-            sb.append(" AND d.userid =:userid");
             params.put("userid", me);
-            int listCount = documentService.getEntityCount("SELECT count(distinct d) "+sb.toString(), params);
+            int listCount = documentService.getEntityCount("SELECT count(d) "+sb.toString(), params);
             pagination = new Pagination(request, response);
             pagination.setRecordCount(listCount);
-            List<IEntity> mydocs = documentService.findEntities("SELECT distinct d "+sb.toString(), params, false, pagination.getFirstResult(), pagination.getPageSize());
+            List<IEntity> mydocs = documentService.findEntities("SELECT d "+sb.toString(), params, false, pagination.getFirstResult(), pagination.getPageSize());
             request.setAttribute("mydocs", mydocs);
             request.setAttribute("pagination", pagination.toString());
         } catch (Exception e) {
@@ -244,7 +254,55 @@ public class DocumentAction extends BaseAction {
         return mapping.findForward(SUCCESS);
     }
 
-    
+    /**
+     * 显示文档详情
+     * @param mapping
+     * @param aform
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private ActionForward viewDocDetail(ActionMapping mapping, ActionForm aform,
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String numdocid = request.getParameter("numdocid");
+        Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);
+        Map params = new HashMap();
+        params.put("numdocid", doc);
+        List docvrf = jpaDaoService.findEntities("select v from Documentverify v where v.numdocid =:numdocid order by v.numstepindex asc", params, true, -1, -1);
+        String entertype = request.getParameter("entertype");
+        if(Utility.isNotEmpty(entertype)){
+            if(entertype.equals("created")){
+                request.setAttribute("isVerifyPage", "false");
+            }else if(entertype.equals("pending")){//如果是从审核页面进入，需要锁定文档
+                doc.setVc2lock('Y');
+                doc = jpaDaoService.edit(doc);
+                request.setAttribute("isVerifyPage", "true");
+            }
+        }else{
+            request.setAttribute("isVerifyPage", "false");
+        }
+        request.setAttribute("docDetail", doc);
+        request.setAttribute("docVerifies", docvrf);
+
+        return mapping.findForward(SUCCESS);
+    }
+    /**
+     * 列出待审核文件
+     * @param mapping
+     * @param aform
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private ActionForward showPendingDocument(ActionMapping mapping, ActionForm aform,
+            HttpServletRequest request, HttpServletResponse response)throws Exception {
+        Integer myuid = Utility.getCurrSessionUserid(request);
+        
+        
+        return mapping.findForward(SUCCESS);
+    }
 
 
     private void setOptionList(HttpServletRequest request,String emptyItemKey) throws Exception {
@@ -286,5 +344,9 @@ public class DocumentAction extends BaseAction {
         }
         return optlist;
     }
+
+
+
+    
 }
 

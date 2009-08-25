@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,7 +63,7 @@ public class Document implements Serializable, IEntity {
     @JoinColumn(name = "userid", referencedColumnName = "userid")
     @ManyToOne
     private Vcustomer userid;
-    @OneToMany(mappedBy = "numdocid")
+    @OneToMany(mappedBy = "numdocid",fetch=FetchType.LAZY)
     private Collection<Documentverify> documentverifyCollection;
 
     public Document() {

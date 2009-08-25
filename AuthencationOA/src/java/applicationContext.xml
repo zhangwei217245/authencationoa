@@ -76,7 +76,7 @@
     </bean>
 
     <bean id="portConfig" class="com.vv.auth.struts.util.PortConfig">
-        <property name="httpPort" value="8084"/>
+        <property name="httpPort" value="8086"/>
         <property name="httpsPort" value="8443"/>
     </bean>
     <bean id="documentService" class="com.vv.auth.persist.service.DocumentService">

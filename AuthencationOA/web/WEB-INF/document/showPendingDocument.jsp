@@ -4,7 +4,7 @@
    <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title><bean:message key="document.created"/></title>
+            <title><bean:message key="document.pending"/></title>
             <style>
                 #datatable{
                     text-align:center;
@@ -23,9 +23,9 @@
         </head>
              <body style="background-color: white">
                     <%@ include file="/WEB-INF/util/error.jsp"%>
-                    <h4><bean:message key="document.created"/></h4>
+                    <h4><bean:message key="document.pending"/></h4>
                     <div class="divunderline"></div>
-              <html:form action="/Document/showCreatedDocument.do" method="post">
+              <html:form action="/Document/showPendingDocument.do" method="post">
 
                    <table width="90%" align="center" style="text-align:left;vertical-align:middle">
                        <tr>

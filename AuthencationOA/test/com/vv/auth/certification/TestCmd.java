@@ -59,15 +59,18 @@ public class TestCmd {
         String cmd = "keytool -list -keystore d:\\tomcat.keystore -storepass aaaabbbb";
         try {
 //            Process process = Runtime.getRuntime().exec(cmd);
-            Process process = Runtime.getRuntime().exec("cmd");
+            Process process = Runtime.getRuntime().exec("sh");
+            String rtstr = System.getProperty("line.separator");
             BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader errorStream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             CmdStatus cs = CmdStatus.getInstance();
-            new Thread(new CmdReader(inputStream)).start();
-            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd, 0, cs));
-            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd, 1, cs));
-            Thread tw2 = new Thread(new CmdWriter(outputStream, cmd, 2, cs));
-            Thread tw3 = new Thread(new CmdWriter(outputStream, "exit", 3, cs));
+            new Thread(new CmdReader(inputStream,CmdReaderType.INFO)).start();
+            new Thread(new CmdReader(errorStream,CmdReaderType.ERROR)).start();
+            Thread tw0 = new Thread(new CmdWriter(outputStream, cmd,rtstr, 0, cs));
+            Thread tw1 = new Thread(new CmdWriter(outputStream, cmd,rtstr, 1, cs));
+            Thread tw2 = new Thread(new CmdWriter(outputStream, cmd,rtstr, 2, cs));
+            Thread tw3 = new Thread(new CmdWriter(outputStream, "exit",rtstr, 3, cs));
             tw0.start();
             Thread.sleep(5000);
             tw1.start();

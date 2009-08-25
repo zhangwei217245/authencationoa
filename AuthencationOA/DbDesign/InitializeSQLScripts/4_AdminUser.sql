@@ -1,3 +1,3 @@
-INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus) VALUES ('admin', 'a', 'a', 'a', 'a', 'a', '36500', '1984-02-17 16:28:54.0', '2084-01-23 16:28:50.0', 'adminadmin', 'N');
+INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus,enable) VALUES ('admin', 'a', 'a', 'a', 'a', 'a', '36500', '1984-02-17 16:28:54.0', '2084-01-23 16:28:50.0', 'adminadmin', 'N','Y');
 /*INSERT INTO dbo.vcustomer (userid,name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus) VALUES (-1,'Unknown', 'a', 'a', 'a', 'a', 'a', '123', '2009-05-03 19:39:32.53', '2009-09-03 19:39:32.517', 'unknow', 'N');
 */

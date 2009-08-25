@@ -159,6 +159,7 @@ create table document
    vc2addition          varchar(50),
    vc2additionname      varchar(200),
    userid               int,
+   lockuserid           int,
    vc2lock              char(1),
    vc2result            char(1),
    vc2use               char(1),

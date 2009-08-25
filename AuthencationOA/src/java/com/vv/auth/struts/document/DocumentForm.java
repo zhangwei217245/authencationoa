@@ -32,6 +32,35 @@ public class DocumentForm extends BaseForm {
     private String datbeginfq;
     private String datendfq;
     private String numtypeidfq;
+    private String[] docids;
+    private String advicetag;
+    private String vc2message;
+
+    public String getAdvicetag() {
+        return advicetag;
+    }
+
+    public void setAdvicetag(String advicetag) {
+        this.advicetag = advicetag;
+    }
+
+    public String getVc2message() {
+        return vc2message;
+    }
+
+    public void setVc2message(String vc2message) {
+        this.vc2message = vc2message;
+    }
+
+    
+
+    public String[] getDocids() {
+        return docids;
+    }
+
+    public void setDocids(String[] docids) {
+        this.docids = docids;
+    }
 
     public String getDatbeginfq() {
         return datbeginfq;

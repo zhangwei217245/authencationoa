@@ -266,6 +266,7 @@ public class DocumentAction extends BaseAction {
     private ActionForward viewDocDetail(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         String numdocid = request.getParameter("numdocid");
+        Integer myuid = Utility.getCurrSessionUserid(request);
         Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);
         Map params = new HashMap();
         params.put("numdocid", doc);
@@ -273,11 +274,12 @@ public class DocumentAction extends BaseAction {
         String entertype = request.getParameter("entertype");
         if(Utility.isNotEmpty(entertype)){
             if(entertype.equals("created")){
-                request.setAttribute("isVerifyPage", "false");
+                request.setAttribute("showVerifyForm", "hidden");
             }else if(entertype.equals("pending")){//如果是从审核页面进入，需要锁定文档
                 doc.setVc2lock('Y');
+                doc.setLockuserid(myuid);
                 doc = jpaDaoService.edit(doc);
-                request.setAttribute("isVerifyPage", "true");
+                request.setAttribute("showVerifyForm", "visible");
             }
         }else{
             request.setAttribute("isVerifyPage", "false");
@@ -298,9 +300,64 @@ public class DocumentAction extends BaseAction {
      */
     private ActionForward showPendingDocument(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response)throws Exception {
+
         Integer myuid = Utility.getCurrSessionUserid(request);
-        
-        
+        request.setAttribute("myuid", myuid);
+        //Vcustomer me = jpaDaoService.findOneEntityById(Vcustomer.class, myuid);
+        setOptionList(request,"label.all");
+        DocumentForm form = (DocumentForm) aform;
+        String jpql = " FROM Document d WHERE d.vc2use = 'Y' AND d.vc2result = 'N' AND d.numcurrstep " +
+                " = ANY(SELECT p.numstepindex FROM Documentpath p JOIN p.tgId g JOIN g.vcustomerCollection v WHERE v.userid = :userid AND p.numdoctypeid = d.numtypeid)";
+                
+
+        StringBuffer sb = new StringBuffer(jpql);
+        Map params = new HashMap();
+        if (Utility.isNotEmpty(form.getVc2titlefq())) {
+                sb.append(" AND d.vc2title LIKE '%").append(form.getVc2titlefq()).append("%' ");
+            }
+            if (Utility.isNotEmpty(form.getVc2contentfq())) {
+                sb.append(" AND d.vc2content LIKE '%").append(form.getVc2contentfq()).append("%' ");
+            }
+            /*if (Utility.isNotEmpty(form.getVc2resultfq())) {
+                sb.append(" AND d.vc2result = '").append(form.getVc2resultfq()).append("' ");
+            }*/
+            /*if (Utility.isNotEmpty(form.getVc2usefq())) {
+                sb.append(" AND d.vc2use = '").append(form.getVc2usefq()).append("' ");
+            }*/
+            if (Utility.isNotEmpty(form.getDatbeginfq())) {
+                Date from = Utility.convertStringToDate(form.getDatbeginfq(), FORMATE_DATE);
+                params.put("from", from);
+                sb.append(" AND d.datcreatetime >=:from");
+            }
+            if (Utility.isNotEmpty(form.getDatendfq())) {
+                Date to = Utility.convertStringToDate(form.getDatendfq(), FORMATE_DATE);
+                params.put("to", to);
+                sb.append(" AND d.datcreatetime <=:to");
+            }
+            if (Utility.isNotEmpty(form.getNumtypeidfq())) {
+                Documenttype doctype = (Documenttype) documentTypeService.findOneEntityById(form.getNumtypeidfq());
+                params.put("doctype", doctype);
+                sb.append(" AND d.numtypeid =:doctype ");
+            }
+            params.put("userid", myuid);
+
+            String ql = sb.toString();
+            try {
+                int listCount = jpaDaoService.getEntityCount("SELECT COUNT(d) "+ql, params);
+                pagination = new Pagination(request, response);
+                pagination.setRecordCount(listCount);
+
+                List rstlst = jpaDaoService.findEntities("SELECT d "+ql, params, false, pagination.getFirstResult(), pagination.getPageSize());
+
+                request.setAttribute("rstlst", rstlst);
+                request.setAttribute("pagination", pagination.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error(""+e);
+                throw new BaseException("errors.general");
+            }
+            
+
         return mapping.findForward(SUCCESS);
     }
 
@@ -329,6 +386,7 @@ public class DocumentAction extends BaseAction {
         }
         optlist.add(new LabelValueBean(Utility.getMessage("document.status.Y"), "Y"));
         optlist.add(new LabelValueBean(Utility.getMessage("document.status.N"), "N"));
+        optlist.add(new LabelValueBean(Utility.getMessage("document.status.R"), "R"));
         return optlist;
     }
 

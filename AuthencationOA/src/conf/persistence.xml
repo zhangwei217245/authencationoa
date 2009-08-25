@@ -12,7 +12,6 @@
       <property name="toplink.jdbc.password" value="610"/>
       <property name="toplink.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/dbo"/>
       <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="toplink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

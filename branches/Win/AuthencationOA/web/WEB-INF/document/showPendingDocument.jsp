@@ -27,7 +27,7 @@
                     <div class="divunderline"></div>
               <html:form action="/Document/showPendingDocument.do" method="post">
 
-                   <table width="90%" align="center" style="text-align:left;vertical-align:middle">
+                    <table class="formtable" width="90%" align="center" style="text-align:left;vertical-align:middle">
                        <tr>
                            <td><bean:message key="document.title"/></td>
                            <td><html:text property="vc2titlefq" style="width:170px"/></td>
@@ -45,30 +45,21 @@
                             <input type = "text"  id="datendfq_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('datendfq');" />
                             <IMG id="datendfq_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('datendfq');" />
                             </td>
-                       </tr>
-                       <tr>
-                           <td><bean:message key="document.type"/></td>
-                           <td>
+                            <td><bean:message key="document.type"/></td>
+                            <td>
                                <html:select property="numtypeidfq">
                                    <html:optionsCollection name="doctypeList"/>
                                </html:select>
-                           </td>
-                           <td><bean:message key="document.department.result"/></td>
-                           <td>
-                               <html:select property="vc2resultfq">
-                                   <html:optionsCollection name="resultList"/>
-                               </html:select>
-                           </td>
-                           <td><bean:message key="document.status"/></td>
-                           <td>
-                               <html:select property="vc2usefq">
-                                   <html:optionsCollection name="statusList"/>
-                               </html:select>
-                           </td>
-                           <td colspan="2"><input type="submit" value="<bean:message key="button.find"/>"/></td>
+                            </td>
+                       </tr>
+                       <tr>
+                           
+                           
+                           <td colspan="10" style="text-align:right"><input type="submit" value="<bean:message key="button.find"/>"/></td>
                        </tr>
                    </table>
-
+                   </html:form>
+               <html:form action="/Document/batchAuditDocument.do" method="post">
                    <div class="divtopline">${requestScope.pagination}</div>
                        <center>
                   <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
@@ -84,29 +75,34 @@
                       </tr>
                       </thead>
 
-                      <logic:notEmpty name="mydocs">
+                      <logic:notEmpty name="rstlst">
                           <tbody>
-                              <logic:iterate id="doc" name="mydocs" indexId="idx">
+                              <logic:iterate id="doc" name="rstlst" indexId="idx">
                               <tr>
                                   <td>${idx+1}</td>
-                              <td><bean:write name="doc" property="vc2title"/></td>
-                              <td>${doc.numtypeid.vc2name}</td>
-                              <td><bean:write name="doc" property="datcreatetime" format="yyyy-MM-dd HH:mm:ss"/></td>
-                              <td>
-                                  <bean:message key="document.department.result.${doc.vc2result}"/>
-                              </td>
-                              <td>
-                                  <bean:message key="document.status.${doc.vc2use}"/>
-                              </td>
-                              <td>
-                                  <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>&entertype=created"><bean:message key="label.document.viewdetail"/></a>
-                                  &nbsp;&nbsp;
-                                  <logic:equal name="doc" property="vc2result" value="N">
-                                      <logic:equal name="doc" property="numcurrstep" value="0">
-                                      <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                                  <td><bean:write name="doc" property="vc2title"/></td>
+                                  <td>${doc.numtypeid.vc2name}</td>
+                                  <td><bean:write name="doc" property="datcreatetime" format="yyyy-MM-dd HH:mm:ss"/></td>
+                                  <td>
+                                      <bean:message key="document.department.result.${doc.vc2result}"/>
+                                  </td>
+                                  <td>
+                                      <bean:message key="document.status.${doc.vc2use}"/>
+                                  </td>
+                                  <td>
+                                      <logic:equal name="doc" property="vc2lock" value="N">
+                                        <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>&entertype=pending"><bean:message key="label.document.verify"/></a>
                                       </logic:equal>
-                                  </logic:equal>
-                              </td>
+                                      <logic:equal name="doc" property="vc2lock" value="Y">
+                                          <logic:equal name="doc" property="lockuserid" value="${requestScope.myuid}">
+                                              <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>&entertype=pending"><bean:message key="label.document.verify"/></a>
+                                          </logic:equal>
+                                          <logic:notEqual name="doc" property="lockuserid" value="${requestScope.myuid}">
+                                              <span style="text-decoration:underline;color:gray"><bean:message key="label.document.verify"/></span>
+                                          </logic:notEqual>
+                                      </logic:equal>
+
+                                  </td>
                               </tr>
                           </logic:iterate>
                           </tbody>
@@ -116,7 +112,9 @@
                   <div class="divtopline">
                       ${requestScope.pagination}
                   </div>
-              </html:form>
+                  
+
+               </html:form>
        <script type="text/javascript">
 
         Zapatec.Calendar.setup({

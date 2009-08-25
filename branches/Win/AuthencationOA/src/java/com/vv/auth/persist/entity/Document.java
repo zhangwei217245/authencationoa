@@ -57,6 +57,8 @@ public class Document implements Serializable, IEntity {
     private Date datcreatetime;
     @Column(name = "numcurrstep")
     private Integer numcurrstep;
+    @Column(name = "lockuserid")
+    private Integer lockuserid;
     @JoinColumn(name = "numtypeid", referencedColumnName = "numtypeid")
     @ManyToOne
     private Documenttype numtypeid;
@@ -86,6 +88,14 @@ public class Document implements Serializable, IEntity {
         this.vc2result = 'N';
         this.vc2use = 'Y';
         this.numcurrstep = 1;
+    }
+
+    public Integer getLockuserid() {
+        return lockuserid;
+    }
+
+    public void setLockuserid(Integer lockuserid) {
+        this.lockuserid = lockuserid;
     }
 
     public Integer getNumdocid() {

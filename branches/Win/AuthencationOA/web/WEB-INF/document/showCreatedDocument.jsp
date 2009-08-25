@@ -102,8 +102,15 @@
                                   <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>&entertype=created"><bean:message key="label.document.viewdetail"/></a>
                                   &nbsp;&nbsp;
                                   <logic:equal name="doc" property="vc2result" value="N">
-                                      <logic:equal name="doc" property="numcurrstep" value="0">
-                                      <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                                      <logic:equal name="doc" property="vc2use" value="R">
+                                          <logic:equal name="doc" property="vc2lock" value="N">
+                                            <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                                          </logic:equal>
+                                          <logic:equal name="doc" property="vc2lock" value="Y">
+                                              <logic:equal name="doc" property="lockuserid" value="${doc.userid}">
+                                                  <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                                              </logic:equal>
+                                          </logic:equal>
                                       </logic:equal>
                                   </logic:equal>
                               </td>

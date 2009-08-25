@@ -244,12 +244,34 @@
         </form>
         
         <form name="documentForm">
+            <field property="numtypeid" depends="required">
+                <arg key="document.type" position="0"/>
+            </field>
+            <field property="advicetag" depends="required">
+                <arg key="document.advice.radio" position="0"/>
+            </field>
             <field property="vc2title" depends="required,maxlength">
                 <arg key="document.title" position="0"/>
                 <arg name="maxlength" key="${var:maxlength}" resource="false" position="1"/>
                 <var>
                     <var-name>maxlength</var-name>
                     <var-value>50</var-value>
+                </var>
+            </field>
+            <field property="vc2content" depends="required,maxlength">
+                <arg key="document.content" position="0"/>
+                <arg name="maxlength" key="${var:maxlength}" resource="false" position="1"/>
+                <var>
+                    <var-name>maxlength</var-name>
+                    <var-value>2000</var-value>
+                </var>
+            </field>
+            <field property="vc2message" depends="required,maxlength">
+                <arg key="document.advice.message" position="0"/>
+                <arg name="maxlength" key="${var:maxlength}" resource="false" position="1"/>
+                <var>
+                    <var-name>maxlength</var-name>
+                    <var-value>2000</var-value>
                 </var>
             </field>
         </form>

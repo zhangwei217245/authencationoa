@@ -42,6 +42,7 @@ INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '查看文档明细', 'path', '/Document/viewDocDetail.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '公文附件下载', 'path', '/Document/documentDownload.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '公文修改', 'path', '/Document/modifyDocument.do');
+INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '保存修改后的文档', 'path', '/Document/updateDocument.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '显示待审核公文', 'path', '/Document/showPendingDocument.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '审核公文', 'path', '/Document/auditDocument.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '显示审核过的公文', 'path', '/Document/showAuditedDocument.do');

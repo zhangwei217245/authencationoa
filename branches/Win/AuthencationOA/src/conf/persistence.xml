@@ -4,14 +4,14 @@
     <provider>oracle.toplink.essentials.PersistenceProvider</provider>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <!--<property name="toplink.jdbc.user" value="sa"/>
-      <property name="toplink.jdbc.password" value="610"/>
-      <property name="toplink.jdbc.url" value="jdbc:jtds:sqlserver://localhost:1433/sslca"/>
-      <property name="toplink.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver"/>-->
       <property name="toplink.jdbc.user" value="sa"/>
       <property name="toplink.jdbc.password" value="610"/>
+      <property name="toplink.jdbc.url" value="jdbc:jtds:sqlserver://localhost:1433/sslca"/>
+      <property name="toplink.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver"/>
+      <!--<property name="toplink.jdbc.user" value="sa"/>
+      <property name="toplink.jdbc.password" value="610"/>
       <property name="toplink.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/dbo"/>
-      <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
     </properties>
   </persistence-unit>
 </persistence>

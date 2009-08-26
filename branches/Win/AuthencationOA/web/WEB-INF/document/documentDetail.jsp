@@ -40,9 +40,14 @@
                         <td><bean:message key="document.addition"/><span class="not_required">*</span></td>
                         <td>
                             ${requestScope.docDetail.vc2additionname}&nbsp;&nbsp;
+                            <logic:notEmpty name="docDetail" property="vc2addition">
                             <a href="<%=request.getContextPath()%>/Document/documentDownload.do?numdocid=${requestScope.docDetail.numdocid}" target="_blank">
                                 <bean:message key="label.download"/>
                             </a>
+                            </logic:notEmpty>
+                            <logic:empty name="docDetail" property="vc2addition">
+                                (<bean:message key="document.attachment.none"/>)
+                            </logic:empty>
                         </td>
                         <td>&nbsp;</td>
                     </tr>
@@ -59,7 +64,7 @@
              </center>
         <div class="divtopline">&nbsp;</div>
         <center>
-        <table width="90%" align="center" cellpadding="0" cellspacing="0" border="0" class="verifytable">
+        <table width="90%" align="center" cellpadding="0" cellspacing="0" class="verifytable">
             <thead>
                 <tr>
                     <th colspan="3" style="text-align:left">
@@ -69,28 +74,32 @@
             </thead>
             <logic:notEmpty name="docVerifies" scope="request">
             <logic:iterate id="verify" name="docVerifies" indexId="idx" type="com.vv.auth.persist.entity.Documentverify">
+                <tbody>
                 <tr>
-                    <td width="40%" style="text-align:left" height="20px;">
+                    <th width="40%" style="text-align:left" height="20px;">
                         ${verify.userid.name}
-                    </td>
-                    <td width="30%" style="text-align:center" height="20px;">
+                    </th>
+                    <th width="30%" style="text-align:center" height="20px;">
                         <bean:message key="document.department.result.${verify.chresult}"/>
-                    </td>
-                    <td width="40%" style="text-align:right" height="20px;">
+                    </th>
+                    <th width="40%" style="text-align:right" height="20px;">
                         <bean:write name="verify" property="dattime" format="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
+                    </th>
                 </tr>
                 <tr>
                     <td colspan="3" height="80px;" style="overflow:auto;table-layout:fixed;word-break:break-all">
                         <bean:write name="verify" property="vc2message"/>
                     </td>
                 </tr>
+                </tbody>
             </logic:iterate>
             </logic:notEmpty>
             <logic:empty name="docVerifies">
+                
                 <tr>
                     <td colspan="3" style="text-align:center"><bean:message key="document.verifydetail.notfound"/></td>
                 </tr>
+                
             </logic:empty>
         </table>
         </center>

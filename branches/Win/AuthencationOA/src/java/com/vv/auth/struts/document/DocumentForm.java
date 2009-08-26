@@ -33,6 +33,16 @@ public class DocumentForm extends BaseForm {
     private String datendfq;
     private String numtypeidfq;
     private String[] docids;
+    private String isKeepAttach;
+
+    public String getIsKeepAttach() {
+        return isKeepAttach;
+    }
+
+    public void setIsKeepAttach(String isKeepAttach) {
+        this.isKeepAttach = isKeepAttach;
+    }
+
     
 
     public String[] getDocids() {

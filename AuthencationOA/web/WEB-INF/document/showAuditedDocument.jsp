@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
+<%@page import="com.vv.auth.persist.entity.Document" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
    <html:html locale="true">
@@ -93,9 +94,9 @@
                       </tr>
                       </thead>
 
-                      <logic:notEmpty name="rstlst">
+                      <logic:notEmpty name="mydocs">
                           <tbody>
-                              <logic:iterate id="doc" name="rstlst" indexId="idx">
+                              <logic:iterate id="doc" name="mydocs" indexId="idx">
                               <tr>
                                   <td>${idx+1}</td>
                                   <td><bean:write name="doc" property="vc2title"/></td>

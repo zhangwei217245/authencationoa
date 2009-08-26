@@ -408,10 +408,14 @@ public class DocumentAction extends BaseAction {
                     doc.setVc2result('Y');
                 }else if(advicetag.equals("N")){
                     doc.setNumcurrstep(doc.getNumcurrstep()-1);
+                    if(doc.getNumcurrstep()==0){
+                        doc.setVc2use('R');
+                    }
                     doc.setVc2result('N');
                 }else if(advicetag.equals("R")){
                     doc.setNumcurrstep(0);
-                    doc.setVc2result('R');
+                    doc.setVc2use('R');
+                    doc.setVc2result('N');
                 }else if(advicetag.equals("T")){
                     doc.setNumcurrstep(0);
                     doc.setVc2use('N');
@@ -447,7 +451,59 @@ public class DocumentAction extends BaseAction {
      */
     private ActionForward showAuditedDocument(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response)throws Exception {
-        
+        String errmsg = null;
+        DocumentForm form = (DocumentForm) aform;
+        Map params = new HashMap();
+        setOptionList(request,"label.all");
+        try {
+            Integer myuid = Utility.getCurrSessionUserid(request);
+            request.setAttribute("myuid", myuid);
+            Vcustomer me = tuserService.findUserById(myuid);
+            String jpql = "FROM Document d JOIN d.documentverifyCollection dv WHERE dv.userid =:userid ";
+            StringBuffer sb = new StringBuffer(jpql);
+            if (Utility.isNotEmpty(form.getVc2titlefq())) {
+                sb.append(" AND d.vc2title LIKE '%").append(form.getVc2titlefq()).append("%' ");
+            }
+            if (Utility.isNotEmpty(form.getVc2contentfq())) {
+                sb.append(" AND d.vc2content LIKE '%").append(form.getVc2contentfq()).append("%' ");
+            }
+            if (Utility.isNotEmpty(form.getVc2resultfq())) {
+                sb.append(" AND d.vc2result = '").append(form.getVc2resultfq()).append("' ");
+            }
+            if (Utility.isNotEmpty(form.getVc2usefq())) {
+                sb.append(" AND d.vc2use = '").append(form.getVc2usefq()).append("' ");
+            }
+            if (Utility.isNotEmpty(form.getDatbeginfq())) {
+                Date from = Utility.convertStringToDate(form.getDatbeginfq(), FORMATE_DATE);
+                params.put("from", from);
+                sb.append(" AND d.datcreatetime >=:from");
+            }
+            if (Utility.isNotEmpty(form.getDatendfq())) {
+                Date to = Utility.convertStringToDate(form.getDatendfq(), FORMATE_DATE);
+                params.put("to", to);
+                sb.append(" AND d.datcreatetime <=:to");
+            }
+            if (Utility.isNotEmpty(form.getNumtypeidfq())) {
+                Documenttype doctype = (Documenttype) documentTypeService.findOneEntityById(form.getNumtypeidfq());
+                params.put("doctype", doctype);
+                sb.append(" AND d.numtypeid =:doctype ");
+            }
+            params.put("userid", me);
+            int listCount = documentService.getEntityCount("SELECT count(distinct d) "+sb.toString(), params);
+            pagination = new Pagination(request, response);
+            pagination.setRecordCount(listCount);
+            List<IEntity> mydocs = documentService.findEntities("SELECT distinct d "+sb.toString(), params, false, pagination.getFirstResult(), pagination.getPageSize());
+            request.setAttribute("mydocs", mydocs);
+            request.setAttribute("pagination", pagination.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("", e);
+            if (errmsg != null) {
+                throw new BaseException(errmsg);
+            } else {
+                throw new BaseException("errors.general");
+            }
+        }
         return mapping.findForward(SUCCESS);
     }
 

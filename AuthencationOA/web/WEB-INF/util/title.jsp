@@ -13,7 +13,7 @@
 
                 <bean:message key="label.username"/>
                 <span id="title_greeting"></span>
-<%=userMap.get("name") + ""%>|
+                <%=userMap.get("name") + ""%>&nbsp;@&nbsp;<%=userMap.get("atGroup")+""%>|
 <script>
     now = new Date(),hour = now.getHours()
     if(hour < 6){title_greeting.innerText="<bean:message key="label.greeting.bfmorning"/>"}

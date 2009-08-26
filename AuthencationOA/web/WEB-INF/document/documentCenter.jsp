@@ -20,11 +20,11 @@
 			<tr>
 				<td width="20%">&nbsp;&nbsp;
 					
-                                    <iframe style="border:none" name="tree" align="left" width="100%" height="100%" src="<%=request.getContextPath()%>/documentTree.do" frameborder="1" scrolling="auto">
+                                    <iframe style="border:none" name="tree" align="left" width="100%" height="100%" src="<%=request.getContextPath()%>/documentTree.do" frameborder="0" scrolling="auto">
 					</iframe>
 				</td>
 				<td width="80%">
-					<iframe style="border:none" name="site" align="left" width="99%" height="100%" src="<%=request.getContextPath()%>/Document/showCreatedDocument.do" frameborder="2" scrolling="auto"></iframe>
+					<iframe style="border:none" name="site" align="left" width="99%" height="100%" src="<%=request.getContextPath()%>/Document/showCreatedDocument.do" frameborder="0" scrolling="auto"></iframe>
 				</td>
 			</tr>
 		</table>

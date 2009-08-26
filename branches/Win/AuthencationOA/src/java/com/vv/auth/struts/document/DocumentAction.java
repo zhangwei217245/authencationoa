@@ -91,7 +91,7 @@ public class DocumentAction extends BaseAction {
             forward = showAuditedDocument(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("modifyDocument")) {
             forward = modifyDocument(mapping, aform, request, response);
-        } else if (parameter.equalsIgnoreCase("showAuditedDocument")) {
+        } else if (parameter.equalsIgnoreCase("updateDocument")) {
             forward = updateDocument(mapping, aform, request, response);
         }
 
@@ -396,22 +396,22 @@ public class DocumentAction extends BaseAction {
             if(isTokenValid(request, true)){
                 Vcustomer me = jpaDaoService.findOneEntityById(Vcustomer.class, myuid);
                 Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);
-                Character c = 'Y';
-                if(!advicetag.equals("Y")){
-                    c = 'N';
-                }
-                try {
-                    Documentverify dv = new Documentverify(c, vc2message, new Date(), doc.getNumcurrstep(), doc, me);
-                    jpaDaoService.create(dv);
-                } catch (Exception e) {
-                    errmsg="error.document.recordAudit";
-                    throw e;
-                }
+                
 
                 try {
                     if(advicetag.equals("Y")){
-                        doc.setNumcurrstep(doc.getNumcurrstep()+1);
-                        doc.setVc2result('Y');
+                        
+                        String jpql = "SELECT MAX(p.numstepindex) FROM Documentpath p WHERE p.numdoctypeid =:numdoctypeid";
+                        Map params = new HashMap();
+                        params.put("numdoctypeid", doc.getNumtypeid());
+                        int maxstep = (Integer)jpaDaoService.getSingleResult(jpql, params);
+                        if(doc.getNumcurrstep()>=maxstep){
+                            doc.setVc2result('Y');
+                        }else{
+                            doc.setNumcurrstep(doc.getNumcurrstep()+1);
+                            doc.setVc2result('N');
+                        }
+                        
                     }else if(advicetag.equals("N")){
                         doc.setNumcurrstep(doc.getNumcurrstep()-1);
                         if(doc.getNumcurrstep()==0){
@@ -429,6 +429,19 @@ public class DocumentAction extends BaseAction {
                     }
 
                     doc.setVc2lock('N');
+
+                    Character c = 'Y';
+                    if(!advicetag.equals("Y")){
+                        c = 'N';
+                    }
+                    try {
+                        Documentverify dv = new Documentverify(c, vc2message, new Date(), doc.getNumcurrstep(), doc, me);
+                        jpaDaoService.create(dv);
+                    } catch (Exception e) {
+                        errmsg="error.document.recordAudit";
+                        throw e;
+                    }
+                    
                     jpaDaoService.edit(doc);
                     request.setAttribute(BaseContect.FORWARD_SUCCESS, Utility.getMessage("info.success"));
                 } catch (Exception e) {
@@ -569,7 +582,7 @@ public class DocumentAction extends BaseAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         String errmsg = null;
         DocumentForm form = (DocumentForm) aform;
-        String numdocid = request.getParameter("numdocid");
+        String numdocid = form.getNumdocid();
         try {
             if (isTokenValid(request, true)) {
                 Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);

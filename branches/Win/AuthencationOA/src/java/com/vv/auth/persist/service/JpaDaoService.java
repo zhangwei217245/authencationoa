@@ -143,6 +143,31 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     public <T extends Object> T findOneEntityById(Class<T> t,String id) {
         return getJpaTemplate().find(t, new Integer(id));
     }
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public Object getSingleResult(final String jpql,final Map<String,? extends Object> params){
+        return getJpaTemplate().execute(new JpaCallback() {
+
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                try {
+                    String ql = jpql;
+                    if (jpql == null || jpql.equals("")) {
+                        return 0L;
+                    }
+
+                    Query q = em.createQuery(ql);
+                    if (params != null && params.size() > 0) {
+                        for (Object obj : params.keySet()) {
+                            String str = (String) obj;
+                            q.setParameter(str, params.get(str));
+                        }
+                    }
+                    return q.getSingleResult();
+                } finally {
+                    em.close();
+                }
+            }
+        });
+    }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public Integer getEntityCount(final String jpql,final Map<String,? extends Object> params) {

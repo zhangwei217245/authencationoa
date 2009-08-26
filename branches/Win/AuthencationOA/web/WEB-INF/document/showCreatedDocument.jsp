@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
+<%@page import="com.vv.auth.persist.entity.Document" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
    <html:html locale="true">
@@ -17,6 +18,14 @@
                 }
                 #datatable tbody tr td{
                     border:1px solid silver;
+                }
+                .lockbyother{
+                    color:#cc0000;
+                    font-weight:bolder;
+                }
+                .lockbyme{
+                    color:#007c00;
+                    font-weight:bolder;
                 }
             </style>
             <html:base/>
@@ -74,12 +83,13 @@
                   <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
                     <thead>
                       <tr>
-                          <th width="12%">&nbsp;</th>
+                          <th width="6%">&nbsp;</th>
                           <th width="20%" ><bean:message key="document.title"/></th>
                           <th width="12%" ><bean:message key="document.type" /></th>
                           <th width="12%" ><bean:message key="document.createtime" /></th>
-                          <th width="12%" ><bean:message key="document.department.result"/></th>
-                          <th width="12%" ><bean:message key="document.status"/></th>
+                          <th width="6%" ><bean:message key="document.department.result"/></th>
+                          <th width="8%" ><bean:message key="document.status"/></th>
+                          <th width="16%" ><bean:message key="document.lock"/></th>
                           <th width="20%" ><bean:message key="label.operation"/></th>
                       </tr>
                       </thead>
@@ -97,6 +107,21 @@
                               </td>
                               <td>
                                   <bean:message key="document.status.${doc.vc2use}"/>
+                              </td>
+                              <td>
+                                  <logic:equal value="N" name="doc" property="vc2lock">
+                                      <bean:message key="document.lock.${doc.vc2lock}"/>
+                                  </logic:equal>
+                                  <logic:equal value="Y" name="doc" property="vc2lock">
+                                      <logic:equal name="doc" property="lockuserid" value="${requestScope.myuid}">
+                                          <span class="lockbyme">
+                                      </logic:equal>
+                                      <logic:notEqual name="doc" property="lockuserid" value="${requestScope.myuid}">
+                                          <span class="lockbyother">
+                                      </logic:notEqual>
+                                          <%=Utility.getLockUserName(request.getSession().getServletContext(),((Document)doc).getLockuserid())%>
+                                      </span>
+                                  </logic:equal>
                               </td>
                               <td>
                                   <a href="<%=request.getContextPath()%>/Document/viewDocDetail.do?numdocid=<bean:write name="doc" property="numdocid"/>&entertype=created"><bean:message key="label.document.viewdetail"/></a>

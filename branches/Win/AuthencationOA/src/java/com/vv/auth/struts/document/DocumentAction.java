@@ -87,6 +87,8 @@ public class DocumentAction extends BaseAction {
             forward = showPendingDocument(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("auditDocument")) {
             forward = auditDocument(mapping, aform, request, response);
+        } else if (parameter.equalsIgnoreCase("showAuditedDocument")) {
+            forward = showAuditedDocument(mapping, aform, request, response);
         }
 
         return forward;
@@ -207,6 +209,7 @@ public class DocumentAction extends BaseAction {
         setOptionList(request,"label.all");
         try {
             Integer myuid = Utility.getCurrSessionUserid(request);
+            request.setAttribute("myuid", myuid);
             Vcustomer me = tuserService.findUserById(myuid);
             String jpql = "FROM Document d WHERE d.userid =:userid ";
             StringBuffer sb = new StringBuffer(jpql);
@@ -433,6 +436,20 @@ public class DocumentAction extends BaseAction {
         }
         return mapping.findForward(SUCCESS);
     }
+    /**
+     * 显示我审核过的文档
+     * @param mapping
+     * @param aform
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private ActionForward showAuditedDocument(ActionMapping mapping, ActionForm aform,
+            HttpServletRequest request, HttpServletResponse response)throws Exception {
+        
+        return mapping.findForward(SUCCESS);
+    }
 
     private void setOptionList(HttpServletRequest request,String emptyItemKey) throws Exception {
         request.setAttribute("doctypeList", getDocTypeOptions(emptyItemKey));
@@ -474,6 +491,8 @@ public class DocumentAction extends BaseAction {
         }
         return optlist;
     }
+
+
 
     
 }

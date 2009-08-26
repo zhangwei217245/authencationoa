@@ -94,3 +94,36 @@ table{
     margin-left: 5px;
     margin-right: 5px;
 }
+.verifytable{
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 10pt;
+}
+.verifytable thead tr th{
+
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-top-width: 5px;
+    border-bottom-width: 2px;
+    margin-bottom: 5px;
+    font-size: 18pt;
+}
+.verifytable tbody tr th{
+
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    border-bottom-color: #8c8c8c;
+    margin-top: 5px;
+    border-top-style: none;
+    background-color: #deebb4;
+    font-size: 12pt;
+    color: #006bff;
+}
+.verifytable tbody tr td{
+
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #8c8c8c;
+    margin-top: 5px;
+    border-top-style: none;
+    background-color: #e5f5ff;
+}

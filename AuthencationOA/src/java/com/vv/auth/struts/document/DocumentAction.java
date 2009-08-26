@@ -156,7 +156,7 @@ public class DocumentAction extends BaseAction {
             if (isTokenValid(request, true)) {
                 String oriFilename = "";
                 String filename = "";
-                if (form.getVc2addition() != null) {
+                if (Utility.isNotEmpty(form.getVc2addition().getFileName())&&form.getVc2addition().getFileSize()>0) {
                     oriFilename = form.getVc2addition().getFileName();
                     filename = System.currentTimeMillis() + ".ath";
                     try {

@@ -29,7 +29,7 @@
             <span><a class="abutton" href="<%=request.getContextPath()%>/ConferenceMana/initApply.do"><bean:message key="button.add"/></a></span>
         </div>
         <html:form action="/ConferenceMana/searchConference.do">
-
+            <center>
             <table width="800" align="center" style="text-align:center;vertical-align:middle">
     		<tr>
                 <td width="25%"><bean:message key="label.conference.name"/></td>
@@ -57,8 +57,10 @@
                 </td>
             </tr>
     	</table>
+                </center>
         <div class="divunderline"></div>
         <logic:notEmpty name="rstlst">
+            <center>
             <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
@@ -89,6 +91,7 @@
                     </logic:iterate>
                 </tbody>
             </table>
+                    </center>
         </logic:notEmpty>
 
 

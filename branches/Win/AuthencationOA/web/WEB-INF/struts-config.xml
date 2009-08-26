@@ -15,6 +15,7 @@
         <form-bean name="clientCerform" type="com.vv.auth.struts.clientCer.ClientCerForm"/>
         <form-bean name="conferenceForm" type="com.vv.auth.struts.conferenceMana.ConferenceForm"/>
         <form-bean name="documentForm" type="com.vv.auth.struts.document.DocumentForm"/>
+        <form-bean name="documentAuditForm" type="com.vv.auth.struts.document.DocumentAuditForm"/>
         <form-bean name="documentTypeForm" type="com.vv.auth.struts.document.DocumentTypeForm"/>
         <form-bean name="monitorShowForm" type="com.vv.auth.struts.monitor.MonitorForm"/>
     </form-beans>
@@ -210,7 +211,7 @@
             <forward name="success" path="/WEB-INF/document/createDocument.jsp"/>
         </action>
 
-        <action path="/Document/saveDocument" name="documentForm" scope="request" parameter="saveDocument" validate="false" input="/Document/createDocument.do">
+        <action path="/Document/saveDocument" name="documentForm" scope="request" parameter="saveDocument" validate="true" input="/Document/createDocument.do">
             <forward name="success" path="/Document/showCreatedDocument.do"/>
         </action>
 
@@ -228,7 +229,7 @@
             <forward name="success" path="/WEB-INF/document/modifyDocument.jsp"/>
         </action>
 
-        <action path="/Document/updateDocument" name="documentForm" scope="request" parameter="updateDocument" validate="false" input="/Document/updateDocument.do">
+        <action path="/Document/updateDocument" name="documentForm" scope="request" parameter="updateDocument" validate="true" input="/Document/updateDocument.do">
             <forward name="success" path="/Document/showCreatedDocument.do"/>
         </action>
 
@@ -236,11 +237,11 @@
             <forward name="success" path="/WEB-INF/document/showPendingDocument.jsp"/>
         </action>
 
-        <action path="/Document/auditDocument" name="documentForm" scope="request" parameter="auditDocument" validate="false" input="/Document/showPendingDocument.do">
+        <action path="/Document/auditDocument" name="documentAuditForm" scope="request" parameter="auditDocument" validate="true" input="/Document/showPendingDocument.do">
             <forward name="success" path="/Document/showPendingDocument.do"/>
         </action>
 
-        <action path="/Document/batchAuditDocument" name="documentForm" scope="request" parameter="batchAuditDocument" validate="false" input="/Document/showPendingDocument.do">
+        <action path="/Document/batchAuditDocument" name="documentAuditForm" scope="request" parameter="batchAuditDocument" validate="true" input="/Document/showPendingDocument.do">
             <forward name="success" path="/Document/showPendingDocument.do"/>
         </action>
 

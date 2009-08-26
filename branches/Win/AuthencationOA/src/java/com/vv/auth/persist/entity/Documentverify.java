@@ -54,6 +54,15 @@ public class Documentverify implements Serializable, IEntity {
     public Documentverify() {
     }
 
+    public Documentverify(Character chresult, String vc2message, Date dattime, Integer numstepindex, Document numdocid, Vcustomer userid) {
+        this.chresult = chresult;
+        this.vc2message = vc2message;
+        this.dattime = dattime;
+        this.numstepindex = numstepindex;
+        this.numdocid = numdocid;
+        this.userid = userid;
+    }
+
     public Documentverify(Integer numverifyid) {
         this.numverifyid = numverifyid;
     }

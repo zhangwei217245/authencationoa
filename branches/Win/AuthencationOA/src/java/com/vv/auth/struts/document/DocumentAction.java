@@ -6,6 +6,7 @@ package com.vv.auth.struts.document;
 
 import com.vv.auth.persist.entity.Document;
 import com.vv.auth.persist.entity.Documenttype;
+import com.vv.auth.persist.entity.Documentverify;
 import com.vv.auth.persist.entity.IEntity;
 import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.Vcustomer;
@@ -84,6 +85,8 @@ public class DocumentAction extends BaseAction {
             forward = viewDocDetail(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("showPendingDocument")) {
             forward = showPendingDocument(mapping, aform, request, response);
+        } else if (parameter.equalsIgnoreCase("auditDocument")) {
+            forward = auditDocument(mapping, aform, request, response);
         }
 
         return forward;
@@ -268,22 +271,25 @@ public class DocumentAction extends BaseAction {
         String numdocid = request.getParameter("numdocid");
         Integer myuid = Utility.getCurrSessionUserid(request);
         Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);
-        Map params = new HashMap();
-        params.put("numdocid", doc);
-        List docvrf = jpaDaoService.findEntities("select v from Documentverify v where v.numdocid =:numdocid order by v.numstepindex asc", params, true, -1, -1);
         String entertype = request.getParameter("entertype");
         if(Utility.isNotEmpty(entertype)){
             if(entertype.equals("created")){
                 request.setAttribute("showVerifyForm", "hidden");
-            }else if(entertype.equals("pending")){//如果是从审核页面进入，需要锁定文档
+            }else if(entertype.equals("pending")){//如果是从审核页面进入，先检查文档是否被他人锁定，若未锁定，需要锁定文档
+                if(doc.getVc2lock().toString().equals("Y")&&(!doc.getLockuserid().equals(myuid))){
+                    throw new BaseException("error.document.locked", "/Document/showPendingDocument.do");
+                }
                 doc.setVc2lock('Y');
                 doc.setLockuserid(myuid);
                 doc = jpaDaoService.edit(doc);
                 request.setAttribute("showVerifyForm", "visible");
             }
         }else{
-            request.setAttribute("isVerifyPage", "false");
+            request.setAttribute("isVerifyPage", "hidden");
         }
+        Map params = new HashMap();
+        params.put("numdocid", doc);
+        List docvrf = jpaDaoService.findEntities("select v from Documentverify v where v.numdocid =:numdocid order by v.numstepindex asc", params, true, -1, -1);
         request.setAttribute("docDetail", doc);
         request.setAttribute("docVerifies", docvrf);
 
@@ -361,6 +367,72 @@ public class DocumentAction extends BaseAction {
         return mapping.findForward(SUCCESS);
     }
 
+    /**
+     * 审核文档
+     * @param mapping
+     * @param aform
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private ActionForward auditDocument(ActionMapping mapping, ActionForm aform,
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
+        DocumentAuditForm form = (DocumentAuditForm)aform;
+        Integer myuid = Utility.getCurrSessionUserid(request);
+        String numdocid = form.getNumdocid();
+        String advicetag = form.getAdvicetag();
+        String vc2message = form.getVc2message();
+        String errmsg=null;
+        try {
+            Vcustomer me = jpaDaoService.findOneEntityById(Vcustomer.class, myuid);
+            Document doc = jpaDaoService.findOneEntityById(Document.class, numdocid);
+            Character c = 'Y';
+            if(!advicetag.equals("Y")){
+                c = 'N';
+            }
+            try {
+                Documentverify dv = new Documentverify(c, vc2message, new Date(), doc.getNumcurrstep(), doc, me);
+                jpaDaoService.create(dv);
+            } catch (Exception e) {
+                errmsg="error.document.recordAudit";
+                throw e;
+            }
+            
+            try {
+                if(advicetag.equals("Y")){
+                    doc.setNumcurrstep(doc.getNumcurrstep()+1);
+                    doc.setVc2result('Y');
+                }else if(advicetag.equals("N")){
+                    doc.setNumcurrstep(doc.getNumcurrstep()-1);
+                    doc.setVc2result('N');
+                }else if(advicetag.equals("R")){
+                    doc.setNumcurrstep(0);
+                    doc.setVc2result('R');
+                }else if(advicetag.equals("T")){
+                    doc.setNumcurrstep(0);
+                    doc.setVc2use('N');
+                    doc.setVc2result('N');
+                }
+                
+                doc.setVc2lock('N');
+                jpaDaoService.edit(doc);
+            } catch (Exception e) {
+                errmsg= "error.document.update";
+                throw e;
+            }
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(""+e);
+            if(Utility.isEmpty(errmsg)){
+                errmsg = "errors.general";
+            }
+            throw new BaseException(errmsg, "/Document/viewDocDetail.do?numdocid="+numdocid+"+&entertype=pending");
+        }
+        return mapping.findForward(SUCCESS);
+    }
 
     private void setOptionList(HttpServletRequest request,String emptyItemKey) throws Exception {
         request.setAttribute("doctypeList", getDocTypeOptions(emptyItemKey));
@@ -402,8 +474,6 @@ public class DocumentAction extends BaseAction {
         }
         return optlist;
     }
-
-
 
     
 }

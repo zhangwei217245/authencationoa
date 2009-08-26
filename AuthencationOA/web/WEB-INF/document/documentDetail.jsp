@@ -39,8 +39,8 @@
                     <tr>
                         <td><bean:message key="document.addition"/><span class="not_required">*</span></td>
                         <td>
-                            ${requestScope.docDetail.vc2additionname}&nbsp;&nbsp;
                             <logic:notEmpty name="docDetail" property="vc2addition">
+                            ${requestScope.docDetail.vc2additionname}&nbsp;&nbsp;
                             <a href="<%=request.getContextPath()%>/Document/documentDownload.do?numdocid=${requestScope.docDetail.numdocid}" target="_blank">
                                 <bean:message key="label.download"/>
                             </a>

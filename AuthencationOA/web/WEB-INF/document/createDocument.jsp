@@ -12,7 +12,8 @@
         <h4><bean:message key="document.create"/></h4>
         
         <html:form action="/Document/saveDocument.do" onsubmit="" method="post" enctype="multipart/form-data">
-                <table align="center" border="0" class="formtable" style="height:70%;margin-right:250px">
+            <center>
+                <table align="center" border="0" class="formtable" style="height:70%">
                     <tr>
                         <td><bean:message key="document.type"/><span class="required">*</span></td>
                         <td>
@@ -45,6 +46,7 @@
                     </tr>
 
                 </table>
+                        </center>
         </html:form>
     </body>
 </html:html>

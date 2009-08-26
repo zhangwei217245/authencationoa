@@ -132,7 +132,7 @@
                                             <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
                                           </logic:equal>
                                           <logic:equal name="doc" property="vc2lock" value="Y">
-                                              <logic:equal name="doc" property="lockuserid" value="${doc.userid}">
+                                              <logic:equal name="doc" property="lockuserid" value="${requestScope.myuid}">
                                                   <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="doc" property="numdocid"/>"><bean:message key="button.modify"/></a>
                                               </logic:equal>
                                           </logic:equal>

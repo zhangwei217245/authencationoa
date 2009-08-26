@@ -229,7 +229,7 @@
             <forward name="success" path="/WEB-INF/document/modifyDocument.jsp"/>
         </action>
 
-        <action path="/Document/updateDocument" name="documentForm" scope="request" parameter="updateDocument" validate="true" input="/Document/updateDocument.do">
+        <action path="/Document/updateDocument" name="documentForm" scope="request" parameter="updateDocument" validate="true" input="/Document/modifyDocument.do">
             <forward name="success" path="/Document/showCreatedDocument.do"/>
         </action>
 

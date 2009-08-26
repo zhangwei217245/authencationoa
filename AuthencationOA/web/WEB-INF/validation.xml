@@ -275,6 +275,19 @@
                 </var>
             </field>
         </form>
+        <form name="documentAuditForm">
+            <field property="advicetag" depends="required">
+                <arg key="document.advice.radio" position="0"/>
+            </field>
+            <field property="vc2message" depends="required,maxlength">
+                <arg key="document.advice.message" position="0"/>
+                <arg name="maxlength" key="${var:maxlength}" resource="false" position="1"/>
+                <var>
+                    <var-name>maxlength</var-name>
+                    <var-value>2000</var-value>
+                </var>
+            </field>
+        </form>
     </formset>
 
 </form-validation>

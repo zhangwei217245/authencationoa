@@ -45,6 +45,9 @@ public interface IJpaDaoService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     Integer getEntityCount(final String jpql, final Map<String, ? extends Object> params);
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    Object getSingleResult(final String jpql, final Map<String, ? extends Object> params);
+
     @Deprecated
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     Integer getNamedQueryEntityCount(final String queryName, final Map<String, ? extends Object> params);

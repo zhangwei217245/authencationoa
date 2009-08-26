@@ -19,6 +19,7 @@
         <html:form action="/Document/updateDocument.do" onsubmit="" method="post" enctype="multipart/form-data">
             <center>
                 <table align="center" border="0" class="formtable" style="height:70%">
+                    <html:hidden property="numdocid" value="${requestScope.docDetail.numdocid}"/>
                     <tr>
                         <td><bean:message key="document.type"/><span class="required">*</span></td>
                         <td>

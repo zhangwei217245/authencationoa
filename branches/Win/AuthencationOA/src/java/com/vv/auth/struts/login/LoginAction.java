@@ -179,8 +179,11 @@ public class LoginAction extends BaseAction {
 
         ConcurrentMap<String, TRight> userPermission = new ConcurrentHashMap<String, TRight>();
         ArrayList<TRight> userMenu = new ArrayList<TRight>();
+        StringBuffer tgsb = new StringBuffer();
         for (TGroup group : groupcol) {
             usermap.put("groupid", group.getTgId());
+            tgsb.append(group.getTgDesc());
+            tgsb.append(" & ");
             if ("SuperAdmin".equalsIgnoreCase(group.getGroupName()) || "developer".equalsIgnoreCase(group.getGroupName())) {
                 usermap.put("validateRight", "false");
             } else {
@@ -205,6 +208,8 @@ public class LoginAction extends BaseAction {
                 }
             }
         }
+        tgsb = tgsb.delete(tgsb.length()-3,tgsb.length());
+        usermap.put("atGroup", tgsb.toString());
         usermap.put("userPermission", userPermission);
         usermap.put("userMenu", userMenu);
         request.getSession(true).setAttribute("USERMAP", usermap);
@@ -226,8 +231,11 @@ public class LoginAction extends BaseAction {
 
         ConcurrentMap<String, TRight> userPermission = new ConcurrentHashMap<String, TRight>();
         ArrayList<TRight> userMenu = new ArrayList<TRight>();
+        StringBuffer tgsb = new StringBuffer();
         for (TGroup group : groupcol) {
             usermap.put("groupid", group.getTgId());
+            tgsb.append(group.getTgDesc());
+            tgsb.append(" & ");
             if ("SuperAdmin".equalsIgnoreCase(group.getGroupName()) || "developer".equalsIgnoreCase(group.getGroupName())) {
                 usermap.put("validateRight", "false");
             } else {
@@ -266,6 +274,8 @@ public class LoginAction extends BaseAction {
 //                }
 //            }
         }
+        tgsb = tgsb.delete(tgsb.length()-3,tgsb.length());
+        usermap.put("atGroup", tgsb.toString());
         usermap.put("userPermission", userPermission);
         usermap.put("userMenu", userMenu);
         request.getSession(true).setAttribute("USERMAP", usermap);

@@ -66,7 +66,7 @@ public class Utility {
             Collection<TGroup> c = lockuser.getTGroupCollection();
             if(Utility.isNotEmpty(c)){
                 for(TGroup tg:c){
-                    sb.append(tg.getGroupName());
+                    sb.append(tg.getTgDesc());
                     sb.append(" & ");
                 }
                 sb = sb.delete(sb.length()-3,sb.length());

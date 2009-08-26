@@ -73,14 +73,14 @@
     <bean name="/ConferenceMana/adminSearchConference" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
     <bean name="/ConferenceMana/adminviewApply" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
     <bean name="/ConferenceMana/adminVerifyConference" class="com.vv.auth.struts.conferenceMana.ConferenceAction"/>
-    <!--公文流转——文档类型配置-->
+    <!-- add menu & path 公文流转——文档类型配置-->
+    <bean name="/Document/documentShowType" class="com.vv.auth.struts.document.DocumentTypeAction"/>
     <bean name="/Document/documentTypeinit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
     <bean name="/Document/documentTypeAdd" class="com.vv.auth.struts.document.DocumentTypeAction"/>
-    <bean name="/Document/documentShowType" class="com.vv.auth.struts.document.DocumentTypeAction"/>
     <bean name="/Document/documentTypeEditInit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
     <bean name="/Document/documentTypeEdit" class="com.vv.auth.struts.document.DocumentTypeAction"/>
     <bean name="/Document/documentTypeDelete" class="com.vv.auth.struts.document.DocumentTypeAction"/>
-   <!--公文流转——文档创建与查看-->
+   <!-- add menu & path 公文流转——文档创建与查看-->
     <bean name="/Document/documentCenter" class="com.vv.auth.struts.document.DocumentAction"/>
     <bean name="/documentTree" class="com.vv.auth.struts.document.DocumentAction"/>
     <bean name="/Document/createDocument" class="com.vv.auth.struts.document.DocumentAction"/>
@@ -94,12 +94,8 @@
     <bean name="/Document/auditDocument" class="com.vv.auth.struts.document.DocumentAction"/>
     <bean name="/Document/batchAuditDocument" class="com.vv.auth.struts.document.DocumentAction"/>
     <bean name="/Document/showAuditedDocument" class="com.vv.auth.struts.document.DocumentAction"/>
-   <!--公文流转——文档审核-->
-    <bean name="/Document/documentContentShow" class="com.vv.auth.struts.document.DocumentAction"></bean>
-    <bean name="/Document/documentContentChoose" class="com.vv.auth.struts.document.DocumentAction"></bean>
-    <bean name="/Document/documentView" class="com.vv.auth.struts.document.DocumentAction"></bean>
-   <!--日志查看-->
-    <bean name="/Monitor/monitorShow" class="com.vv.auth.struts.monitor.MonitorAction"/>
+   <!-- add menu & path 日志查看-->
     <bean name="/Monitor/monitorShowInit" class="com.vv.auth.struts.monitor.MonitorAction"/>
+    <bean name="/Monitor/monitorShow" class="com.vv.auth.struts.monitor.MonitorAction"/>
 
 </beans>

@@ -1,2 +1,9 @@
-INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (1, 1);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (1, 7);
 INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (2, 1);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (1, 8);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (3, 6);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (3, 5);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (4, 4);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (4, 3);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (5, 2);
+INSERT INTO dbo.TUserGroupRelation (tg_id, userid) VALUES (5, 9);

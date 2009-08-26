@@ -7,6 +7,3 @@ INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, 
 INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus, enable) VALUES ('wowo', 'i', 'i', 'i', 'i', 'i', '1234', '2009-08-24 21:22:20.0', '2013-01-09 21:22:20.0', 'adminadmin', 'N', 'Y');
 INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus, enable) VALUES ('titi', 'o', 'o', 'o', 'o', 'o', '2134', '2009-08-24 21:23:50.0', '2015-06-28 21:23:50.0', 'adminadmin', 'N', 'Y');
 INSERT INTO dbo.vcustomer (name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus, enable) VALUES ('ubuntu', 'u', 'u', 'u', 'u', 'u', '12345', '2009-08-24 21:28:03.0', '2043-06-12 21:28:03.0', 'adminadmin', 'N', 'Y');
-
-/*INSERT INTO dbo.vcustomer (userid,name, departname, oname, cname, pname, ctname, dday, ddaybeg, ddayover, password, verifystatus) VALUES (-1,'Unknown', 'a', 'a', 'a', 'a', 'a', '123', '2009-05-03 19:39:32.53', '2009-09-03 19:39:32.517', 'unknow', 'N');
-*/

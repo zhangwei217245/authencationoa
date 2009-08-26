@@ -1,6 +1,10 @@
 package com.vv.auth.struts.util;
 
+import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
+import com.vv.auth.persist.entity.Vcustomer;
+import com.vv.auth.persist.service.IJpaDaoService;
+import com.vv.auth.persist.service.JpaDaoService;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +35,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,12 +46,37 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.log4j.Logger;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts.util.LabelValueBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class Utility {
 
     public static final Logger log = Logger.getLogger(Utility.class);
     private static String csResourcePath = "com.vv.auth.struts.ApplicationResource";
     private static Locale userLocale;
+
+
+    public static String getLockUserName(ServletContext application,Object lockuserid){
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(application);
+        if(ctx!=null){
+            IJpaDaoService jpaDaoService=(IJpaDaoService)ctx.getBean("jpaDaoService");
+            Vcustomer lockuser = jpaDaoService.findOneEntityById(Vcustomer.class, lockuserid+"");
+            StringBuffer sb = new StringBuffer();
+            sb.append(lockuser.getName()).append(" @ ");
+            Collection<TGroup> c = lockuser.getTGroupCollection();
+            if(Utility.isNotEmpty(c)){
+                for(TGroup tg:c){
+                    sb.append(tg.getGroupName());
+                    sb.append(" & ");
+                }
+                sb = sb.delete(sb.length()-3,sb.length());
+            }
+            //System.out.println("["+sb.toString()+"]");
+            return sb.toString();
+        }else{
+            return null;
+        }
+    }
 
     public static String getRequestParameterAsString(HttpServletRequest request) {
         Map paramap = request.getParameterMap();

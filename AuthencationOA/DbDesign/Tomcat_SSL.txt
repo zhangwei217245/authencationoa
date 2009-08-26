@@ -1,0 +1,9 @@
+<!-- FOR WINDOWS -->
+<Connector URIEncoding="utf-8" SSLEnabled="true" clientAuth="true" keystoreFile="d:/tomcat.keystore"
+         keystorePass="aaaabbbb" maxThreads="150" port="8443" protocol="HTTP/1.1" scheme="https" secure="true"
+         sslProtocol="TLS" truststoreFile="d:/tomcat.keystore" truststorePass="aaaabbbb"/>
+
+<!-- FOR LINUX -->
+<Connector URIEncoding="utf-8" SSLEnabled="true" clientAuth="true" keystoreFile="/home/x-spirit/tomcat.keystore"
+         keystorePass="aaaabbbb" maxThreads="150" port="8443" protocol="HTTP/1.1" scheme="https" secure="true"
+         sslProtocol="TLS" truststoreFile="/home/x-spirit/tomcat.keystore" truststorePass="aaaabbbb"/>

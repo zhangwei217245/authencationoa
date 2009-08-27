@@ -40,14 +40,12 @@
                        <tr>
                            <td><bean:message key="review.datetime.beg" /></td>
                            <td>
-                               <html:text property="beg" style="width:150px" readonly="true" ondblclick="chanageTime('beg');"/>
-                               <input type = "text"  id="beg_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('beg');" />
+                               <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<%=request.getParameter("beg")%>"/>
                             <IMG id="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('beg');" />
                             </td>
                            <td><bean:message key="review.datetime.over" /></td>
                            <td>
-                            <html:text property="over" style="width:150px" readonly="true" ondblclick="chanageTime('over');"/>
-                            <input type = "text"  id="over_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('over');" />
+                               <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<%=request.getParameter("beg")%>"/>
                             <IMG id="over_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('over');" />
                             </td>
                            <td colspan="2"><input type="submit" value="<bean:message key="button.find"/>"/></td>

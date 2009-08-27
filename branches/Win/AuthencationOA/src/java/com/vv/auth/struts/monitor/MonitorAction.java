@@ -29,7 +29,7 @@ import org.apache.struts.action.ActionMapping;
  */
 public class MonitorAction extends BaseAction {
 
-    public static final String FORMATE_DATE = "yyyy-MM-dd";
+    public static final String FORMATE_DATE = "yyyy-MM-dd HH:mm:ss";
     @Resource(name = "monitorService")
     private IEntityService monitorService;
     @Resource

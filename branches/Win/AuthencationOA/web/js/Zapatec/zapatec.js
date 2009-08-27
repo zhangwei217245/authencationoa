@@ -144,42 +144,7 @@ var parent=lnk;while(parent&&parent.nodeName.toLowerCase()!="html"){if(Zapatec.U
 parent=parent.parentNode;}
 var coords=Zapatec.Utils.getElementOffset(lnk);if(coords.left<0||coords.top<0){return false;}
 return true;}
-Zapatec.Utils.checkActivation=function(){if(!Zapatec.isLite)return true;var arrProducts=[]
-add_product=function(script,webdir_in,name_in)
-{arrProducts[script]={webdir:webdir_in,name:name_in,bActive:false}}
-add_product('calendar.js','prod1','Calendar')
-add_product('zpmenu.js','menu','Menu')
-add_product('tree.js','prod3','Tree')
-add_product('form.js','forms','Forms')
-add_product('effects.js','effects','Effects')
-add_product('hoverer.js','effects','Effects - Hoverer')
-add_product('slideshow.js','effects','Effects - Slideshow')
-add_product('zpgrid.js','grid','Grid')
-add_product('slider.js','slider','Slider')
-add_product('zptabs.js','tabs','Tabs')
-add_product('zptime.js','time','Time')
-add_product('window.js','windows','Window')
-var strName,arrName,i
-var bProduct=false
-var scripts=document.getElementsByTagName('script');for(i=0;i<scripts.length;i++)
-{if(/wizard.js/i.test(scripts[i].src))
-return true
-arrName=scripts[i].src.split('/')
-if(arrName.length==0)
-strName=scripts[i]
-else
-strName=arrName[arrName.length-1]
-strName=strName.toLowerCase()
-if(typeof arrProducts[strName]!='undefined')
-{bProduct=true
-arrProducts[strName].bActive=true}}
-if(!bProduct||Zapatec.Utils.checkLinks()){return true;}
-var strMsg='You are using the Free version of the Zapatec Software.\n'+'While using the Free version, a link to www.zapatec.com in this page is required.'
-for(i in arrProducts)
-if(arrProducts[i].bActive==true)
-strMsg+='\nTo purchase the Zapatec '+arrProducts[i].name+' visit www.zapatec.com/website/main/products/'+arrProducts[i].webdir+'/'
-alert(strMsg)
-return false;}
+Zapatec.Utils.checkActivation=function(){}
 Zapatec.Utils.clone=function(oSrc){if(typeof oSrc=='object'&&oSrc){var oClone=new oSrc.constructor();var fClone=Zapatec.Utils.clone;for(var sProp in oSrc){oClone[sProp]=fClone(oSrc[sProp]);}
 return oClone;}
 return oSrc;};Zapatec.is_opera=/opera/i.test(navigator.userAgent);Zapatec.is_ie=(/msie/i.test(navigator.userAgent)&&!Zapatec.is_opera);Zapatec.is_ie6=(Zapatec.is_ie&&/msie 6\.0/i.test(navigator.userAgent));Zapatec.is_ie7=(Zapatec.is_ie&&/msie 7\.0/i.test(navigator.userAgent));Zapatec.is_ie8=(Zapatec.is_ie&&/msie 8\.0/i.test(navigator.userAgent));Zapatec.is_mac_ie=(/msie.*mac/i.test(navigator.userAgent)&&!Zapatec.is_opera);Zapatec.is_khtml=/Chrome|Safari|Konqueror|AppleWebKit|KHTML/i.test(navigator.userAgent);Zapatec.is_konqueror=/Konqueror/i.test(navigator.userAgent);Zapatec.is_gecko=/Gecko/i.test(navigator.userAgent);Zapatec.is_webkit=/WebKit/i.test(navigator.userAgent);Zapatec.webkitVersion=Zapatec.is_webkit?parseInt(navigator.userAgent.replace(/.+WebKit\/([0-9]+)\..+/,"$1")):-1;Zapatec.Utils.arrIndexOf=function(aArr,vSearchEl,iFromInd){if(!(aArr instanceof Array)){return-1;}

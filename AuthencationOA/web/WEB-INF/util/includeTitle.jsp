@@ -19,11 +19,17 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/SortTable.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/copytoclipboard.jsp"></script>
 
-<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/calendar/utils.js"></script>
+<!--<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/calendar/utils.js"></script>
 <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/calendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/calendar/calendar-setup.js"></script>
 <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/calendar/calendar-zh.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/js/calendar/themes/aqua.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/js/calendar/themes/aqua.css" />-->
+<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/Zapatec/calendar.js"></script>
+<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/Zapatec/zapatec.js"></script>
+<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/Zapatec/zpdate.js"></script>
+<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/Zapatec/zpdict.js"></script>
+<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/js/Zapatec/calendar-zh.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/js/Zapatec/themes/system.css" />
 <%
 response.setHeader("Pragma","No-cache");
 response.setHeader("Cache-Control","no-cache");

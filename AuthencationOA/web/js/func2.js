@@ -631,3 +631,6 @@ function hasChn(s){
           else
           return false;
       }
+      function clearCalendarInput(obj){
+          obj.value="";
+      }

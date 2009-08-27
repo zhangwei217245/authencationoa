@@ -44,15 +44,13 @@
                            <td><html:text property="vc2contentfq" style="width:170px"/></td>
                            <td><bean:message key="review.datetime.beg" /></td>
                            <td>
-                               <html:text property="datbeginfq" style="width:150px" readonly="true" ondblclick="chanageTime('datbeginfq');"/>
-                            <input type = "text"  id="datbeginfq_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('datbeginfq');" />
-                            <IMG id="datbeginfq_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('datbeginfq');" />
+                               <input type="text" name="datbeginfq" id="datbeginfq" style="width:150px" readonly ondblclick="clearCalendarInput(this);" value="${param.datbeginfq}"/>
+                            <IMG id="datbeginfq_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand"/>
                             </td>
                            <td><bean:message key="review.datetime.over" /></td>
                            <td>
-                            <html:text property="datendfq" style="width:150px" readonly="true" ondblclick="chanageTime('datendfq');"/>
-                            <input type = "text"  id="datendfq_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('datendfq');" />
-                            <IMG id="datendfq_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('datendfq');" />
+                               <input type="text" name="datendfq" id="datendfq" style="width:150px" readonly ondblclick="clearCalendarInput(this);" value="${param.datendfq}"/>
+                            <IMG id="datendfq_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" />
                             </td>
                        </tr>
                        <tr>
@@ -103,7 +101,7 @@
                                   <td><bean:write name="doc" property="vc2title"/></td>
                                   <td>
                                       ${doc.userid.name}
-                                        <c:forEach items="${verify.userid.TGroupCollection}" var="group" varStatus="g">
+                                        <c:forEach items="${doc.userid.TGroupCollection}" var="group" varStatus="g">
                                             <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
                                             <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
                                             <c:out value="${group.tgDesc}"/>
@@ -149,23 +147,30 @@
 
            
        <script type="text/javascript">
-
-        Zapatec.Calendar.setup({
-            firstDay          : 1,
-            electric          : true,
-            inputField        : "datbeginfq",
-            button            : "datbeginfq_ti",
-            ifFormat          : "%Y-%m-%d %H:%M:%S",
-            daFormat          : "%Y-%m-%d %H:%M:%S"
-        });
-        Zapatec.Calendar.setup({
-            firstDay          : 1,
-            electric          : true,
-            inputField        : "datendfq",
-            button            : "datendfq_ti",
-            ifFormat          : "%Y-%m-%d %H:%M:%S",
-            daFormat          : "%Y-%m-%d %H:%M:%S"
-        });
+var cal_beg  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "system",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "datbeginfq",
+        button            : "datbeginfq_ti",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
+var cal_over  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "system",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "datendfq",
+        button            : "datendfq_ti",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
         </script>
     </body>
 </html:html>

@@ -27,15 +27,13 @@
                 <tr>
                     <th width="25%"><bean:message key="label.conference.begintime"/></th>
                     <td width="25%">
-                        <html:text property="datbegintime" style="width:150px" ondblclick="chanageTime('datbegintime');" readonly="true" />
-                        <input type = "text"  id="datbegintime_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('datbegintime');" />
-                        <IMG id="datbegintime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('datbegintime');"/>
+                        <input type="text" name="datbegintime" id="datbegintime" style="width:150px" ondblclick="clearCalendarInput(this);" value="${param.datbegintime}" readonly />
+                        <IMG id="datbegintime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand"/>
                     </td>
                     <th width="25%"><bean:message key="label.conference.endtime"/></th>
                     <td width="25%">
-                        <html:text property="datendtime" style="width:150px" ondblclick="chanageTime('datendtime');" readonly="true" />
-                        <input type = "text"  id="datendtime_ch" style="border:1px solid #e2e2e2;width:160px;display:none" onBlur="backToInput('datendtime');" />
-                        <IMG id="datendtime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('datendtime');"/>
+                        <input type="text" name="datendtime" id="datendtime" style="width:150px" ondblclick="clearCalendarInput(this);" value="${param.datendtime}" readonly/>
+                        <IMG id="datendtime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand"/>
                         
                     </td>
                 </tr>
@@ -54,22 +52,30 @@
     </div>
     </html:form>
 <script type="text/javascript">
-	Zapatec.Calendar.setup({
-			firstDay          : 1,
-			electric          : true,
-			inputField        : "datbegintime",
-			button            : "datbegintime_ti",
-			ifFormat          : "%Y-%m-%d %H:%M:%S",
-			daFormat          : "%Y-%m-%d %H:%M:%S"
-		  });
-	Zapatec.Calendar.setup({
-			firstDay          : 1,
-			electric          : true,
-			inputField        : "datendtime",
-			button            : "datendtime_ti",
-			ifFormat          : "%Y-%m-%d %H:%M:%S",
-			daFormat          : "%Y-%m-%d %H:%M:%S"
-		  });
+var cal_beg  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "system",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "datbegintime",
+        button            : "datbegintime_ti",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
+var cal_over  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "system",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "datendtime",
+        button            : "datendtime_ti",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
 </script>
     </body>
 </html>

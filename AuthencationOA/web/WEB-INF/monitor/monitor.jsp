@@ -40,12 +40,12 @@
                        <tr>
                            <td><bean:message key="review.datetime.beg" /></td>
                            <td>
-                               <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<%=request.getParameter("beg")%>"/>
+                               <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.beg}"/>
                             <IMG id="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('beg');" />
                             </td>
                            <td><bean:message key="review.datetime.over" /></td>
                            <td>
-                               <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<%=request.getParameter("beg")%>"/>
+                               <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.over}"/>
                             <IMG id="over_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('over');" />
                             </td>
                            <td colspan="2"><input type="submit" value="<bean:message key="button.find"/>"/></td>
@@ -87,15 +87,27 @@
                   </div>
               </html:form>
 <script type="text/javascript">//<![CDATA[
-var cal  = new  Zapatec.Calendar({
+var cal_beg  = new  Zapatec.Calendar({
         lang             : "zh",
-        theme             : "winxp",
+        theme             : "system",
         showOthers        : false,
         showsTime         : true,
         step              : 1,
         singleClick       : true,
-        inputField        : "calendar",
-        button            : "trigger",
+        inputField        : "beg",
+        button            : "beg_ti",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
+var cal_over  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "system",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "over",
+        button            : "over_ti",
         ifFormat          : "%Y-%m-%d %H:%M:%S",
         daFormat          : "%Y/%m/%d"
       });

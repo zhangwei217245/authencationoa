@@ -84,7 +84,13 @@
                 <tbody>
                     <logic:iterate id="user" name="rstlst" type="com.vv.auth.persist.entity.Vcustomer">
                         <tr>
-                            <td><bean:write name="user" property="name"/></td>
+                            <td><bean:write name="user" property="name"/>
+                            <c:forEach items="${user.TGroupCollection}" var="group" varStatus="g">
+                                        <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                                        <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                                        <c:out value="${group.tgDesc}"/>
+                                    </c:forEach>
+                            </td>
                             <td><bean:write name="user" property="departname"/></td>
                             <td><bean:write name="user" property="oname"/></td>
                             <td><bean:write name="user" property="cname"/></td>

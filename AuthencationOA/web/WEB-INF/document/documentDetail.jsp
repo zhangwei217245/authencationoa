@@ -53,11 +53,11 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                          <logic:equal name="docDetail" property="vc2result" value="N">
-                              <logic:equal name="docDetail" property="vc2use" value="R">
-                              <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="docDetail" property="numdocid"/>"><bean:message key="button.modify"/></a>
+                              <logic:equal name="docDetail" property="vc2result" value="N">
+                                  <logic:equal name="docDetail" property="vc2use" value="R">
+                                  <a href="<%=request.getContextPath()%>/Document/modifyDocument.do?numdocid=<bean:write name="docDetail" property="numdocid"/>" style="visibility:${requestScope.showModifyLink}"><bean:message key="button.modify"/></a>
+                                  </logic:equal>
                               </logic:equal>
-                          </logic:equal>
                         </td>
                     </tr>
                 </table>
@@ -78,6 +78,11 @@
                 <tr>
                     <th width="40%" style="text-align:left" height="20px;">
                         ${verify.userid.name}
+                        <c:forEach items="${verify.userid.TGroupCollection}" var="group" varStatus="g">
+                            <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                            <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                            <c:out value="${group.tgDesc}"/>
+                        </c:forEach>
                     </th>
                     <th width="30%" style="text-align:center" height="20px;">
                         <bean:message key="document.department.result.${verify.chresult}"/>

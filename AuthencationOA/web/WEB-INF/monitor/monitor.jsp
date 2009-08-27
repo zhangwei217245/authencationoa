@@ -86,24 +86,20 @@
                       ${requestScope.pagination}
                   </div>
               </html:form>
-       <script type="text/javascript">
-
-        Zapatec.Calendar.setup({
-            firstDay          : 1,
-            electric          : true,
-            inputField        : "beg",
-            button            : "beg_ti",
-            ifFormat          : "%Y-%m-%d",
-            daFormat          : "%Y-%m-%d"
-        });
-        Zapatec.Calendar.setup({
-            firstDay          : 1,
-            electric          : true,
-            inputField        : "over",
-            button            : "over_ti",
-            ifFormat          : "%Y-%m-%d",
-            daFormat          : "%Y-%m-%d"
-        });
-        </script>
+<script type="text/javascript">//<![CDATA[
+var cal  = new  Zapatec.Calendar({
+        lang             : "zh",
+        theme             : "winxp",
+        showOthers        : false,
+        showsTime         : true,
+        step              : 1,
+        singleClick       : true,
+        inputField        : "calendar",
+        button            : "trigger",
+        ifFormat          : "%Y-%m-%d %H:%M:%S",
+        daFormat          : "%Y/%m/%d"
+      });
+//]]></script>
+       
     </body>
 </html:html>

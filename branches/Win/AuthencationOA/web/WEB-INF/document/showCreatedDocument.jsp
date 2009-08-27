@@ -80,17 +80,18 @@
 
                    <div class="divtopline">${requestScope.pagination}</div>
                        <center>
-                  <table id="datatable" width="85%" align="center" cellpadding="0" cellspacing="0">
+                  <table id="datatable" width="100%" align="center" cellpadding="0" cellspacing="0">
                     <thead>
                       <tr>
-                          <th width="6%">&nbsp;</th>
-                          <th width="20%" ><bean:message key="document.title"/></th>
-                          <th width="12%" ><bean:message key="document.type" /></th>
-                          <th width="12%" ><bean:message key="document.createtime" /></th>
-                          <th width="6%" ><bean:message key="document.department.result"/></th>
-                          <th width="8%" ><bean:message key="document.status"/></th>
-                          <th width="16%" ><bean:message key="document.lock"/></th>
-                          <th width="20%" ><bean:message key="label.operation"/></th>
+                          <th width="5%">&nbsp;</th>
+                          <th width="15%" ><bean:message key="document.title"/></th>
+                          <th width="15%" ><bean:message key="document.creator"/></th>
+                          <th width="10%" ><bean:message key="document.type" /></th>
+                          <th width="15%" ><bean:message key="document.createtime" /></th>
+                          <th width="5%" ><bean:message key="document.department.result"/></th>
+                          <th width="5%" ><bean:message key="document.status"/></th>
+                          <th width="15%" ><bean:message key="document.lock"/></th>
+                          <th width="15%" ><bean:message key="label.operation"/></th>
                       </tr>
                       </thead>
 
@@ -100,6 +101,14 @@
                               <tr>
                                   <td>${idx+1}</td>
                               <td><bean:write name="doc" property="vc2title"/></td>
+                              <td>
+                                  ${doc.userid.name}
+                                    <c:forEach items="${verify.userid.TGroupCollection}" var="group" varStatus="g">
+                                        <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                                        <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                                        <c:out value="${group.tgDesc}"/>
+                                    </c:forEach>
+                              </td>
                               <td>${doc.numtypeid.vc2name}</td>
                               <td><bean:write name="doc" property="datcreatetime" format="yyyy-MM-dd HH:mm:ss"/></td>
                               <td>

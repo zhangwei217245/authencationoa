@@ -545,9 +545,10 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.dbDriver.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.dbDriver.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.spring-framework.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.spring-framework.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.toplink.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.toplink.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.jstl11.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.jstl11.classpath" todir="${dist.ear.dir}"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.commons.classpath} ${manifest.libs.Aspectj.classpath} ${manifest.libs.jasperReport.classpath} ${manifest.libs.support.classpath} ${manifest.libs.dbDriver.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.toplink.classpath} "/>
+            <attribute name="Class-Path" value="${manifest.libs.struts.classpath} ${manifest.libs.commons.classpath} ${manifest.libs.Aspectj.classpath} ${manifest.libs.jasperReport.classpath} ${manifest.libs.support.classpath} ${manifest.libs.dbDriver.classpath} ${manifest.libs.spring-framework.classpath} ${manifest.libs.toplink.classpath} ${manifest.libs.jstl11.classpath} "/>
         </manifest>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
@@ -559,6 +560,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.dbDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.spring-framework.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.toplink.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.jstl11.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" if="do.tmp.war.package" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

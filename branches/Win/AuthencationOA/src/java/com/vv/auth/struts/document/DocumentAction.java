@@ -282,6 +282,7 @@ public class DocumentAction extends BaseAction {
         if(Utility.isNotEmpty(entertype)){
             if(entertype.equals("created")){
                 request.setAttribute("showVerifyForm", "hidden");
+                request.setAttribute("showModifyLink", "visible");
             }else if(entertype.equals("pending")){//如果是从审核页面进入，先检查文档是否被他人锁定，若未锁定，需要锁定文档
                 saveToken(request);
                 if(doc.getVc2lock().toString().equals("Y")&&(!doc.getLockuserid().equals(myuid))){
@@ -291,9 +292,14 @@ public class DocumentAction extends BaseAction {
                 doc.setLockuserid(myuid);
                 doc = jpaDaoService.edit(doc);
                 request.setAttribute("showVerifyForm", "visible");
+                request.setAttribute("showModifyLink", "hidden");
+            }else{
+                request.setAttribute("showVerifyForm", "hidden");
+                request.setAttribute("showModifyLink", "hidden");
             }
         }else{
             request.setAttribute("isVerifyPage", "hidden");
+            request.setAttribute("showModifyLink", "hidden");
         }
         Map params = new HashMap();
         params.put("numdocid", doc);

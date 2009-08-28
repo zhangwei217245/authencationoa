@@ -20,6 +20,18 @@
             <center>
                 <table align="center" border="0" class="formtable">
                     <tr>
+                        <td><bean:message key="document.creator"/><span class="not_required">*</span></td>
+                        <td>
+                            ${docDetail.userid.name}
+                        <c:forEach items="${docDetail.userid.TGroupCollection}" var="group" varStatus="g">
+                            <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                            <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                            <c:out value="${group.tgDesc}"/>
+                        </c:forEach>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td><bean:message key="document.type"/><span class="not_required">*</span></td>
                         <td>
                             ${requestScope.docDetail.numtypeid.vc2name}

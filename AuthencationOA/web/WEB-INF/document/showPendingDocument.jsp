@@ -36,7 +36,7 @@
                     <div class="divunderline"></div>
               <html:form action="/Document/showPendingDocument.do" method="post">
 
-                    <table class="formtable" width="90%" align="center" style="text-align:left;vertical-align:middle">
+                    <table class="formtable" width="100%" align="center" style="text-align:left;vertical-align:middle">
                        <tr>
                            <td><bean:message key="document.title"/></td>
                            <td><html:text property="vc2titlefq" style="width:170px"/></td>
@@ -62,7 +62,7 @@
                        <tr>
                            
                            
-                           <td colspan="10" style="text-align:right"><input type="submit" value="<bean:message key="button.find"/>"/></td>
+                           <td colspan="10" style="text-align:center"><input type="submit" value="<bean:message key="button.find"/>"/></td>
                        </tr>
                    </table>
                    </html:form>

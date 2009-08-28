@@ -40,12 +40,22 @@
                        <tr>
                            <td><bean:message key="review.datetime.beg" /></td>
                            <td>
+                               <logic:notEmpty name="yesterday">
+                                   <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<bean:write name="yesterday" format="yyyy-MM-dd HH:mm:ss"/>"/>
+                               </logic:notEmpty>
+                               <logic:empty name="yesterday">
                                <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.beg}"/>
+                               </logic:empty>
                             <IMG id="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('beg');" />
                             </td>
                            <td><bean:message key="review.datetime.over" /></td>
                            <td>
-                               <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.over}"/>
+                               <logic:notEmpty name="today">
+                                   <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="<bean:write name="today" format="yyyy-MM-dd HH:mm:ss"/>"/>
+                               </logic:notEmpty>
+                               <logic:empty name="today">
+                                   <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.over}"/>
+                               </logic:empty>
                             <IMG id="over_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('over');" />
                             </td>
                            <td colspan="2"><input type="submit" value="<bean:message key="button.find"/>"/></td>
@@ -71,7 +81,14 @@
                               <logic:iterate id="monitor" name="monitorList" indexId="idx">
                               <tr>
                                   <td>${idx+1}</td>
-                              <td><bean:write name="monitor" property="name"/></td>
+                              <td>
+                                  ${monitor.userid.name}
+                                  <c:forEach items="${monitor.userid.TGroupCollection}" var="group" varStatus="g">
+                                        <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                                        <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                                        <c:out value="${group.tgDesc}"/>
+                                    </c:forEach>
+                              </td>
                               <td><bean:write name="monitor" property="dattime" format="yyyy-MM-dd HH:mm:ss"/></td>
                               <td><bean:write name="monitor" property="vc2path"/></td>
                               <td height="40"><div style="height:40px;overflow:auto">&nbsp;<bean:write name="monitor" property="vc2parameter"/></div></td>

@@ -4,7 +4,7 @@
    <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title><bean:message key="document.create"/></title>
+            <title><bean:message key="document.modify"/></title>
             <script type="text/javascript">
                 function changeKeepAttach(obj){
                     document.getElementsByName("vc2addition")[0].disabled = obj.checked;
@@ -14,7 +14,7 @@
         </head>
      <body style="background-color: white">
         <%@ include file="/WEB-INF/util/error.jsp"%>
-        <h4><bean:message key="document.create"/></h4>
+        <h4><bean:message key="document.modify"/></h4>
 
         <html:form action="/Document/updateDocument.do" onsubmit="" method="post" enctype="multipart/form-data">
             <center>
@@ -88,6 +88,11 @@
                 <tr>
                     <th width="40%" style="text-align:left" height="20px;">
                         ${verify.userid.name}
+                        <c:forEach items="${verify.userid.TGroupCollection}" var="group" varStatus="g">
+                            <c:if test="${g.index==0}">&nbsp;@&nbsp;</c:if>
+                            <c:if test="${g.index>0}">&nbsp;&amp;&nbsp</c:if>
+                            <c:out value="${group.tgDesc}"/>
+                        </c:forEach>
                     </th>
                     <th width="30%" style="text-align:center" height="20px;">
                         <bean:message key="document.department.result.${verify.chresult}"/>

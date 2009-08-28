@@ -12,6 +12,7 @@ import com.vv.auth.persist.service.IEntityService;
 import com.vv.auth.persist.service.IUserService;
 import com.vv.auth.struts.util.Pagination;
 import com.vv.auth.struts.util.Utility;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,14 +45,90 @@ public class MonitorAction extends BaseAction {
         String parameter = mapping.getParameter();
 
         if (parameter.equalsIgnoreCase("monitorShowInit")) {
-            forward = mapping.findForward(SUCCESS);
+            forward = monitorShowInit(mapping,aform,request,response);
         } else if (parameter.equalsIgnoreCase("monitorShow")) {
             forward = monitorShow(mapping, aform, request, response);
         }
         return forward;
     }
 
+    private ActionForward monitorShowInit(ActionMapping mapping, ActionForm aform, HttpServletRequest request, HttpServletResponse response) {
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR_OF_DAY, -1);
+        Date yesterday = cal.getTime();
+
+        Map params = new HashMap();
+
+        String jpql = " FROM Moniter m WHERE 1=1";
+        StringBuffer sb = new StringBuffer(jpql);
+            sb.append(" AND m.dattime>=:from");
+            sb.append(" AND m.dattime<=:to");
+            params.put("from", yesterday);
+            params.put("to", today);
+            sb.append(" order by m.dattime desc");
+
+        String querystr = sb.toString();
+
+        int listCount = monitorService.getEntityCount("SELECT COUNT(distinct m) "+querystr, params);
+
+        pagination = new Pagination(request, response);
+        pagination.setRecordCount(listCount);
+
+        List<IEntity> monitorList = monitorService.findEntities("SELECT distinct m "+querystr, params, false, pagination.getFirstResult(), pagination.getPageSize());
+        request.setAttribute("monitorList", monitorList);
+        request.setAttribute("pagination", pagination.toString());
+
+        request.setAttribute("today", today);
+        request.setAttribute("yesterday", yesterday);
+        return mapping.findForward(SUCCESS);
+    }
+
     private ActionForward monitorShow(ActionMapping mapping, ActionForm aform,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        MonitorForm form = (MonitorForm) aform;
+        Map params = new HashMap();
+
+        String jpql = " FROM Moniter m WHERE 1=1";
+        StringBuffer sb = new StringBuffer(jpql);
+
+        if (Utility.isNotEmpty(form.getName())) {
+            sb.append(" AND m.userid.name like '%").append(form.getName()).append("%'");
+        }
+        Date datfrom = null;
+        if (Utility.isNotEmpty(form.getBeg())) {
+            datfrom = Utility.convertStringToDate(form.getBeg(), FORMATE_DATE);
+            params.put("from", datfrom);
+            sb.append(" AND m.dattime>=:from");
+        }
+        Date datover = null;
+        if (Utility.isNotEmpty(form.getOver())) {
+            datover = Utility.convertStringToDate(form.getOver(), FORMATE_DATE);
+            params.put("to", datover);
+            sb.append(" AND m.dattime<=:to");
+        }
+        if (Utility.isNotEmpty(form.getVc2path())) {
+            sb.append(" and m.vc2path like '%").append(form.getVc2path()).append("%'");
+        }
+        if (Utility.isNotEmpty(form.getVc2parameter())) {
+            sb.append(" and m.vc2parameter like '%").append(form.getVc2parameter()).append("%'");
+        }
+        sb.append(" order by m.dattime desc");
+
+        String querystr = sb.toString();
+
+        int listCount = monitorService.getEntityCount("SELECT COUNT(distinct m) "+querystr, params);
+
+        pagination = new Pagination(request, response);
+        pagination.setRecordCount(listCount);
+
+        List<IEntity> monitorList = monitorService.findEntities("SELECT distinct m "+querystr, params, false, pagination.getFirstResult(), pagination.getPageSize());
+        request.setAttribute("monitorList", monitorList);
+        request.setAttribute("pagination", pagination.toString());
+        return mapping.findForward(SUCCESS);
+    }
+    /*private ActionForward monitorShow(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) {
 
         MonitorForm form = (MonitorForm) aform;
@@ -99,5 +176,5 @@ public class MonitorAction extends BaseAction {
         request.setAttribute("monitorList", monitorList);
         request.setAttribute("pagination", pagination.toString());
         return mapping.findForward(SUCCESS);
-    }
+    }*/
 }

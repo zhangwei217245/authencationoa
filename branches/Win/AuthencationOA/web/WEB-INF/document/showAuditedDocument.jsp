@@ -36,7 +36,7 @@
                     <div class="divunderline"></div>
               <html:form action="/Document/showAuditedDocument.do" method="post">
 
-                    <table width="90%" align="center" style="text-align:left;vertical-align:middle">
+                    <table width="100%" align="center" style="text-align:left;vertical-align:middle">
                        <tr>
                            <td><bean:message key="document.title"/></td>
                            <td><html:text property="vc2titlefq" style="width:170px"/></td>

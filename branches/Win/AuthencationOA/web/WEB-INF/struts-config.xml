@@ -257,7 +257,7 @@
             <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
         <action path="/Monitor/monitorShowInit" name="monitorShowForm" scope="request" parameter="monitorShowInit" validate="false">
-            <forward name="success" path="/Monitor/monitorShow.do"></forward>
+            <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
     </action-mappings>
     

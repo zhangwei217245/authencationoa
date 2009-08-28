@@ -12,7 +12,7 @@
         <%@ include file="/WEB-INF/util/title.jsp"%>
         <%@ include file="/WEB-INF/util/error.jsp"%>
         <html:form action="/ConferenceMana/editApply.do">
-            <h4><bean:message key="title.conference.add"/></h4>
+            <h4><bean:message key="title.conference.edit"/></h4>
             <div class="divunderline">
                 <span><a class="abutton" href="<%=request.getContextPath()%>/ConferenceMana/viewApply.do?numapplyid=<bean:write name="confapply" property="numapplyid"/>">
             <bean:message key="button.back"/></a></span>
@@ -29,12 +29,22 @@
                 <tr>
                     <th width="25%"><bean:message key="label.conference.begintime"/></th>
                     <td width="25%">
-                        <input type="text" name="datbegintime" id="datbegintime" style="width:150px" ondblclick="clearCalendarInput(this);" value="<logic:present parameter="datbegintime">${param.datbegintime}</logic:present><logic:notPresent parameter="datbegintime"><bean:write name="confapply" property="datbegintime" format="yyyy-MM-dd HH:mm:ss"/></logic:notPresent>" readonly />
+                        <logic:present parameter="datbegintime">
+                        <input type="text" name="datbegintime" id="datbegintime" style="width:150px" ondblclick="clearCalendarInput(this);" value="${param.datbegintime}" readonly />
+                        </logic:present>
+                        <logic:notPresent parameter="datbegintime">
+                            <input type="text" name="datbegintime" id="datbegintime" style="width:150px" ondblclick="clearCalendarInput(this);" value="<bean:write name="confapply" property="datbegintime" format="yyyy-MM-dd HH:mm:ss"/>" readonly />
+                        </logic:notPresent>
                         <IMG id="datbegintime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand"/>
                     </td>
                     <th width="25%"><bean:message key="label.conference.endtime"/></th>
                     <td width="25%">
-                        <input type="text" name="datendtime" id="datendtime" style="width:150px" ondblclick="clearCalendarInput(this);" value="<logic:present parameter="datendtime">${param.datendtime}</logic:present><logic:notPresent parameter="datendtime"><bean:write name="confapply" property="datendtime" format="yyyy-MM-dd HH:mm:ss"/></logic:notPresent>" readonly/>
+                        <logic:present parameter="datendtime">
+                        <input type="text" name="datendtime" id="datendtime" style="width:150px" ondblclick="clearCalendarInput(this);" value="${param.datendtime}" readonly/>
+                        </logic:present>
+                        <logic:notPresent parameter="datendtime">
+                        <input type="text" name="datendtime" id="datendtime" style="width:150px" ondblclick="clearCalendarInput(this);" value="<bean:write name="confapply" property="datendtime" format="yyyy-MM-dd HH:mm:ss"/>" readonly/>
+                        </logic:notPresent>
                         <IMG id="datendtime_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand"/>
                     </td>
                 </tr>

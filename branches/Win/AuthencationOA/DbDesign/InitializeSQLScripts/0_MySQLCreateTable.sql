@@ -306,3 +306,5 @@ alter table documentverify add constraint FK_DOCUMENTVERIFY_REFERENCE_VCUSTOME f
 
 alter table moniter add constraint FK_Reference_16 foreign key (userid)
       references vcustomer (userid) on delete restrict on update restrict;
+
+alter table moniter add index idx_dattime (dattime);

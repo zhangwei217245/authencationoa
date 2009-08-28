@@ -66,7 +66,7 @@ public class MonitorAction extends BaseAction {
             sb.append(" AND m.dattime<=:to");
             params.put("from", yesterday);
             params.put("to", today);
-            sb.append(" order by m.dattime desc");
+            
 
         String querystr = sb.toString();
 
@@ -75,6 +75,8 @@ public class MonitorAction extends BaseAction {
         pagination = new Pagination(request, response);
         pagination.setRecordCount(listCount);
 
+        sb.append(" order by m.dattime desc");
+        querystr = sb.toString();
         List<IEntity> monitorList = monitorService.findEntities("SELECT distinct m "+querystr, params, false, pagination.getFirstResult(), pagination.getPageSize());
         request.setAttribute("monitorList", monitorList);
         request.setAttribute("pagination", pagination.toString());
@@ -114,12 +116,13 @@ public class MonitorAction extends BaseAction {
         if (Utility.isNotEmpty(form.getVc2parameter())) {
             sb.append(" and m.vc2parameter like '%").append(form.getVc2parameter()).append("%'");
         }
-        sb.append(" order by m.dattime desc");
+        
 
         String querystr = sb.toString();
 
         int listCount = monitorService.getEntityCount("SELECT COUNT(distinct m) "+querystr, params);
-
+        sb.append(" order by m.dattime desc");
+        querystr = sb.toString();
         pagination = new Pagination(request, response);
         pagination.setRecordCount(listCount);
 

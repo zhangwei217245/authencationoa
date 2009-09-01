@@ -114,7 +114,7 @@ public class ClientCerAction extends BaseAction {
                 now.set(Calendar.DAY_OF_YEAR, nowadays + dday);
                 vc.setDdayover(now.getTime());
                 vc.setVerifystatus("N");
-
+                vc.setEnable("Y");
                 tuserService.saveUser(vc);
             } catch (Exception e) {
                 e.printStackTrace();

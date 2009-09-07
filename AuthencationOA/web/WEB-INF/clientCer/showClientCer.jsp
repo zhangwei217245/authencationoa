@@ -24,7 +24,7 @@
     <body style="background-color: white">
         <%@ include file="/WEB-INF/util/title.jsp"%>
         <%@ include file="/WEB-INF/util/error.jsp"%>
-        <h4><bean:message key="title.serverCerReg.search"/></h4>
+        <h4><bean:message key="label.usermana"/></h4>
         <div class="divunderline"></div>
         <html:form action="/ClientCer/searchUser.do">
             <center>

@@ -6,10 +6,12 @@
 package com.vv.auth.persist.service;
 
 
-import com.vv.auth.persist.entity.IEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import org.springframework.orm.jpa.JpaCallback;
@@ -18,11 +20,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * JpaDaoService with Generic Support,
+ * No need to write specified DAO Service for each Entity.
  * @author x-spirit
  */
 @Transactional
 public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public boolean containsEntity(Object entity){
+        return getJpaTemplate().contains(entity);
+    }
 
     public <T extends Object> void create(T entity) {
         getJpaTemplate().persist(entity);
@@ -170,8 +178,8 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public Integer getEntityCount(final String jpql,final Map<String,? extends Object> params) {
-        return ((Long)getJpaTemplate().execute(new JpaCallback() {
+    public BigDecimal getEntityCount(final String jpql,final Map<String,? extends Object> params) {
+        return (BigDecimal)getJpaTemplate().execute(new JpaCallback() {
 
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 try {
@@ -192,13 +200,13 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                     em.close();
                 }
             }
-        })).intValue();
+        });
 
     }
     @Deprecated
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public Integer getNamedQueryEntityCount(final String queryName,final Map<String,? extends Object> params) {
-        return (Integer)getJpaTemplate().execute(new JpaCallback() {
+    public BigDecimal getNamedQueryEntityCount(final String queryName,final Map<String,? extends Object> params) {
+        return (BigDecimal)getJpaTemplate().execute(new JpaCallback() {
 
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 try {
@@ -222,4 +230,67 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
         });
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public <T extends Object> List<T> executeNativeQuery(final Class<T> t,final String sql,final Map<Integer,? extends Object> params,final boolean all, final int firstResult, final int maxResults){
+        return getJpaTemplate().executeFind(new JpaCallback() {
+
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                try{
+                    if(sql==null||sql.length()<=0){
+                        return null;
+                    }
+                    Query q = em.createNativeQuery(sql, t);
+                    if (params != null && params.size() > 0) {
+                        for (Integer idx : params.keySet()) {
+                            q.setParameter(idx.intValue(), params.get(idx));
+                        }
+                    }
+                    if(!all){
+                        q.setFirstResult(firstResult);
+                        q.setMaxResults(maxResults);
+                    }
+                    return q.getResultList();
+                }finally{
+                    em.close();
+                }
+            }
+        });
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public BigDecimal getCountByNativeQuery(final String sql,final Map<Integer,? extends Object> params){
+        return (BigDecimal)getJpaTemplate().execute(new JpaCallback() {
+
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                if(sql==null||sql.length()<=0){
+                    return 0L;
+                }
+                Query q = em.createNativeQuery(sql);
+                if (params != null && params.size() > 0) {
+                    for (Integer idx : params.keySet()) {
+                        q.setParameter(idx.intValue(), params.get(idx));
+                    }
+                }
+                return q.getSingleResult();
+            }
+        });
+    }
+
+    public int executeNativeUpdate(final String sql,final Map<Integer,? extends Object> params){
+        return (Integer)getJpaTemplate().execute(new JpaCallback() {
+
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                if(sql==null||sql.length()<=0){
+                    return 0;
+                }
+                Query q = em.createNativeQuery(sql);
+                if (params != null && params.size() > 0) {
+                    for (Integer idx : params.keySet()) {
+                        q.setParameter(idx.intValue(), params.get(idx));
+                    }
+                }
+                return q.executeUpdate();
+            }
+        });
+    }
 }

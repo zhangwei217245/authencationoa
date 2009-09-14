@@ -230,7 +230,7 @@ public class GroupAction extends BaseAction {
         StringBuffer sb = new StringBuffer(" from TGroup g");
         String jpql = sb.toString();
         pagination = new Pagination(request, response);
-        int listCount = jpaDaoService.getEntityCount("select count(g) "+jpql, null);
+        int listCount = jpaDaoService.getEntityCount("select count(g) "+jpql, null).intValue();
         pagination.setRecordCount(listCount);
 
         List<TGroup> grouplist = jpaDaoService.findEntities("select g "+jpql, null, false, pagination.getFirstResult(), pagination.getPageSize());

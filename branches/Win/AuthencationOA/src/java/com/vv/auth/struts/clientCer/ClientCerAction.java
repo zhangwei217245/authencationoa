@@ -205,7 +205,7 @@ public class ClientCerAction extends BaseAction {
         System.out.println(jpql.toString());
         String basequery = jpql.toString();
         
-        int listCount = jpaDaoService.getEntityCount("select count(o) "+basequery, null);
+        int listCount = jpaDaoService.getEntityCount("select count(o) "+basequery, null).intValue();
 
         pagination = new Pagination(request, response);
         pagination.setRecordCount(listCount);

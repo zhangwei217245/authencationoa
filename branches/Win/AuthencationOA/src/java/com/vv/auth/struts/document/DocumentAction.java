@@ -363,7 +363,7 @@ public class DocumentAction extends BaseAction {
 
             String ql = sb.toString();
             try {
-                int listCount = jpaDaoService.getEntityCount("SELECT COUNT(d) "+ql, params);
+                int listCount = jpaDaoService.getEntityCount("SELECT COUNT(d) "+ql, params).intValue();
                 pagination = new Pagination(request, response);
                 pagination.setRecordCount(listCount);
 

@@ -44,6 +44,10 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
         getJpaTemplate().remove(getJpaTemplate().find(t, new Integer(id)));
     }
 
+    public <T extends Object> void destroy(Class<T> t,Object id) {
+        getJpaTemplate().remove(getJpaTemplate().find(t, id));
+    }
+
     public <T extends Object> T edit(T entity) {
         return getJpaTemplate().merge(entity);
     }
@@ -151,6 +155,12 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     public <T extends Object> T findOneEntityById(Class<T> t,String id) {
         return getJpaTemplate().find(t, new Integer(id));
     }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public <T extends Object> T findOneEntityById(Class<T> t,Object id) {
+        return getJpaTemplate().find(t, id);
+    }
+
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public Object getSingleResult(final String jpql,final Map<String,? extends Object> params){
         return getJpaTemplate().execute(new JpaCallback() {

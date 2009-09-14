@@ -304,4 +304,22 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
             }
         });
     }
+
+    public Object getNativeSingleResult(final String sql,final Map<Integer,? extends Object> params){
+        return getJpaTemplate().execute(new JpaCallback() {
+
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                if(sql==null||sql.length()<=0){
+                    return 0L;
+                }
+                Query q = em.createNativeQuery(sql);
+                if (params != null && params.size() > 0) {
+                    for (Integer idx : params.keySet()) {
+                        q.setParameter(idx.intValue(), params.get(idx));
+                    }
+                }
+                return q.getSingleResult();
+            }
+        });
+    }
 }

@@ -7,6 +7,7 @@ package com.vv.auth.persist.service;
 
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -205,7 +206,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                             q.setParameter(str, params.get(str));
                         }
                     }
-                    return q.getSingleResult();
+                    return new BigDecimal(q.getSingleResult().toString());
                 } finally {
                     em.close();
                 }
@@ -232,7 +233,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                             q.setParameter(str, params.get(str));
                         }
                     }
-                    return q.getResultList().size();
+                    return new BigDecimal(q.getResultList().size());
                 } finally {
                     em.close();
                 }
@@ -281,7 +282,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                         q.setParameter(idx.intValue(), params.get(idx));
                     }
                 }
-                return q.getSingleResult();
+                return new BigDecimal(q.getSingleResult().toString());
             }
         });
     }

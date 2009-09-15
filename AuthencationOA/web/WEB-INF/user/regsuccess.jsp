@@ -8,9 +8,16 @@
         <script type="text/javascript">
             var secnum=5;
             function countDown(){
-                document.getElementById("jumpTo").innerHTML=secnum;
-                if(--secnum>0){
-                    t=setTimeout("countDown()",1000);
+                if(secnum>=0){
+                    if(navigator.appName.indexOf("Explorer") > -1){
+                        document.getElementById("jumpTo").innerHTML=secnum;
+                        t=setTimeout(countDown,1000);
+                    }else{
+                        document.getElementById("jumpTo").textContent=secnum;
+                        t=setTimeout(countDown,1000);
+                    }
+                    secnum--;
+                    
                 }else{
                     window.location.assign("<%=request.getContextPath()%>/Welcome.do");
                 }
@@ -18,7 +25,7 @@
         </script>
         <html:base/>
     </head>
-    <body style="background-color: white" onload="countDown()">
+    <body style="background-color: white">
         <%@ include file="/WEB-INF/util/error.jsp"%>
 
         <center>
@@ -50,9 +57,9 @@
                 </tfoot>
             </table>
 </center>
-
-
-        
+                        <script>
+                            countDown();
+                        </script>
     </body>
 
 </html:html>

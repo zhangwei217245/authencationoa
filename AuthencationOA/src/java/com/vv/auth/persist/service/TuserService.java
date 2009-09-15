@@ -54,6 +54,13 @@ public class TuserService extends JpaDaoSupport implements IUserService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public List<Vcustomer> findEnableUserByName(String name) {
+        Map param = new HashMap();
+        param.put("name", name);
+        return getJpaTemplate().findByNamedQueryAndNamedParams("Vcustomer.findEnableByName", param);
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public List<Vcustomer> searchVcustomer(final String jpql, final Map params) {
         return getJpaTemplate().executeFind(new JpaCallback() {
 
@@ -71,7 +78,7 @@ public class TuserService extends JpaDaoSupport implements IUserService {
     }
 
     public void saveUser(Vcustomer user) throws PreexistingEntityException {
-        if (findUserByName(user.getName()).size() > 0) {
+        if (findEnableUserByName(user.getName()).size() > 0) {
             throw new PreexistingEntityException("E-mail duplicated with existing user");
         } else {
             Map params = new HashMap();

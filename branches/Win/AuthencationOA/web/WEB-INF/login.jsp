@@ -8,6 +8,9 @@
                 //document.getElementById("validimg").innerHTML="<img src=\"<%=request.getContextPath()%>/validimg.do\"/>";
                 document.getElementById("validimgview").src="<%=request.getContextPath()%>/validimg.do?"+Math.random();
             }
+            function showSecureTip(){
+                alert('<bean:message key="login.securetip"/>');
+            }
         </script>
         <html:base/>
     </head>
@@ -69,7 +72,7 @@
                                     <a href="<%=request.getContextPath()%>/ClientCer/initClientCerReg.do"><bean:message key="a.register"/></a>
                                     &nbsp;
                                     &nbsp;
-                                    <a href="https://<%=request.getServerName()%>:${requestScope.httpsPort}<%=request.getContextPath()%>/"><bean:message key="label.loginbycer"/></a>
+                                    <a onclick="showSecureTip()" href="https://<%=request.getServerName()%>:${requestScope.httpsPort}<%=request.getContextPath()%>/?s<%=System.currentTimeMillis()%>=<%=System.currentTimeMillis()+1L%>"><bean:message key="label.loginbycer"/></a>
                                     </td>
                             </tr>
                         </table>

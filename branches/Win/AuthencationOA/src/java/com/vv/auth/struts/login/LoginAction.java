@@ -76,11 +76,7 @@ public class LoginAction extends BaseAction {
     }
 
     private void secureset(ActionMapping mapping, ActionForm aform, HttpServletRequest request, HttpServletResponse response) {
-        Enumeration<String> e=request.getSession().getAttributeNames();
-        while(e.hasMoreElements()){
-            String name = e.nextElement();
-            request.removeAttribute(name);
-        }
+        request.getSession().invalidate();
         request.getRequestDispatcher("http://" + request.getServerName() + ":8080" + request.getContextPath());
     }
 

@@ -203,7 +203,8 @@ public class GroupAction extends BaseAction {
             List useroutGroup = new ArrayList();
             List userinGroup = new ArrayList();
 
-            List<Vcustomer> allusers = vcustomerJpaController.findVcustomerEntities();
+            //List<Vcustomer> allusers = vcustomerJpaController.findVcustomerEntities();
+            List<Vcustomer> allusers = jpaDaoService.findEntities("select o from Vcustomer o where o.enable='Y'", null, true, -1, -1);
             for (Vcustomer user : allusers) {
                 Collection<TGroup> usergroup = user.getTGroupCollection();
                 if (!usergroup.contains(group)) {

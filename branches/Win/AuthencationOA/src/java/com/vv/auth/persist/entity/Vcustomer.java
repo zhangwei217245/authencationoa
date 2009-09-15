@@ -32,6 +32,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({@NamedQuery(name = "Vcustomer.findAll", query = "SELECT v FROM Vcustomer v"),
     @NamedQuery(name = "Vcustomer.findByUserid", query = "SELECT v FROM Vcustomer v WHERE v.userid = :userid"),
     @NamedQuery(name = "Vcustomer.findByName", query = "SELECT v FROM Vcustomer v WHERE v.name = :name"),
+    @NamedQuery(name = "Vcustomer.findEnableByName", query = "SELECT v FROM Vcustomer v WHERE v.name = :name AND v.enable='Y'"),
     @NamedQuery(name = "Vcustomer.findByDepartname", query = "SELECT v FROM Vcustomer v WHERE v.departname = :departname"),
     @NamedQuery(name = "Vcustomer.findByOname", query = "SELECT v FROM Vcustomer v WHERE v.oname = :oname"),
     @NamedQuery(name = "Vcustomer.findByCname", query = "SELECT v FROM Vcustomer v WHERE v.cname = :cname"),

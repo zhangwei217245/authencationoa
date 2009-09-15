@@ -64,4 +64,7 @@ public interface IJpaDaoService {
     BigDecimal getCountByNativeQuery(final String sql,final Map<Integer,? extends Object> params);
 
     int executeNativeUpdate(final String sql,final Map<Integer,? extends Object> params);
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    Object getNativeSingleResult(final String sql,final Map<Integer,? extends Object> params);
 }

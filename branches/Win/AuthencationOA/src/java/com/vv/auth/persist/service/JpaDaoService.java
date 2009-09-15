@@ -305,6 +305,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
         });
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public Object getNativeSingleResult(final String sql,final Map<Integer,? extends Object> params){
         return getJpaTemplate().execute(new JpaCallback() {
 

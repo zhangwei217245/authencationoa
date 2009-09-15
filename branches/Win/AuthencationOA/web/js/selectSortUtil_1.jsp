@@ -381,7 +381,7 @@ SortUtil.prototype.addallopts = function(lablarg,vallarg,labrarg,valrarg)
                     var item = select2.options[i].text;
                     var value = select2.options[i].value;
                     var oOption = document.createElement("option");
-                    oOption.innerText = lablarg+item+labrarg;
+                    oOption.text = lablarg+item+labrarg;
                     oOption.value = vallarg+value+valrarg;
                     /*if(select1.selectedIndex!=-1){
                         try{

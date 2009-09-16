@@ -9,7 +9,7 @@
                 document.getElementById("validimgview").src="<%=request.getContextPath()%>/validimg.do?"+Math.random();
             }
             function showSecureTip(){
-                alert('<bean:message key="login.securetip"/>');
+                //alert('<bean:message key="login.securetip"/>');
             }
         </script>
         <html:base/>

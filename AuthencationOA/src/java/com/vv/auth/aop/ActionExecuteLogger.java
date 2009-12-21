@@ -13,9 +13,12 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,19 @@ public class ActionExecuteLogger {
 
     @Pointcut("execution(* com.vv.auth.struts..getStreamInfo(..))&& args(mapping,..,request,response)")
     private void anyGetStreamInfo(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    @Around("anyActionExecute(mapping,request,response)")
+    public Object recordMalForward(ProceedingJoinPoint pjp,ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Throwable{
+        // Before Execution
+        String targetForward = mapping.getPath();
+        System.out.println(targetForward);
+	Object retVal = pjp.proceed();
+	// After Execution
+        System.out.println(retVal);
+        System.out.println(((ActionForward)retVal).getName());
+	return retVal;
+
     }
 
     @AfterReturning("anyActionExecute(mapping,request,response)")

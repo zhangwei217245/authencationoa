@@ -58,7 +58,7 @@ public interface IJpaDaoService {
     BigDecimal getNamedQueryEntityCount(final String queryName, final Map<String, ? extends Object> params);
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    <T extends Object> List<T> executeNativeQuery(final Class<T> t,final String sql,final Map<Integer,? extends Object> params,final boolean all, final int firstResult, final int maxResults);
+    <T extends Object> List executeNativeQuery(final Class<T> t,final String sql,final Map<Integer,? extends Object> params,final boolean all, final int firstResult, final int maxResults);
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     BigDecimal getCountByNativeQuery(final String sql,final Map<Integer,? extends Object> params);

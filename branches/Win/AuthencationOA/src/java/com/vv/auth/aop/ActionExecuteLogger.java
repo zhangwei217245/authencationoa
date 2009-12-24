@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DownloadAction.StreamInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -54,7 +55,17 @@ public class ActionExecuteLogger {
         System.out.println(retVal);
         System.out.println(((ActionForward)retVal).getName());
 	return retVal;
-
+    }
+    
+    @Around("anyGetStreamInfo(mapping,request,response)")
+    public Object recordMalDownload(ProceedingJoinPoint pjp,ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Throwable{
+        // Before Execution
+        String targetForward = mapping.getPath();
+        System.out.println(targetForward);
+	Object retVal = pjp.proceed();
+	// After Execution
+        System.out.println(retVal);
+	return retVal;
     }
 
     @AfterReturning("anyActionExecute(mapping,request,response)")

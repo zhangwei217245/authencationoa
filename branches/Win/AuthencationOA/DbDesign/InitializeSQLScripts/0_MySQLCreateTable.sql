@@ -1,3 +1,9 @@
+drop index idx_accesstime on IllegalAccess;
+
+drop index idx_dattime on moniter;
+
+drop table if exists IllegalAccess;
+
 drop table if exists rcustomer;
 
 drop table if exists AssetApply;
@@ -223,6 +229,14 @@ create table moniter
 );
 
 /*==============================================================*/
+/* Index: idx_dattime                                           */
+/*==============================================================*/
+create index idx_dattime on moniter
+(
+   dattime
+);
+
+/*==============================================================*/
 /* Table: rcustomer                                             */
 /*==============================================================*/
 create table rcustomer
@@ -260,6 +274,26 @@ create table vcustomer
    verifystatus         varchar(1) not null,
    enable               varchar(1) not null,
    primary key (userid)
+);
+
+/*==============================================================*/
+/* Table: IllegalAccess                                         */
+/*==============================================================*/
+create table IllegalAccess
+(
+   numilgacsid          int not null auto_increment,
+   userid               int,
+   tr_id                int not null,
+   dataccesstime        datetime not null,
+   primary key (numilgacsid)
+);
+
+/*==============================================================*/
+/* Index: idx_accesstime                                        */
+/*==============================================================*/
+create index idx_accesstime on IllegalAccess
+(
+   dataccesstime
 );
 
 alter table ConferenceApply add constraint FK_CONFEREN_REFERENCE_VCUSTOME0 foreign key (numapplierid)
@@ -307,4 +341,9 @@ alter table documentverify add constraint FK_DOCUMENTVERIFY_REFERENCE_VCUSTOME f
 alter table moniter add constraint FK_Reference_16 foreign key (userid)
       references vcustomer (userid) on delete restrict on update restrict;
 
-alter table moniter add index idx_dattime (dattime);
+alter table IllegalAccess add constraint FK_Reference_17 foreign key (userid)
+      references vcustomer (userid) on delete restrict on update restrict;
+
+alter table IllegalAccess add constraint FK_Reference_18 foreign key (tr_id)
+      references TRight (tr_id) on delete restrict on update restrict;
+

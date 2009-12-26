@@ -1,9 +1,3 @@
-/*==============================================================*/
-/* DBMS name:      Microsoft SQL Server 2000                    */
-/* Created on:     2009/8/10 23:39:13                           */
-/*==============================================================*/
-
-
 if exists (select 1
    from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('ConferenceApply') and o.name = 'FK_CONFEREN_REFERENCE_VCUSTOME0')
@@ -23,6 +17,20 @@ if exists (select 1
    where r.fkeyid = object_id('ConferenceApply') and o.name = 'FK_CONFEREN_REFERENCE_TGROUP')
 alter table ConferenceApply
    drop constraint FK_CONFEREN_REFERENCE_TGROUP
+go
+
+if exists (select 1
+   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_VCUSTOME')
+alter table IllegalAccess
+   drop constraint FK_ILLEGALA_REFERENCE_VCUSTOME
+go
+
+if exists (select 1
+   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_TRIGHT')
+alter table IllegalAccess
+   drop constraint FK_ILLEGALA_REFERENCE_TRIGHT
 go
 
 if exists (select 1
@@ -104,20 +112,6 @@ go
 
 if exists (select 1
    from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_VCUSTOME')
-alter table IllegalAccess
-   drop constraint FK_ILLEGALA_REFERENCE_VCUSTOME
-go
-
-if exists (select 1
-   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_TRIGHT')
-alter table IllegalAccess
-   drop constraint FK_ILLEGALA_REFERENCE_TRIGHT
-go
-
-if exists (select 1
-   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('moniter') and o.name = 'FK_MONITER_REFERENCE_VCUSTOME')
 alter table moniter
    drop constraint FK_MONITER_REFERENCE_VCUSTOME
@@ -135,6 +129,13 @@ if exists (select 1
            where  id = object_id('ConferenceApply')
             and   type = 'U')
    drop table ConferenceApply
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('IllegalAccess')
+            and   type = 'U')
+   drop table IllegalAccess
 go
 
 if exists (select 1
@@ -209,13 +210,6 @@ go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('IllegalAccess')
-            and   type = 'U')
-   drop table IllegalAccess
-go
-
-if exists (select 1
-            from  sysobjects
            where  id = object_id('moniter')
             and   type = 'U')
    drop table moniter
@@ -282,6 +276,18 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description',
    'P:待审核,Y:审核通过未开始,N:审核未通过,B:进行时;O:已结束',
    'user', @CurrentUser, 'table', 'ConferenceApply', 'column', 'vc2status'
+go
+
+/*==============================================================*/
+/* Table: IllegalAccess                                         */
+/*==============================================================*/
+create table IllegalAccess (
+   numilgacsid          int                  identity(1,1),
+   userid               int                  null,
+   tr_id                int                  not null,
+   dataccesstime        datetime             not null,
+   constraint PK_ILLEGALACCESS primary key (numilgacsid)
+)
 go
 
 /*==============================================================*/
@@ -430,18 +436,6 @@ create table documentverify (
 go
 
 /*==============================================================*/
-/* Table: IllegalAccess                                         */
-/*==============================================================*/
-create table IllegalAccess (
-   numilgacsid          int                  identity(1,1),
-   userid               int                  null,
-   tr_id                int                  not null,
-   dataccesstime        datetime             not null,
-   constraint PK_ILLEGALACCESS primary key (numilgacsid)
-)
-go
-
-/*==============================================================*/
 /* Table: moniter                                               */
 /*==============================================================*/
 create table moniter (
@@ -510,6 +504,16 @@ alter table ConferenceApply
       references TGroup (tg_id)
 go
 
+alter table IllegalAccess
+   add constraint FK_ILLEGALA_REFERENCE_VCUSTOME foreign key (userid)
+      references vcustomer (userid)
+go
+
+alter table IllegalAccess
+   add constraint FK_ILLEGALA_REFERENCE_TRIGHT foreign key (tr_id)
+      references TRight (tr_id)
+go
+
 alter table TGroupRightRelation
    add constraint FK_TGROUPRI_REFERENCE_TGROUP foreign key (tg_id)
       references TGroup (tg_id)
@@ -565,19 +569,7 @@ alter table documentverify
       references vcustomer (userid)
 go
 
-alter table IllegalAccess
-   add constraint FK_ILLEGALA_REFERENCE_VCUSTOME foreign key (userid)
-      references vcustomer (userid)
-go
-
-alter table IllegalAccess
-   add constraint FK_ILLEGALA_REFERENCE_TRIGHT foreign key (tr_id)
-      references TRight (tr_id)
-go
-
-
 alter table moniter
    add constraint FK_MONITER_REFERENCE_VCUSTOME foreign key (userid)
       references vcustomer (userid)
 go
-

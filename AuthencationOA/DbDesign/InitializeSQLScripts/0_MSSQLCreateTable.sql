@@ -104,6 +104,20 @@ go
 
 if exists (select 1
    from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_VCUSTOME')
+alter table IllegalAccess
+   drop constraint FK_ILLEGALA_REFERENCE_VCUSTOME
+go
+
+if exists (select 1
+   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('IllegalAccess') and o.name = 'FK_ILLEGALA_REFERENCE_TRIGHT')
+alter table IllegalAccess
+   drop constraint FK_ILLEGALA_REFERENCE_TRIGHT
+go
+
+if exists (select 1
+   from dbo.sysreferences r join dbo.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('moniter') and o.name = 'FK_MONITER_REFERENCE_VCUSTOME')
 alter table moniter
    drop constraint FK_MONITER_REFERENCE_VCUSTOME
@@ -191,6 +205,13 @@ if exists (select 1
            where  id = object_id('documentverify')
             and   type = 'U')
    drop table documentverify
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('IllegalAccess')
+            and   type = 'U')
+   drop table IllegalAccess
 go
 
 if exists (select 1
@@ -409,6 +430,18 @@ create table documentverify (
 go
 
 /*==============================================================*/
+/* Table: IllegalAccess                                         */
+/*==============================================================*/
+create table IllegalAccess (
+   numilgacsid          int                  identity(1,1),
+   userid               int                  null,
+   tr_id                int                  not null,
+   dataccesstime        datetime             not null,
+   constraint PK_ILLEGALACCESS primary key (numilgacsid)
+)
+go
+
+/*==============================================================*/
 /* Table: moniter                                               */
 /*==============================================================*/
 create table moniter (
@@ -531,6 +564,17 @@ alter table documentverify
    add constraint FK_DOCUMENTVERIFY_REFERENCE_VCUSTOME foreign key (userid)
       references vcustomer (userid)
 go
+
+alter table IllegalAccess
+   add constraint FK_ILLEGALA_REFERENCE_VCUSTOME foreign key (userid)
+      references vcustomer (userid)
+go
+
+alter table IllegalAccess
+   add constraint FK_ILLEGALA_REFERENCE_TRIGHT foreign key (tr_id)
+      references TRight (tr_id)
+go
+
 
 alter table moniter
    add constraint FK_MONITER_REFERENCE_VCUSTOME foreign key (userid)

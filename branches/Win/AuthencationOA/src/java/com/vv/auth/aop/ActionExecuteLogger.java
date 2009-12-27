@@ -6,24 +6,25 @@ package com.vv.auth.aop;
 
 import com.vv.auth.persist.entity.Moniter;
 import com.vv.auth.persist.entity.Vcustomer;
-import com.vv.auth.persist.service.IEntityService;
-import com.vv.auth.persist.service.IUserService;
+import com.vv.auth.persist.entity.Illegalaccess;
+import com.vv.auth.persist.entity.TRight;
+import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.struts.util.Utility;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.DownloadAction.StreamInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *
@@ -31,11 +32,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @Aspect
 public class ActionExecuteLogger {
-
+    
     @Resource
-    private IEntityService monitorService;
-    @Resource
-    private IUserService tuserService;
+    private IJpaDaoService jpaDaoService;
 
     @Pointcut("execution(* com.vv.auth.struts.platform.base.BaseAction.execute(..)) && args(mapping,..,request,response)")
     private void anyActionExecute(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
@@ -45,15 +44,44 @@ public class ActionExecuteLogger {
     private void anyGetStreamInfo(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
     }
 
+    private void recordMalForward(HttpServletRequest request,String requestPath) throws Throwable{
+        Integer userid = Utility.getCurrSessionUserid(request);
+        Vcustomer user = null;
+        if(userid!=null){
+            user = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
+        }
+        Map params = new HashMap();
+        params.put("rightType", "path");
+        params.put("rightPath", requestPath+".do");
+        List rstlst = jpaDaoService.findByNamedQueryAndNamedParams("TRight.findByRightTypeAndRightPath", params);
+        if(Utility.isNotEmpty(rstlst)){
+            TRight right = (TRight)rstlst.get(0);
+            jpaDaoService.create(new Illegalaccess(new Date(), user, right));
+        }
+    }
+
     @Around("anyActionExecute(mapping,request,response)")
     public Object recordMalForward(ProceedingJoinPoint pjp,ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Throwable{
         // Before Execution
-        String targetForward = mapping.getPath();
+        String requestPath = mapping.getPath();
+        ActionForward targetForward = mapping.findForward("success");
+
+        if(requestPath.equals("/Welcome")){
+            targetForward = mapping.findForward("authened");
+        }
         System.out.println(targetForward);
 	Object retVal = pjp.proceed();
 	// After Execution
         System.out.println(retVal);
-        System.out.println(((ActionForward)retVal).getName());
+        System.out.println(retVal.equals(targetForward));
+        try {
+            if(!retVal.equals(targetForward)){
+                recordMalForward(request,requestPath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
 	return retVal;
     }
     
@@ -73,19 +101,12 @@ public class ActionExecuteLogger {
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer curruser = null;
         if (userid != null) {
-            curruser = tuserService.findUserById(userid);
+            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
             String path = mapping.getPath();
             String reqParamStr = Utility.getRequestParameterAsString(request);
             Moniter monitor = new Moniter(null, curruser, new Date(), path, reqParamStr, "");
-            monitorService.create(monitor);
+            jpaDaoService.create(monitor);
         }
-//        String path = mapping.getPath();
-//        String reqParamStr = Utility.getRequestParameterAsString(request);
-//        if(curruser==null){
-//            curruser = new Vcustomer(-1);
-//        }
-
-
 
     }
 
@@ -94,11 +115,11 @@ public class ActionExecuteLogger {
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer curruser = null;
         if (userid != null) {
-            curruser = tuserService.findUserById(userid);
+            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
             String path = mapping.getPath();
             String reqParamStr = Utility.getRequestParameterAsString(request);
             Moniter monitor = new Moniter(null, curruser, new Date(), path, reqParamStr, ex.getLocalizedMessage());
-            monitorService.create(monitor);
+            jpaDaoService.create(monitor);
         }
     }
 
@@ -107,11 +128,11 @@ public class ActionExecuteLogger {
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer curruser = null;
         if (userid != null) {
-            curruser = tuserService.findUserById(userid);
+            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
             String path = mapping.getPath();
             String reqParamStr = Utility.getRequestParameterAsString(request);
             Moniter monitor = new Moniter(null, curruser, new Date(), path, reqParamStr, "");
-            monitorService.create(monitor);
+            jpaDaoService.create(monitor);
         }
     }
 
@@ -120,11 +141,11 @@ public class ActionExecuteLogger {
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer curruser = null;
         if (userid != null) {
-            curruser = tuserService.findUserById(userid);
+            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
             String path = mapping.getPath();
             String reqParamStr = Utility.getRequestParameterAsString(request);
             Moniter monitor = new Moniter(null, curruser, new Date(), path, reqParamStr, ex.getLocalizedMessage());
-            monitorService.create(monitor);
+            jpaDaoService.create(monitor);
         }
     }
 }

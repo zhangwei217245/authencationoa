@@ -17,15 +17,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * 采用泛型技术，结合Spring框架提供的JpaDaoSupport，实现最简单可行的基于JPA的DAO实现类。
  * JpaDaoService with Generic Support,
  * No need to write specified DAO Service for each Entity.
- * @author x-spirit
+ * @author X-Spirit
  */
 @Transactional
 public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
 
     /**
-     *
+     * 判断某个实体是否存在于数据库中
      * @param entity
      * @return
      */
@@ -35,7 +36,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 将实体插入数据库
      * @param <T>
      * @param entity
      */
@@ -44,7 +45,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 从数据库中删除指定类型和ID的实体
      * @param <T>
      * @param t
      * @param id
@@ -54,7 +55,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 从数据库中删除指定类型和ID的实体
      * @param <T>
      * @param t
      * @param id
@@ -64,7 +65,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 从数据库中删除指定类型和ID的实体
      * @param <T>
      * @param t
      * @param id
@@ -74,7 +75,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 在数据库中修改和更新某个实体，并返回修改后的这个实体。
      * @param <T>
      * @param entity
      * @return
@@ -84,7 +85,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 使用JPQL执行UPDATE和DELETE等语句，返回影响的行数。
      * @param jpql
      * @param params
      * @return
@@ -111,7 +112,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 执行命名的查询。返回所有结果集。
      * @param queryName
      * @param params
      * @return
@@ -121,12 +122,12 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
         return getJpaTemplate().findByNamedQueryAndNamedParams(queryName, params);
     }
     /**
-     *
+     * 执行命名的查询。返回指定范围的结果集。
      * @param queryName
      * @param params
-     * @param all
-     * @param firstResult
-     * @param maxResults
+     * @param all - 是否为全部记录
+     * @param firstResult - 起始位置
+     * @param maxResults - 最大查询条数
      * @return
      * @deprecated
      */
@@ -166,12 +167,12 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 通过JPQL来查询指定范围的记录
      * @param jpql
      * @param params
-     * @param all
-     * @param firstResult
-     * @param maxResults
+     * @param all - 是否为全部记录
+     * @param firstResult - 起始位置
+     * @param maxResults - 最大查询条数
      * @return
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
@@ -209,7 +210,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 给定实体类的类型和ID，得到实体对象
      * @param <T>
      * @param t
      * @param id
@@ -221,7 +222,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 给定实体类的类型和ID，得到实体对象
      * @param <T>
      * @param t
      * @param id
@@ -233,7 +234,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 给定实体类的类型和ID，得到实体对象
      * @param <T>
      * @param t
      * @param id
@@ -245,7 +246,8 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 执行指定的JPQL语句，返回单行单列的结果。一般用于查询总数或者总计、平均值等。
+     * 如果查询语句为空，则返回null值。
      * @param jpql
      * @param params
      * @return
@@ -258,7 +260,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                 try {
                     String ql = jpql;
                     if (jpql == null || jpql.equals("")) {
-                        return 0L;
+                        return null;
                     }
 
                     Query q = em.createQuery(ql);
@@ -277,7 +279,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
     }
 
     /**
-     *
+     * 通过JPQL来查询实体的个数。如果JPQL为空，则返回0；
      * @param jpql
      * @param params
      * @return
@@ -290,7 +292,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                 try {
                     String ql = jpql;
                     if (jpql == null || jpql.equals("")) {
-                        return 0L;
+                        return new BigDecimal(0L);
                     }
 
                     Query q = em.createQuery(ql);
@@ -309,7 +311,9 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
 
     }
     /**
-     *
+     * 通过JPA的命名查询来得到实体的个数。<br/>
+     * 也可以用来查询一些统计值，例如SUM或者AVG的结果。。。<br/>
+     * 如果queryName为空，则返回0。
      * @param queryName
      * @param params
      * @return
@@ -324,7 +328,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
                 try {
                     String ql = queryName;
                     if (queryName == null || queryName.equals("")) {
-                        return 0L;
+                        return new BigDecimal(0L);
                     }
 
                     Query q = em.createNamedQuery(ql);
@@ -415,7 +419,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
 
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 if(sql==null||sql.length()<=0){
-                    return 0L;
+                    return new BigDecimal(0L);
                 }
                 Query q = em.createNativeQuery(sql);
                 if (params != null && params.size() > 0) {
@@ -478,7 +482,7 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
 
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 if(sql==null||sql.length()<=0){
-                    return 0L;
+                    return null;
                 }
                 Query q = em.createNativeQuery(sql);
                 if (params != null && params.size() > 0) {

@@ -18,6 +18,7 @@
         <form-bean name="documentAuditForm" type="com.vv.auth.struts.document.DocumentAuditForm"/>
         <form-bean name="documentTypeForm" type="com.vv.auth.struts.document.DocumentTypeForm"/>
         <form-bean name="monitorShowForm" type="com.vv.auth.struts.monitor.MonitorForm"/>
+        <form-bean name="illegalAccessForm" type="com.vv.auth.struts.illegalaccess.IllegalAccessForm"/>
     </form-beans>
     
     <global-exceptions>
@@ -252,13 +253,23 @@
         <!--=========================== Document End =================================================-->
 
 
-        <!--===========================Monitor=================================================-->
+        <!--=========================== Monitor Start=================================================-->
         <action path="/Monitor/monitorShow" name="monitorShowForm" scope="request" parameter="monitorShow" validate="false" input="/WEB-INF/monitor/monitor.jsp">
             <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
         <action path="/Monitor/monitorShowInit" name="monitorShowForm" scope="request" parameter="monitorShowInit" validate="false">
             <forward name="success" path="/WEB-INF/monitor/monitor.jsp"></forward>
         </action>
+        <!--=========================== Monitor End =================================================-->
+        
+        <!--=========================== IllegalAccess Start =================================================-->
+        <action path="/IllegalAccess/illegalAccessInit" name="illegalAccessForm" scope="request" parameter="illegalAccessInit" validate="false">
+            <forward name="success" path="/WEB-INF/illegalaccess/illegalAccess.jsp"></forward>
+        </action>
+        <action path="/IllegalAccess/illegalAccessShow" name="illegalAccessForm" scope="request" parameter="illegalAccessShow" validate="false" input="/WEB-INF/illegalaccess/illegalAccess.jsp">
+            <forward name="success" path="/WEB-INF/illegalaccess/illegalAccess.jsp"></forward>
+        </action>
+        <!--=========================== IllegalAccess End =================================================-->
     </action-mappings>
     
     <controller>

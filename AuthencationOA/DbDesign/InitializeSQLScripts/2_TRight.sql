@@ -76,3 +76,7 @@ INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '显示待审核公文', 'path', '/Document/showPendingDocument.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '审核公文', 'path', '/Document/auditDocument.do');
 INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '公文流转', '显示审核过的公文', 'path', '/Document/showAuditedDocument.do');
+
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '菜单项', 'menu', '/IllegalAccess/illegalAccessInit.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '初始界面', 'path', '/IllegalAccess/illegalAccessInit.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '统计信息展示', 'path', '/IllegalAccess/illegalAccessShow.do');

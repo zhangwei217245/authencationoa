@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 采用泛型技术，结合Spring框架提供的JpaDaoSupport，实现最简单可行的基于JPA的DAO实现类。
  * JpaDaoService with Generic Support,
  * No need to write specified DAO Service for each Entity.
- * @author X-Spirit
+ * @author x-spirit
  */
 @Transactional
 public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
@@ -495,3 +495,4 @@ public class JpaDaoService extends JpaDaoSupport implements IJpaDaoService{
         });
     }
 }
+

@@ -48,7 +48,7 @@
         <!-- =========================== UserLogin End  ====================================== -->
         
         <!-- =========================== Register Begin ====================================== -->
-        <action path="/initRegister" input="/Welcome.do" attribute="userRegister" name="userRegister" scope="request" parameter="initRegister" validate="false">
+      <action path="/initRegister" input="/Welcome.do" attribute="userRegister" name="userRegister" scope="request" parameter="initRegister" validate="false">
             <forward name="success" path="/WEB-INF/user/register.jsp"/>
         </action>
         <action path="/execRegister" input="/initRegister.do" attribute="userRegister" name="userRegister" scope="request" parameter="execRegister" validate="true">

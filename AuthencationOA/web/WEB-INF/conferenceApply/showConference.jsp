@@ -83,7 +83,7 @@
                             </td>
                             <td><bean:write name="confapply" property="datbegintime" format="yyyy-MM-dd HH:mm:ss"/></td>
                             <td><bean:write name="confapply" property="datendtime" format="yyyy-MM-dd HH:mm:ss"/></td>
-                            <td>${confapply.tgId.groupName}</td>
+                            <td>${confapply.tgId.groupName}</td> <!--ConferenceApply--TGroup--String-->
                             <td>${confapply.numapplierid.name}</td>
                             <td>${confapply.numverifierid.name}</td>
                             <td><bean:message key="label.conference.status.${confapply.vc2status}"/></td>

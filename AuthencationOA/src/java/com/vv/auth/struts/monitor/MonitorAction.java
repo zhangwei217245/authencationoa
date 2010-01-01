@@ -32,7 +32,7 @@ public class MonitorAction extends BaseAction {
 
     public static final String FORMATE_DATE = "yyyy-MM-dd HH:mm:ss";
     @Resource(name = "monitorService")
-    private IEntityService monitorService;
+    private IEntityService monitorService; //  同spring的这个标签<context:annotation-config/> 相对应，使用注入
     @Resource
     private IUserService tuserService;
     private Pagination pagination;

@@ -115,6 +115,7 @@ public class ConferenceAction extends BaseAction {
 
     private ActionForward searchConference(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+       //一登录存储所有用户信息
         ConcurrentMap usermap = (ConcurrentMap) request.getSession(false).getAttribute("USERMAP");
         String groupid = usermap.get("groupid") + "";
         String jpql = "select distinct object(o) from ConferenceApply as o where 1=1";

@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConferenceApplyService extends JpaDaoSupport implements IEntityService {
 
     /**
+     * 查询不需要事务操作
      * 使用实体ID查询实体
      * @param id
      * @return
@@ -78,6 +79,7 @@ public class ConferenceApplyService extends JpaDaoSupport implements IEntityServ
                     }
 
                     Query q = em.createQuery(ql);
+                    //给q设定参数
                     if (params != null && params.size() > 0) {
                         for (Object obj : params.keySet()) {
                             String str = (String) obj;

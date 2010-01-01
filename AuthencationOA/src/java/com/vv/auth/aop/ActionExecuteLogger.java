@@ -30,17 +30,17 @@ import org.aspectj.lang.annotation.Pointcut;
  *
  * @author X-Spirit
  */
-@Aspect
+@Aspect //切面的声明，因为要做横切的操作
 public class ActionExecuteLogger {
     
     @Resource
     private IJpaDaoService jpaDaoService;
 
-    @Pointcut("execution(* com.vv.auth.struts.platform.base.BaseAction.execute(..)) && args(mapping,..,request,response)")
+    @Pointcut("execution(* com.vv.auth.struts.platform.base.BaseAction.execute(..)) && args(mapping,..,request,response)")//功能执行的时点
     private void anyActionExecute(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
     }
 
-    @Pointcut("execution(* com.vv.auth.struts..getStreamInfo(..))&& args(mapping,..,request,response)")
+    @Pointcut("execution(* com.vv.auth.struts..getStreamInfo(..))&& args(mapping,..,request,response)")//针对下载的切点
     private void anyGetStreamInfo(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
     }
 
@@ -101,9 +101,9 @@ public class ActionExecuteLogger {
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer curruser = null;
         if (userid != null) {
-            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
+            curruser = jpaDaoService.findOneEntityById(Vcustomer.class, userid);//第四代
             String path = mapping.getPath();
-            String reqParamStr = Utility.getRequestParameterAsString(request);
+            String reqParamStr = Utility.getRequestParameterAsString(request);//请求参数
             Moniter monitor = new Moniter(null, curruser, new Date(), path, reqParamStr, "");
             jpaDaoService.create(monitor);
         }
@@ -123,6 +123,7 @@ public class ActionExecuteLogger {
         }
     }
 
+    //针对下载
     @AfterReturning("anyGetStreamInfo(mapping,request,response)")
     public void writeLogAfterReturningStreamInfo(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
         Integer userid = Utility.getCurrSessionUserid(request);

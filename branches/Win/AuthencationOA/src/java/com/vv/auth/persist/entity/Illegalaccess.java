@@ -26,13 +26,13 @@ import javax.persistence.TemporalType;
  * @author X-Spirit
  */
 @Entity
-@Table(name = "illegalaccess", catalog = "dbo", schema = "")
+@Table(name = "illegalaccess")
 @NamedQueries({
     @NamedQuery(name = "Illegalaccess.findAll", query = "SELECT i FROM Illegalaccess i"),
     @NamedQuery(name = "Illegalaccess.findByNumilgacsid", query = "SELECT i FROM Illegalaccess i WHERE i.numilgacsid = :numilgacsid"),
     @NamedQuery(name = "Illegalaccess.findByDataccesstime", query = "SELECT i FROM Illegalaccess i WHERE i.dataccesstime = :dataccesstime")
 })
-public class Illegalaccess implements Serializable {
+public class Illegalaccess implements Serializable,IEntity {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

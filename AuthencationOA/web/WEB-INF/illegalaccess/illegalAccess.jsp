@@ -10,7 +10,7 @@
    <html:html locale="true">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title><bean:message key="review.syslog"/></title>
+            <title><bean:message key="access.illegal"/></title>
             <style>
                 #datatable{
                     text-align:center;
@@ -30,9 +30,9 @@
              <body style="background-color: white">
                     <%@ include file="/WEB-INF/util/title.jsp"%>
                     <%@ include file="/WEB-INF/util/error.jsp"%>
-                    <h4><bean:message key="review.syslog"/></h4>
+                    <h4><bean:message key="access.illegal"/></h4>
                     <div class="divunderline"></div>
-              <html:form action="/Monitor/monitorShow.do" method="post">
+              <html:form action="/IllegalAccess/illegalAccessShow.do" method="post">
                   <center>
                    <table width="800" align="center" style="text-align:left;vertical-align:middle">
                        <tr>

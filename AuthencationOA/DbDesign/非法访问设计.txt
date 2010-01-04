@@ -1,0 +1,15 @@
+分类标准：check 用户    select1    select2
+                check 权限    select1    select2
+
+时间范围： 起始时间    结束时间
+
+
+用户和权限这两个标准。
+
+选中用户。则表明按用户分类查询，生成对应的柱状图。
+
+SELECT count(i),i.user.username  FROM IllegalAccess i WHERE i.time BETWEEN 1? AND 2? GROUP BY i.user HAVING i.user.userid IN(3?,4?,5?)
+
+选中路径，则按路径分类查询，生成对应的柱状图。
+
+SELECT count(i),i.right.pathname FROM IllegalAcess i WHERE i.time BETWEEN 1? AND 2? GROUP BY i.right HAVING i.right.id IN (3?,4?,5?)

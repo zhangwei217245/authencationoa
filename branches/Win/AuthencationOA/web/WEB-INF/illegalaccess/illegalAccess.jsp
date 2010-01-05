@@ -36,7 +36,14 @@
                   <center>
                    <table width="800" align="center" style="text-align:left;vertical-align:middle">
                        <tr>
-                           <td><bean:message key="review.username"/></td>
+                           <td>
+                               
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                               
+                           </td>
                            <td><html:text property="name" style="width:170px"/></td>
                            <td><bean:message key="review.path" /></td>
                            <td><html:text property="vc2path" style="width:170px"/></td>

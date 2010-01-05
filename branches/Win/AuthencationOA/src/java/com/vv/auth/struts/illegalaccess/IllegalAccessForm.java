@@ -15,8 +15,6 @@ public class IllegalAccessForm extends BaseForm{
     private String[] criterias;
     private String[] userids;
     private String[] rightids;
-    private String datebegin;
-    private String dateend;
 
     public String[] getCriterias() {
         return criterias;
@@ -24,22 +22,6 @@ public class IllegalAccessForm extends BaseForm{
 
     public void setCriterias(String[] criterias) {
         this.criterias = criterias;
-    }
-
-    public String getDatebegin() {
-        return datebegin;
-    }
-
-    public void setDatebegin(String datebegin) {
-        this.datebegin = datebegin;
-    }
-
-    public String getDateend() {
-        return dateend;
-    }
-
-    public void setDateend(String dateend) {
-        this.dateend = dateend;
     }
 
     public String[] getRightids() {

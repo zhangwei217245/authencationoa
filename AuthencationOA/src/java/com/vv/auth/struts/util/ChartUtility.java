@@ -1,0 +1,32 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.vv.auth.struts.util;
+
+import com.keypoint.PngEncoder;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import java.awt.image.BufferedImage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author x-spirit
+ */
+public class ChartUtility {
+    
+
+    public static void printSessionChartAsPNG(HttpServletRequest request,HttpServletResponse response) throws Exception{
+        HttpSession session = request.getSession();
+        BufferedImage chartImage = (BufferedImage) session.getAttribute("chartImage");
+        // set the content type so the browser can see this as a picture
+        response.setContentType("image/png");
+        // send the picture
+        PngEncoder encoder = new PngEncoder(chartImage, false, 0, 9);
+        response.getOutputStream().write(encoder.pngEncode());
+    }
+    
+}

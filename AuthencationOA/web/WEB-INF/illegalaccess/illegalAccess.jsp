@@ -109,6 +109,17 @@
                 document.getElementById("downright").disabled=bool;
                 document.getElementById("downrightlast").disabled=bool;
             }
+
+            function selectAllList(){
+                var userids = document.getElementById("userids");
+                for(var i=0;i<userids.length;i++){
+                    userids.options[i].selected=true;
+                }
+                var rightids = document.getElementById("rightids");
+                for(var i=0;i<rightids.length;i++){
+                    rightids.options[i].selected=true;
+                }
+            }
         </script>
         <html:base/>
     </head>
@@ -117,7 +128,7 @@
         <%@ include file="/WEB-INF/util/error.jsp"%>
         <h4><bean:message key="access.illegal"/></h4>
         <div class="divunderline"></div>
-        <html:form action="/IllegalAccess/illegalAccessShow.do" method="post" target="rstFrame">
+        <html:form action="/IllegalAccess/illegalAccessShow.do" method="post" onsubmit="selectAllList()" target="rstFrame">
             <center>
                 <table width="800" border="0" align="center" style="text-align:center;vertical-align:middle">
                     <tr>

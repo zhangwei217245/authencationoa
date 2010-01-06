@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><bean:message key="access.illegal"/></title>
-        <style>
+        <style type="text/css">
             #datatable{
                 text-align:center;
                 vertical-align:middle;
@@ -145,7 +145,7 @@
                                 <logic:empty name="yesterday">
                                     <input type = "text" name="beg" id="beg" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.beg}"/>
                                 </logic:empty>
-                                <IMG id="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('beg');" />
+                                    <IMG id="beg_ti" alt="beg_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor:pointer" onClick="showCalendar('beg');" />
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <bean:message key="access.illegal.datetime.over" />&nbsp;&nbsp;
                                 <logic:notEmpty name="today">
@@ -154,7 +154,7 @@
                                 <logic:empty name="today">
                                     <input type = "text" name="over" id="over" style="width:150px" readonly="true" ondblclick="clearCalendarInput(this);" value="${param.over}"/>
                                 </logic:empty>
-                                <IMG id="over_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor: hand" onClick="showCalendar('over');" />
+                                    <IMG id="over_ti" alt="over_ti" SRC="<%=request.getContextPath()%>/js/calendar/themes/calendar.gif" border="0" STYLE="cursor:pointer" onClick="showCalendar('over');" />
 
                             </fieldset>
                         </td>

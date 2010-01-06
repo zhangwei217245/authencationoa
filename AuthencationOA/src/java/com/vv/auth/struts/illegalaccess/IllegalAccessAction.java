@@ -88,15 +88,25 @@ public class IllegalAccessAction extends BaseAction{
         if(form.isCheckedNone()){
 
         }
-        if(form.isCheckedBoth()){
-
-        }
         if(form.isRightCheckedOnly()){
+            if(form.isRightSelected()){
 
+            }
         }
         if(form.isUserCheckedOnly()){
-            
+            if(form.isUserSelected()){
+                
+            }
         }
+        if(form.isCheckedBoth()){
+            if(form.isRightSelected()){
+                
+            }
+            if(form.isUserSelected()){
+
+            }
+        }
+        
         for(String s:criterias){
             System.out.println(s);
         }

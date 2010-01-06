@@ -16,6 +16,43 @@ public class IllegalAccessForm extends BaseForm{
     private String[] userids;
     private String[] rightids;
 
+    public boolean isUserSelected(){
+        if(userids!=null&&userids.length>0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isRightSelected(){
+        if(rightids!=null&&rightids.length>0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isCheckedNone(){
+        if(criterias==null||criterias.length==0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isUserCheckedOnly(){
+        if(criterias!=null&&criterias.length==1&&criterias[0].equals("userid")){
+            return true;
+        }
+        return false;
+    }
+    public boolean isRightCheckedOnly(){
+        if(criterias!=null&&criterias.length==1&&criterias[0].equals("trId")){
+            return true;
+        }
+        return false;
+    }
+    public boolean isCheckedBoth(){
+        if(criterias!=null&&criterias.length==2){
+            return true;
+        }
+        return false;
+    }
+
     public String[] getCriterias() {
         return criterias;
     }

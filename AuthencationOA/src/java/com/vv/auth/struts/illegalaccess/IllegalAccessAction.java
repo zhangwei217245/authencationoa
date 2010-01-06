@@ -81,6 +81,31 @@ public class IllegalAccessAction extends BaseAction{
      */
     private ActionForward IllegalAccessShow(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
+        IllegalAccessForm form = (IllegalAccessForm)aform;
+        String[] criterias=form.getCriterias();
+        String[] userids=form.getUserids();
+        String[] rightids=form.getRightids();
+        if(form.isCheckedNone()){
+
+        }
+        if(form.isCheckedBoth()){
+
+        }
+        if(form.isRightCheckedOnly()){
+
+        }
+        if(form.isUserCheckedOnly()){
+            
+        }
+        for(String s:criterias){
+            System.out.println(s);
+        }
+        for(String s:userids){
+            System.out.println(s);
+        }
+        for(String s:rightids){
+            System.out.println(s);
+        }
         return mapping.findForward(SUCCESS);
     }
 

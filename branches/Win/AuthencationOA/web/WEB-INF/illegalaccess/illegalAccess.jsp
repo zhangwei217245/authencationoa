@@ -300,7 +300,7 @@
 
         <center>
 
-            <iframe scrolling="no" width="810" height="610" frameborder="0"/>
+            <iframe id="rstFrame" name="rstFrame" scrolling="no" width="810" height="610" frameborder="0"/>
             <noframes>
                 <body><bean:message key="frames.not.support"/></body>
             </noframes>

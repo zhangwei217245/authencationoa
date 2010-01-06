@@ -86,35 +86,28 @@ public class IllegalAccessAction extends BaseAction{
         String[] userids=form.getUserids();
         String[] rightids=form.getRightids();
         if(form.isCheckedNone()){
-
+            System.out.println("isCheckedNone");
         }
         if(form.isRightCheckedOnly()){
             if(form.isRightSelected()){
-
+                System.out.println("isRightSelected");
             }
+            System.out.println("isRightCheckedOnly");
         }
         if(form.isUserCheckedOnly()){
             if(form.isUserSelected()){
-                
+                System.out.println("isUserSelected");
             }
+            System.out.println("isUserCheckedOnly");
         }
         if(form.isCheckedBoth()){
             if(form.isRightSelected()){
-                
+                System.out.println("isRightSelected");
             }
             if(form.isUserSelected()){
-
+                System.out.println("isUserSelected");
             }
-        }
-        
-        for(String s:criterias){
-            System.out.println(s);
-        }
-        for(String s:userids){
-            System.out.println(s);
-        }
-        for(String s:rightids){
-            System.out.println(s);
+            System.out.println("isCheckedBoth");
         }
         return mapping.findForward(SUCCESS);
     }

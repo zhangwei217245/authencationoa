@@ -152,3 +152,6 @@ INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (5, 47);
 INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 61);
 INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 62);
 INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 63);
+INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 64);
+INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 65);
+INSERT INTO dbo.tgrouprightrelation (tg_id, tr_id) VALUES (2, 66);

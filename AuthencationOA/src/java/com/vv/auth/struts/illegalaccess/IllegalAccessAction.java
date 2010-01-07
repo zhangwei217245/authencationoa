@@ -34,13 +34,15 @@ public class IllegalAccessAction extends BaseAction{
 
         if (parameter.equalsIgnoreCase("illegalAccessInit")) {
             forward = IllegalAccessInit(mapping, aform,request, response);
-        } else if (parameter.equalsIgnoreCase("illegalAccessShow")) {
-            forward = IllegalAccessShow(mapping, aform,request, response);
-        } else if (parameter.equalsIgnoreCase("iACataChart")) {
-            IACataChart(mapping, aform,request, response);
-        } else if (parameter.equalsIgnoreCase("iAPieChart")) {
-            IAPieChart(mapping, aform,request, response);
-        }
+        } else if (parameter.equalsIgnoreCase("illegalAccessShowCata")) {
+            forward = IllegalAccessShowCata(mapping, aform,request, response);
+        } else if (parameter.equalsIgnoreCase("illegalAccessShowPie")) {
+            forward = IllegalAccessShowPie(mapping, aform,request, response);
+        } else if (parameter.equalsIgnoreCase("illegalAccessShowDetail")) {
+            forward = IllegalAccessShowDetail(mapping, aform,request, response);
+        } else if (parameter.equalsIgnoreCase("ChartView")) {
+            ChartView(mapping, aform,request, response);
+        } 
         return forward;
     }
 
@@ -79,7 +81,7 @@ public class IllegalAccessAction extends BaseAction{
      * @return
      * @throws Exception
      */
-    private ActionForward IllegalAccessShow(ActionMapping mapping, ActionForm aform,
+    private ActionForward IllegalAccessShowCata(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
         IllegalAccessForm form = (IllegalAccessForm)aform;
         String[] criterias=form.getCriterias();
@@ -112,31 +114,21 @@ public class IllegalAccessAction extends BaseAction{
         return mapping.findForward(SUCCESS);
     }
 
-    /**
-     * 用于生成柱状图
-     * @param mapping
-     * @param aform
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    private void IACataChart(ActionMapping mapping, ActionForm aform,
+    private ActionForward IllegalAccessShowPie(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /**
-     * 用于生成饼状图
-     * @param mapping
-     * @param aform
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    private void IAPieChart(ActionMapping mapping, ActionForm aform,
+    private ActionForward IllegalAccessShowDetail(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    private void ChartView(ActionMapping mapping, ActionForm aform, HttpServletRequest request,
+            HttpServletResponse response) throws Exception{
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    
 
 }

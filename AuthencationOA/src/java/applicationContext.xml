@@ -103,11 +103,12 @@
 
     <bean id="actionExecuteLogger" class="com.vv.auth.aop.ActionExecuteLogger"/>
 
-    <bean id="jPQLGenerator" class="com.vv.auth.persist.service.qlgenerator.JPQLGenerator"/>
-    <bean id="" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator">
+    <bean id="jpqlGenerator" class="com.vv.auth.persist.service.qlgenerator.JPQLGenerator"/>
+    <bean id="illegalAccessChartGenerator" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator">
         <property name="showDetailForms" value="true"/>
         <property name="showDetailRecord" value="true"/>
     </bean>
+    
     <tx:annotation-driven transaction-manager="txManager"/>
   
 

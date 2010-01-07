@@ -9,20 +9,13 @@ package com.vv.auth.persist.service.qlgenerator;
  *
  * @author x-spirit
  */
-public class JPQLGenerator {
+public class JPQLGenerator implements QLGenerator {
     private String select_clause;
     private String from_clause;
     private String where_clause;
     private String groupby_clause;
     private String having_clause;
     private String orderby_clause;
-
-    public static final String SELECT = "SELECT";
-    public static final String FROM = "FROM";
-    public static final String WHERE = "WHERE";
-    public static final String GROUP_BY = "GROUP BY";
-    public static final String HAVING = "HAVING";
-    public static final String ORDER_BY = "ORDER BY";
     
     public void init(){
         this.select_clause = SELECT;
@@ -45,6 +38,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setSelect_clause(String select_clause) {
         this.select_clause = this.select_clause+(this.select_clause.equals(SELECT)?" ":", ")+select_clause;
+        if(isEmptyString(select_clause)) this.select_clause = SELECT;
         return this;
     }
 
@@ -55,6 +49,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setFrom_clause(String from_clause) {
         this.from_clause = this.from_clause+(this.from_clause.equals(FROM)?" ":", ")+from_clause;
+        if(isEmptyString(from_clause)) this.from_clause = FROM;
         return this;
     }
 
@@ -64,6 +59,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setWhere_clause(String logical_operator,String where_clause) {
         this.where_clause = this.where_clause+(this.where_clause.equals(WHERE)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+where_clause;
+        if(isEmptyString(where_clause)) this.where_clause = WHERE;
         return this;
     }
 
@@ -73,6 +69,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setGroupby_clause(String groupby_clause) {
         this.groupby_clause = this.groupby_clause+(this.groupby_clause.equals(GROUP_BY)?" ":", ")+groupby_clause;
+        if(isEmptyString(groupby_clause)) this.groupby_clause = GROUP_BY;
         return this;
     }
 
@@ -82,6 +79,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setHaving_clause(String logical_operator,String having_clause) {
         this.having_clause = this.having_clause+(this.having_clause.equals(HAVING)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+having_clause;
+        if(isEmptyString(having_clause)) this.having_clause = HAVING;
         return this;
     }
 
@@ -91,6 +89,7 @@ public class JPQLGenerator {
 
     public JPQLGenerator setOrderby_clause(String orderby_clause,String ascOrDesc) {
         this.orderby_clause = this.orderby_clause+(this.orderby_clause.equals(ORDER_BY)?" ":", ")+orderby_clause+" "+(isEmptyString(ascOrDesc)?"":ascOrDesc);
+        if(isEmptyString(orderby_clause)) this.orderby_clause = ORDER_BY;
         return this;
     }
 
@@ -99,6 +98,22 @@ public class JPQLGenerator {
             return false;
         }
         return true;
+    }
+    public String getIn_clause(String id,String ...sps) {
+        String in = IN;
+        if(sps!=null&&sps.length>0){
+            for(String s:sps){
+                if(isEmptyString(s)) continue;
+                if(s.equals(IN)){
+                    in = in + "(" +s;
+                }else{
+                    in = in + "," +s;
+                }
+            }
+            in = in + ")";
+            return id+" "+in;
+        }
+        return "";
     }
 
     @Override
@@ -134,5 +149,7 @@ public class JPQLGenerator {
         }
         return sb.toString().trim();
     }
+
+
 
 }

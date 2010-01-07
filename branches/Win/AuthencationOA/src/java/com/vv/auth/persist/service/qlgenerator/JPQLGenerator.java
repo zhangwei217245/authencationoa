@@ -103,8 +103,10 @@ public class JPQLGenerator implements QLGenerator {
         String in = IN;
         if(sps!=null&&sps.length>0){
             for(String s:sps){
-                if(isEmptyString(s)) continue;
-                if(s.equals(IN)){
+                if(isEmptyString(s)||s.equalsIgnoreCase("null")){
+                    continue;
+                }
+                if(in.equals(IN)){
                     in = in + "(" +s;
                 }else{
                     in = in + "," +s;

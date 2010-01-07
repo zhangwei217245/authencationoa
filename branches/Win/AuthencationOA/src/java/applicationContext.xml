@@ -108,6 +108,8 @@
         <property name="showDetailForms" value="true"/>
         <property name="showDetailRecord" value="true"/>
     </bean>
+    <bean id="catagoryDataAdaptor" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessCatagoryDataAdaptor"></bean>
+    <bean id="pieDataAdaptor" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessPieDataAdaptor"></bean>
     
     <tx:annotation-driven transaction-manager="txManager"/>
   

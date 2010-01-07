@@ -8,6 +8,7 @@ package com.vv.auth.struts.illegalaccess;
 import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator;
 import com.vv.auth.struts.platform.base.BaseAction;
+import com.vv.auth.struts.util.ChartUtility;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +92,7 @@ public class IllegalAccessAction extends BaseAction{
         String[] userids=form.getUserids();
         String[] rightids=form.getRightids();
         if(form.isCheckedNone()){
-            System.out.println("isCheckedNone");
+            illegalAccessChartGenerator.generateCataChartForNone(request, form.getBeg(), form.getOver());
         }
         if(form.isRightCheckedOnly()){
             if(form.isRightSelected()){
@@ -129,7 +130,7 @@ public class IllegalAccessAction extends BaseAction{
 
     private void ChartView(ActionMapping mapping, ActionForm aform, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
-        throw new UnsupportedOperationException("Not yet implemented");
+        ChartUtility.printSessionChartAsPNG(request, response);
     }
 
     

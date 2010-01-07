@@ -6,7 +6,6 @@
 package com.vv.auth.struts.util;
 
 import com.keypoint.PngEncoder;
-import com.sun.image.codec.jpeg.JPEGCodec;
 import java.awt.image.BufferedImage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +16,12 @@ import javax.servlet.http.HttpSession;
  * @author x-spirit
  */
 public class ChartUtility {
-    
+    public static final String ChartImageKey="ChartImage";
+    public static final String ImageMapKey="imagemap0";
 
     public static void printSessionChartAsPNG(HttpServletRequest request,HttpServletResponse response) throws Exception{
         HttpSession session = request.getSession();
-        BufferedImage chartImage = (BufferedImage) session.getAttribute("chartImage");
+        BufferedImage chartImage = (BufferedImage) session.getAttribute(ChartImageKey);
         // set the content type so the browser can see this as a picture
         response.setContentType("image/png");
         // send the picture

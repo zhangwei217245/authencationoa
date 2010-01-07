@@ -79,4 +79,7 @@ INSERT INTO dbo.TRight (parent_tr_id, right_name, right_desc, right_type, right_
 
 INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '菜单项', 'menu', '/IllegalAccess/illegalAccessInit.do');
 INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '初始界面', 'path', '/IllegalAccess/illegalAccessInit.do');
-INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '统计信息展示', 'path', '/IllegalAccess/illegalAccessShow.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '生成条状图', 'path', '/IllegalAccess/illegalAccessShowCata.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '生成饼状图', 'path', '/IllegalAccess/illegalAccessShowPie.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '查看详细记录', 'path', '/IllegalAccess/illegalAccessShowDetail.do');
+INSERT INTO dbo.tright (parent_tr_id, right_name, right_desc, right_type, right_path) VALUES (NULL, '非法访问统计', '输出统计图', 'path', '/IllegalAccess/ChartView.do');

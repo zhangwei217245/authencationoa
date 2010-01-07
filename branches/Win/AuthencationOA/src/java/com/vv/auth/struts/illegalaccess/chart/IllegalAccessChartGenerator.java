@@ -13,6 +13,9 @@ public class IllegalAccessChartGenerator {
     /**
      * 是否展示给出用于展示详细记录的MAP链接
      */
+    private boolean showDetailRecord;
+
+
     private String showDetailForms;
 
     public String getShowDetailForms() {
@@ -23,5 +26,14 @@ public class IllegalAccessChartGenerator {
         this.showDetailForms = showDetailForms;
     }
 
+    public boolean isShowDetailRecord() {
+        return showDetailRecord;
+    }
+
+    public void setShowDetailRecord(boolean showDetailRecord) {
+        this.showDetailRecord = showDetailRecord;
+    }
+
+    
     
 }

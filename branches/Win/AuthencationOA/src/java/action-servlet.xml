@@ -99,6 +99,9 @@
     <bean name="/Monitor/monitorShow" class="com.vv.auth.struts.monitor.MonitorAction"/>
     <!-- add menu & path 非法访问统计-->
     <bean name="/IllegalAccess/illegalAccessInit" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
-    <bean name="/IllegalAccess/illegalAccessShow" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
+    <bean name="/IllegalAccess/illegalAccessShowCata" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
+    <bean name="/IllegalAccess/illegalAccessShowPie" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
+    <bean name="/IllegalAccess/illegalAccessShowDetail" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
+    <bean name="/IllegalAccess/ChartView" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
 
 </beans>

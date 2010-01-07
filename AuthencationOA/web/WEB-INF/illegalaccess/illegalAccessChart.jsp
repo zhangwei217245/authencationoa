@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/util/includeTitle.jsp"%>
+<%@page import="com.vv.auth.struts.util.ChartUtility" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html:html locale="true">
@@ -26,7 +27,8 @@
         
         <%@ include file="/WEB-INF/util/error.jsp"%>
         
+        <img alt="ChartImage" src="<%=request.getContextPath()%>/IllegalAccess/ChartView.do" usemap="#<%=ChartUtility.ImageMapKey%>"/>
 
-
+        <%=request.getAttribute(ChartUtility.ImageMapKey)%>
     </body>
 </html:html>

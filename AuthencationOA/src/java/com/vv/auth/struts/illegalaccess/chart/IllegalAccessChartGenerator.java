@@ -5,14 +5,29 @@
 
 package com.vv.auth.struts.illegalaccess.chart;
 
+import com.vv.auth.persist.entity.IllegalAccessData;
 import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.qlgenerator.QLGenerator;
+import com.vv.auth.struts.util.ChartUtility;
 import com.vv.auth.struts.util.Utility;
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.imagemap.ImageMapUtilities;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.urls.StandardCategoryURLGenerator;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * 生成条状图或者饼状图。
@@ -20,10 +35,15 @@ import javax.annotation.Resource;
  */
 public class IllegalAccessChartGenerator {
     public static final String FORMATE_DATE = "yyyy-MM-dd HH:mm:ss";
+    
     @Resource
     private IJpaDaoService jpaDaoService;
     @Resource
     private QLGenerator jpqlGenerator;
+    @Resource
+    private DataSetAdaptor catagoryDataAdaptor;
+    @Resource
+    private DataSetAdaptor pieDataAdaptor;
     /**
      * 是否展示给出用于展示详细记录的MAP链接
      */
@@ -33,24 +53,89 @@ public class IllegalAccessChartGenerator {
     private String showDetailForms;
 
     
-    public void generateCataChartForNone(String begs,String overs){
+    public void generateCataChartForNone(HttpServletRequest request,String begs,String overs){
         Date beg = Utility.convertStringToDate(begs, FORMATE_DATE);
         Date over = Utility.convertStringToDate(overs, FORMATE_DATE);
 
         List top5user = getTop5ByUser(beg, over);
         List top5right = getTop5ByRight(beg, over);
+        String[] userids = getUseridsByTop5List(top5user);
+        String[] rightids = getRightidsByTop5List(top5right);
 
-        
-
-        
+        List rstlst = getCountBySelectedUser_Right(userids, rightids, beg, over);
+        DefaultCategoryDataset data = (DefaultCategoryDataset)catagoryDataAdaptor.getDataset(rstlst, null);
+        JFreeChart chart = getBarChar3D("访问量统计", "分类", "访问量", data, showDetailRecord, request.getContextPath()+"/IllegalAccess/illegalAccessShowDetail.do");
+        ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+        BufferedImage bi = chart.createBufferedImage(800, 600, info);
+        request.getSession().setAttribute(ChartUtility.ChartImageKey, bi);
+        String imageMap0 = ImageMapUtilities.getImageMap(ChartUtility.ImageMapKey, info);
+        request.setAttribute(ChartUtility.ImageMapKey, imageMap0);
     }
 
+    private JFreeChart getBarChar3D(String title,String catalable,String valuelabel,DefaultCategoryDataset data,boolean showDetailRecord,String baseUrl){
+        JFreeChart chart = ChartFactory.createBarChart3D(title, catalable, valuelabel, data,
+                PlotOrientation.VERTICAL, true,
+                true, showDetailRecord);
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer3D render = new BarRenderer3D();
+        render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        render.setBaseItemLabelsVisible(true);
+        if(showDetailRecord){
+            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
+        }
+        plot.setRenderer(render);
+        plot.setForegroundAlpha(0.7f);
+
+        return chart;
+    }
+    /**
+     * 通过访问量前5名的用户记录得到含有这5个用户ID的字符串数组
+     * @param list
+     * @return
+     */
+    private String[] getUseridsByTop5List(List list){
+        String[] userids = new String[list.size()];
+        for(int i=0;i<list.size();i++){
+            IllegalAccessData iad = (IllegalAccessData)list.get(i);
+            if(iad.getUser()!=null){
+                userids[i]=iad.getUser().getUserid().toString();
+            }else{
+                userids[i]="null";
+            }
+        }
+        return userids;
+    }
+    /**
+     * 通过访问量前5名的权限记录得到含有这5个权限ID的字符串数组
+     * @param list
+     * @return
+     */
+    private String[] getRightidsByTop5List(List list){
+        String[] rightids = new String[list.size()];
+        for(int j=0;j<list.size();j++){
+            IllegalAccessData iad = (IllegalAccessData)list.get(j);
+            rightids[j]=iad.getRight().getTrId().toString();
+        }
+        return rightids;
+    }
+
+    /**
+     * 根据指定的用户和权限查询访问量分布
+     * @param userids
+     * @param rightids
+     * @param beg
+     * @param over
+     * @return
+     */
     private List getCountBySelectedUser_Right(String[] userids,String[] rightids,Date beg,Date over){
         Map param = new HashMap();
         jpqlGenerator.init();
 
         String userid = "NULL";
         String trId = "NULL";
+        if(Utility.isEmpty(rightids)||Utility.isEmpty(userids)){
+            jpqlGenerator.setOrderby_clause("COUNT(i)", "DESC");
+        }
         if(Utility.isNotEmpty(rightids)){
             trId = "i.trId";
             jpqlGenerator.setGroupby_clause("i.trId");
@@ -61,6 +146,9 @@ public class IllegalAccessChartGenerator {
             userid = "i.userid";
             jpqlGenerator.setGroupby_clause("i.userid");
             jpqlGenerator.setHaving_clause(null, jpqlGenerator.getIn_clause("i.userid.userid",userids));
+            if(this.hasNullString(userids)){
+                jpqlGenerator.setHaving_clause("OR", "i.userid IS NULL");
+            }
             jpqlGenerator.setOrderby_clause(userid, "ASC");
         }
         
@@ -75,9 +163,6 @@ public class IllegalAccessChartGenerator {
             jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
             param.put("over", over);
         }
-
-        
-        jpqlGenerator.setOrderby_clause("COUNT(i)", "DESC");
         String jpql =  jpqlGenerator.toString();
 
         return jpaDaoService.findEntities(jpql, param, false, 1, 5);
@@ -107,6 +192,9 @@ public class IllegalAccessChartGenerator {
 
         jpqlGenerator.setGroupby_clause("i.userid");
         jpqlGenerator.setHaving_clause(null, jpqlGenerator.getIn_clause("i.userid.userid",userids));
+        if(this.hasNullString(userids)){
+            jpqlGenerator.setHaving_clause("OR", "i.userid IS NULL");
+        }
         jpqlGenerator.setOrderby_clause("COUNT(i)", "DESC");
         String jpql =  jpqlGenerator.toString();
 
@@ -197,6 +285,17 @@ public class IllegalAccessChartGenerator {
         return jpaDaoService.findEntities(jpql, param, false, 1, 5);
     }
 
+    private boolean hasNullString(String[] strs){
+        if(Utility.isNotEmpty(strs)){
+            for(String s:strs){
+                if(Utility.isEmpty(s)||s.equalsIgnoreCase("null")){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
     public String getShowDetailForms() {
         return showDetailForms;
     }

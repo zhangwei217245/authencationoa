@@ -95,6 +95,14 @@ public class IllegalAccessForm extends BaseForm{
         this.over = over;
     }
 
-    
+    public String getCriteriaString(){
+        if(isRightCheckedOnly()){
+            return "trId";
+        }
+        if(isUserCheckedOnly()){
+            return "userid";
+        }
+        return null;
+    }
     
 }

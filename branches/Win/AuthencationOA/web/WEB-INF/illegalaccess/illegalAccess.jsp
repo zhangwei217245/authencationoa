@@ -111,6 +111,10 @@
             }
 
             function selectAllList(){
+                if(document.getElementsByName("criterias")[0].checked==false&&document.getElementsByName("criterias")[1].checked==false){
+                    alert("<bean:message key="access.illegal.criteria.cata.atleastOne"/>");
+                    return false;
+                }
                 var userids = document.getElementById("userids");
                 for(var i=0;i<userids.length;i++){
                     userids.options[i].selected=true;
@@ -128,7 +132,7 @@
         <%@ include file="/WEB-INF/util/error.jsp"%>
         <h4><bean:message key="access.illegal"/></h4>
         <div class="divunderline"></div>
-        <html:form action="/IllegalAccess/illegalAccessShow.do" method="post" onsubmit="selectAllList()" target="rstFrame">
+        <html:form action="/IllegalAccess/illegalAccessShowCata.do" method="post" onsubmit="return selectAllList()" target="rstFrame">
             <center>
                 <table width="800" border="0" align="center" style="text-align:center;vertical-align:middle">
                     <tr>
@@ -179,6 +183,7 @@
                                 <tr>
                                     <td width="40%">
                                         <select id="allusers" name="allusers" style="width:80%" ondblclick="adduser()" disabled="true" size="5">
+                                            <option value="null"><bean:message key="user.noname"/></option>
                                             <logic:notEmpty name="allusers" scope="request">
                                                 <logic:iterate id="user" name="allusers" type="com.vv.auth.persist.entity.Vcustomer" scope="request" indexId="uoid">
                                                     <option value="<bean:write name="user" property="userid"/>">

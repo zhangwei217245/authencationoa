@@ -5,6 +5,7 @@
 
 package com.vv.auth.struts.illegalaccess;
 
+import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator;
 import com.vv.auth.struts.platform.base.BaseAction;
@@ -91,8 +92,14 @@ public class IllegalAccessAction extends BaseAction{
         String[] criterias=form.getCriterias();
         String[] userids=form.getUserids();
         String[] rightids=form.getRightids();
-        if(form.isCheckedNone()){
-            illegalAccessChartGenerator.generateCataChartForNone(request, form.getBeg(), form.getOver());
+        try {
+            illegalAccessChartGenerator.generateCataChartForAny(request, userids, rightids, form.getBeg(), form.getOver(), form.getCriteriaString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e+"");
+        }
+        /*if(form.isCheckedNone()){
+            System.out.println("isCheckedNone");
         }
         if(form.isRightCheckedOnly()){
             if(form.isRightSelected()){
@@ -114,9 +121,10 @@ public class IllegalAccessAction extends BaseAction{
                 System.out.println("isUserSelected");
             }
             System.out.println("isCheckedBoth");
-        }
+        }*/
         return mapping.findForward(SUCCESS);
     }
+
 
     private ActionForward IllegalAccessShowPie(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -132,7 +140,5 @@ public class IllegalAccessAction extends BaseAction{
             HttpServletResponse response) throws Exception{
         ChartUtility.printSessionChartAsPNG(request, response);
     }
-
-    
 
 }

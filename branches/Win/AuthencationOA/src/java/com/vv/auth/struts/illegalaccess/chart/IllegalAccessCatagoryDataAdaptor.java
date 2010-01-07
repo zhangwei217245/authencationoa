@@ -25,10 +25,10 @@ public class IllegalAccessCatagoryDataAdaptor implements DataSetAdaptor{
     public AbstractDataset getDataset(List list,String criteria){
         DefaultCategoryDataset data = new DefaultCategoryDataset();
 
-        if(!list.isEmpty()){
+        if(Utility.isNotEmpty(list)){
             for(Object o:list){
                 IllegalAccessData iad = (IllegalAccessData)o;
-                String username = "匿名用户";
+                String username = "0.匿名用户";
                 if(iad.getUser()!=null){
                     username=iad.getUser().getUserid()+"."+iad.getUser().getName();
                 }
@@ -36,11 +36,11 @@ public class IllegalAccessCatagoryDataAdaptor implements DataSetAdaptor{
                 if(iad.getRight()!=null){
                     rightname=iad.getRight().getTrId()+"."+iad.getRight().getRightName()+"-"+iad.getRight().getRightDesc();
                 }
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("USER")){
-                    username="";
-                }
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("RIGHT")){
+                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("userid")){
                     rightname="";
+                }
+                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("trId")){
+                    username="";
                 }
 
                 data.addValue(iad.getScount(), username, rightname);

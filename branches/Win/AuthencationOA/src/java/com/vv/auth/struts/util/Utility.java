@@ -488,12 +488,20 @@ public class Utility {
         return pattern.matcher(str).matches();
     }
 
+    public static boolean isEmpty(Object[] a){
+        return ((a == null) || (a.length == 0));
+    }
+
     public static boolean isEmpty(String s) {
         return ((s == null) || (s.length() == 0));
     }
 
     public static boolean isEmpty(Collection c) {
         return ((c == null) || (c.size() == 0));
+    }
+
+    public static boolean isNotEmpty(Object[] a){
+        return ((a != null) && (a.length > 0));
     }
 
     public static boolean isNotEmpty(String s) {

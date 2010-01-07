@@ -15,6 +15,8 @@ public class IllegalAccessForm extends BaseForm{
     private String[] criterias;
     private String[] userids;
     private String[] rightids;
+    private String beg;
+    private String over;
 
     public boolean isUserSelected(){
         if(userids!=null&&userids.length>0){
@@ -77,5 +79,22 @@ public class IllegalAccessForm extends BaseForm{
         this.userids = userids;
     }
 
+    public String getBeg() {
+        return beg;
+    }
+
+    public void setBeg(String beg) {
+        this.beg = beg;
+    }
+
+    public String getOver() {
+        return over;
+    }
+
+    public void setOver(String over) {
+        this.over = over;
+    }
+
+    
     
 }

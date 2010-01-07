@@ -6,6 +6,7 @@
 package com.vv.auth.struts.illegalaccess;
 
 import com.vv.auth.persist.service.IJpaDaoService;
+import com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator;
 import com.vv.auth.struts.platform.base.BaseAction;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ public class IllegalAccessAction extends BaseAction{
 
     @Resource
     private IJpaDaoService jpaDaoService;
+    @Resource
+    private IllegalAccessChartGenerator illegalAccessChartGenerator;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,

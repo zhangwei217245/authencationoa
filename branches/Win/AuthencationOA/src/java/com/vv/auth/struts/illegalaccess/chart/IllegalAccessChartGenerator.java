@@ -12,6 +12,7 @@ import com.vv.auth.persist.service.qlgenerator.QLGenerator;
 import com.vv.auth.struts.util.ChartUtility;
 import com.vv.auth.struts.util.Utility;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -272,6 +273,7 @@ public class IllegalAccessChartGenerator {
         plot.setForegroundAlpha(0.8f);
         plot.setNoDataMessage("没有可用的数据");
         plot.setNoDataMessagePaint(Color.red);
+        plot.setNoDataMessageFont(new Font("宋体", Font.BOLD, 36));
         return chart;
     }
 

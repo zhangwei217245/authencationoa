@@ -56,6 +56,12 @@ public class IllegalAccessChartGenerator {
 
     private String showDetailForms;
 
+    public void generatePieChartForAny(HttpServletRequest request,Integer userid,Integer trId,
+            String begs,String overs) throws Exception{
+        Date beg = Utility.isNotEmpty(begs)?Utility.convertStringToDate(begs, FORMATE_DATE):null;
+        Date over = Utility.isNotEmpty(overs)?Utility.convertStringToDate(overs, FORMATE_DATE):null;
+    }
+
     /**
      * 通过判断两个数组的情况和checkBox勾选的情况来自动适配数据，并生成相应的图表。
      * @param request
@@ -69,9 +75,11 @@ public class IllegalAccessChartGenerator {
             String begs,String overs,String[] criterias) throws Exception{
         Date beg = Utility.isNotEmpty(begs)?Utility.convertStringToDate(begs, FORMATE_DATE):null;
         Date over = Utility.isNotEmpty(overs)?Utility.convertStringToDate(overs, FORMATE_DATE):null;
+
+        String dateQuery = "?datbeg="+begs+"&datover="+overs;
         List rstlst = null;
         String[] userIDs = userids;String[] rightIDs = rightids;
-        String queryUrl = "/IllegalAccess/illegalAccessShowPie.do";
+        String queryUrl = "/IllegalAccess/illegalAccessShowPie.do"+dateQuery;
         
         if(Utility.hasElement(criterias, "userid")){
             rstlst = getCountBySelectedUser(userids, beg, over);
@@ -82,7 +90,7 @@ public class IllegalAccessChartGenerator {
             rightIDs = getRightidsByTop5List(rstlst);
         }
         if(Utility.hasElement(criterias, "userid")&&Utility.hasElement(criterias, "trId")){
-            queryUrl =  "/IllegalAccess/illegalAccessShowDetail.do";
+            queryUrl =  "/IllegalAccess/illegalAccessShowDetail.do"+dateQuery;
             rstlst = getCountBySelectedUser_Right(userIDs, rightIDs, beg, over);
         }
         

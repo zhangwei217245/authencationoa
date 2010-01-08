@@ -5,11 +5,10 @@
 
 package com.vv.auth.struts.illegalaccess;
 
-import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator;
 import com.vv.auth.struts.platform.base.BaseAction;
-import com.vv.auth.struts.util.ChartUtility;
+import com.vv.auth.struts.util.Utility;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,42 +97,34 @@ public class IllegalAccessAction extends BaseAction{
             e.printStackTrace();
             log.error(e+"");
         }
-        /*if(form.isCheckedNone()){
-            System.out.println("isCheckedNone");
-        }
-        if(form.isRightCheckedOnly()){
-            if(form.isRightSelected()){
-                System.out.println("isRightSelected");
-            }
-            System.out.println("isRightCheckedOnly");
-        }
-        if(form.isUserCheckedOnly()){
-            if(form.isUserSelected()){
-                System.out.println("isUserSelected");
-            }
-            System.out.println("isUserCheckedOnly");
-        }
-        if(form.isCheckedBoth()){
-            if(form.isRightSelected()){
-                System.out.println("isRightSelected");
-            }
-            if(form.isUserSelected()){
-                System.out.println("isUserSelected");
-            }
-            System.out.println("isCheckedBoth");
-        }*/
+        
         return mapping.findForward(SUCCESS);
     }
 
 
     private ActionForward IllegalAccessShowPie(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
-        throw new UnsupportedOperationException("Not yet implemented");
+        String username = new String(request.getParameter("username").getBytes("ISO8859_1"), "utf-8");
+        String rightname = new String(request.getParameter("rightname").getBytes("ISO8859_1"), "utf-8");
+        
+        String[] uarr = username.split("\\.");
+        String[] rarr = rightname.split("\\.");
+        
+        if(Utility.isNotEmpty(uarr)){
+            int userid = Integer.parseInt(uarr[0]);
+        }
+
+        
+        if(Utility.isNotEmpty(rarr)){
+            int trId = Integer.parseInt(rarr[0]);
+        }
+        return mapping.findForward(SUCCESS);
     }
 
     private ActionForward IllegalAccessShowDetail(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception{
-        throw new UnsupportedOperationException("Not yet implemented");
+        
+        return mapping.findForward(SUCCESS);
     }
 
     private void ChartView(ActionMapping mapping, ActionForm aform, HttpServletRequest request,

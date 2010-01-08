@@ -27,6 +27,7 @@ public class ChartUtility {
         // send the picture
         PngEncoder encoder = new PngEncoder(chartImage, false, 0, 9);
         response.getOutputStream().write(encoder.pngEncode());
+        session.setAttribute(ChartImageKey, null);
     }
     
 }

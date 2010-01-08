@@ -11,6 +11,7 @@ import com.vv.auth.persist.service.IJpaDaoService;
 import com.vv.auth.persist.service.qlgenerator.QLGenerator;
 import com.vv.auth.struts.util.ChartUtility;
 import com.vv.auth.struts.util.Utility;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -260,6 +261,7 @@ public class IllegalAccessChartGenerator {
                 true,true);
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer3D render = new BarRenderer3D();
+        render.setDrawBarOutline(true);
         render.setBaseOutlinePaint(new ChartColor(0, 0, 0));
         render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         render.setBaseItemLabelsVisible(true);
@@ -267,9 +269,9 @@ public class IllegalAccessChartGenerator {
         render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 被访问{2}次", new DecimalFormat("###,###")));
 
         plot.setRenderer(render);
-        plot.setForegroundAlpha(0.7f);
+        plot.setForegroundAlpha(0.8f);
         plot.setNoDataMessage("没有可用的数据");
-
+        plot.setNoDataMessagePaint(Color.red);
         return chart;
     }
 

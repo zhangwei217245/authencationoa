@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -89,7 +91,7 @@ public class Vcustomer implements Serializable, IEntity {
     @Column(name = "enable", nullable = false, length = 1)
     private String enable;
     @ManyToMany(mappedBy = "vcustomerCollection", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Collection<TGroup> tGroupCollection = new ArrayList<TGroup>();
+    private Set<TGroup> tGroupCollection = new HashSet<TGroup>();
 
     public Vcustomer() {
     }
@@ -219,11 +221,11 @@ public class Vcustomer implements Serializable, IEntity {
     }
 
     
-    public Collection<TGroup> getTGroupCollection() {
+    public Set<TGroup> getTGroupCollection() {
         return tGroupCollection;
     }
 
-    public void setTGroupCollection(Collection<TGroup> tGroupCollection) {
+    public void setTGroupCollection(Set<TGroup> tGroupCollection) {
         this.tGroupCollection = tGroupCollection;
     }
 

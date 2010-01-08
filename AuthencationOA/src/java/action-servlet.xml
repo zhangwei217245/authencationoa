@@ -102,6 +102,6 @@
     <bean name="/IllegalAccess/illegalAccessShowCata" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
     <bean name="/IllegalAccess/illegalAccessShowPie" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
     <bean name="/IllegalAccess/illegalAccessShowDetail" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
-    <bean name="/IllegalAccess/ChartView" class="com.vv.auth.struts.illegalaccess.IllegalAccessAction"/>
+    <bean name="/IllegalAccess/ChartView" class="com.vv.auth.struts.platform.base.ChartViewerAction"/>
 
 </beans>

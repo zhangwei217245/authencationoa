@@ -15,6 +15,8 @@ import javax.persistence.EntityNotFoundException;
 import com.vv.auth.persist.entity.TGroup;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -33,13 +35,13 @@ public class TRightJpaController {
 
     public void create(TRight TRight) {
         if (TRight.getTGroupCollection() == null) {
-            TRight.setTGroupCollection(new ArrayList<TGroup>());
+            TRight.setTGroupCollection(new HashSet<TGroup>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<TGroup> attachedTGroupCollection = new ArrayList<TGroup>();
+            Set<TGroup> attachedTGroupCollection = new HashSet<TGroup>();
             for (TGroup TGroupCollectionTGroupToAttach : TRight.getTGroupCollection()) {
                 TGroupCollectionTGroupToAttach = em.getReference(TGroupCollectionTGroupToAttach.getClass(), TGroupCollectionTGroupToAttach.getTgId());
                 attachedTGroupCollection.add(TGroupCollectionTGroupToAttach);
@@ -64,9 +66,9 @@ public class TRightJpaController {
             em = getEntityManager();
             em.getTransaction().begin();
             TRight persistentTRight = em.find(TRight.class, TRight.getTrId());
-            Collection<TGroup> TGroupCollectionOld = persistentTRight.getTGroupCollection();
-            Collection<TGroup> TGroupCollectionNew = TRight.getTGroupCollection();
-            Collection<TGroup> attachedTGroupCollectionNew = new ArrayList<TGroup>();
+            Set<TGroup> TGroupCollectionOld = persistentTRight.getTGroupCollection();
+            Set<TGroup> TGroupCollectionNew = TRight.getTGroupCollection();
+            Set<TGroup> attachedTGroupCollectionNew = new HashSet<TGroup>();
             for (TGroup TGroupCollectionNewTGroupToAttach : TGroupCollectionNew) {
                 TGroupCollectionNewTGroupToAttach = em.getReference(TGroupCollectionNewTGroupToAttach.getClass(), TGroupCollectionNewTGroupToAttach.getTgId());
                 attachedTGroupCollectionNew.add(TGroupCollectionNewTGroupToAttach);

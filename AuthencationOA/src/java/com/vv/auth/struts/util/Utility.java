@@ -488,6 +488,20 @@ public class Utility {
         return pattern.matcher(str).matches();
     }
 
+    public static boolean hasElement(Object[] a,Object elem){
+        if(isNotEmpty(a)){
+            for(Object o: a){
+                if(elem==null&&o==null){
+                    return true;
+                }else if(elem.equals(o)){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
     public static boolean isEmpty(Object[] a){
         return ((a == null) || (a.length == 0));
     }

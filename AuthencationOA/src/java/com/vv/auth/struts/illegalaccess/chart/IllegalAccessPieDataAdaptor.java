@@ -5,7 +5,8 @@
 
 package com.vv.auth.struts.illegalaccess.chart;
 
-import com.vv.auth.persist.entity.IllegalAccessData;
+import com.vv.auth.persist.entity.TRight;
+import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.struts.util.Utility;
 import java.util.List;
 import org.jfree.data.general.AbstractDataset;
@@ -16,27 +17,29 @@ import org.jfree.data.general.DefaultPieDataset;
  * @author x-spirit
  */
 public class IllegalAccessPieDataAdaptor implements DataSetAdaptor {
-    public AbstractDataset getDataset(List list,String criteria){
+    public AbstractDataset getDataset(List list,String[] criterias){
         DefaultPieDataset dataset = new DefaultPieDataset();
 
         if(!list.isEmpty()){
             int i=0;
             for(Object o:list){
-                i++;
-                IllegalAccessData iad = (IllegalAccessData)o;
-                String username = "匿名用户";
-                if(iad.getUser()!=null){
-                    username=iad.getUser().getName();
-                }
-                String cri = i+"";
-                String rightname = iad.getRight().getRightName()+"-"+iad.getRight().getRightDesc();
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("USER")){
+                String cri = (++i)+"";
+                Object[] arr = (Object[])o;
+                String username = "0.匿名用户";
+                String rightname = "";
+                if(Utility.hasElement(criterias, "userid")){
+                    if(arr[1]!=null&&((Vcustomer)arr[1]).getName()!=null){
+                        username=((Vcustomer)arr[1]).getUserid()+"."+((Vcustomer)arr[1]).getName();
+                    }
                     cri = username;
-                }
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("RIGHT")){
+                }else if(Utility.hasElement(criterias, "trId")){
+                    if(arr[1]!=null&&((TRight)arr[1]).getRightName()!=null){
+                        rightname=((TRight)arr[1]).getTrId()+"."+((TRight)arr[1]).getRightName()+"-"+((TRight)arr[1]).getRightDesc();
+                    }
                     cri = rightname;
                 }
-                dataset.setValue(cri, iad.getScount());
+                dataset.setValue(cri, ((Long)arr[0]));
+                
             }
         }
         return dataset;

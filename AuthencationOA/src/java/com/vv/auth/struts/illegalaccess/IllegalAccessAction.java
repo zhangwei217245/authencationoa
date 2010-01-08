@@ -93,7 +93,7 @@ public class IllegalAccessAction extends BaseAction{
         String[] userids=form.getUserids();
         String[] rightids=form.getRightids();
         try {
-            illegalAccessChartGenerator.generateCataChartForAny(request, userids, rightids, form.getBeg(), form.getOver(), form.getCriteriaString());
+            illegalAccessChartGenerator.generateCataChartForAny(request, userids, rightids, form.getBeg(), form.getOver(), form.getCriterias());
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e+"");
@@ -138,7 +138,7 @@ public class IllegalAccessAction extends BaseAction{
 
     private void ChartView(ActionMapping mapping, ActionForm aform, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
-        ChartUtility.printSessionChartAsPNG(request, response);
+        
     }
 
 }

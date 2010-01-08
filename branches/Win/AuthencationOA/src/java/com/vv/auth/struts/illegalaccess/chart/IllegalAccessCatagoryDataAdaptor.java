@@ -5,7 +5,9 @@
 
 package com.vv.auth.struts.illegalaccess.chart;
 
-import com.vv.auth.persist.entity.IllegalAccessData;
+import com.vv.auth.persist.entity.TGroup;
+import com.vv.auth.persist.entity.TRight;
+import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.struts.util.Utility;
 import java.util.List;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -22,28 +24,64 @@ import org.jfree.data.general.AbstractDataset;
  * @author x-spirit
  */
 public class IllegalAccessCatagoryDataAdaptor implements DataSetAdaptor{
-    public AbstractDataset getDataset(List list,String criteria){
+    public AbstractDataset getDataset(List list,String[] criterias){
         DefaultCategoryDataset data = new DefaultCategoryDataset();
 
         if(Utility.isNotEmpty(list)){
             for(Object o:list){
-                IllegalAccessData iad = (IllegalAccessData)o;
+                Object[] arr = (Object[])o;
                 String username = "0.匿名用户";
-                if(iad.getUser()!=null){
-                    username=iad.getUser().getUserid()+"."+iad.getUser().getName();
-                }
                 String rightname = "";
-                if(iad.getRight()!=null){
-                    rightname=iad.getRight().getTrId()+"."+iad.getRight().getRightName()+"-"+iad.getRight().getRightDesc();
-                }
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("userid")){
-                    rightname="";
-                }
-                if(Utility.isNotEmpty(criteria)&&criteria.equalsIgnoreCase("trId")){
-                    username="";
+
+                String rowName="";
+                String columnName="";
+                if(Utility.hasElement(criterias, "userid")&&Utility.hasElement(criterias, "trId")){
+                    if(arr[1]!=null&&((Vcustomer)arr[1]).getName()!=null){
+                        username=((Vcustomer)arr[1]).getUserid()+"."+((Vcustomer)arr[1]).getName();
+                        if(Utility.isNotEmpty(((Vcustomer)arr[1]).getTGroupCollection())){
+                            for(TGroup group:((Vcustomer)arr[1]).getTGroupCollection()){
+                                if(username.contains("@")){
+                                    username = username + " & " + group.getTgDesc();
+                                }else{
+                                    username = username + " @ " + group.getTgDesc();
+                                }
+                            }
+                        }
+                    }
+                    
+                    if(arr[2]!=null&&((TRight)arr[2]).getRightName()!=null){
+                        rightname=((TRight)arr[2]).getTrId()+"."+((TRight)arr[2]).getRightName()+"-"+((TRight)arr[2]).getRightDesc();
+                    }
+                    rowName = username;
+                    columnName = rightname;
+                }else if(Utility.hasElement(criterias, "userid")){
+                    if(arr[1]!=null&&((Vcustomer)arr[1]).getName()!=null){
+                        username=((Vcustomer)arr[1]).getUserid()+"."+((Vcustomer)arr[1]).getName();
+                        if(Utility.isNotEmpty(((Vcustomer)arr[1]).getTGroupCollection())){
+                            for(TGroup group:((Vcustomer)arr[1]).getTGroupCollection()){
+                                if(username.contains("@")){
+                                    username = username + " & " + group.getTgDesc();
+                                }else{
+                                    username = username + " @ " + group.getTgDesc();
+                                }
+                            }
+                        }
+                    }
+                    rightname="所有权限";
+
+                    rowName = username;
+                    columnName = rightname;
+                }else if(Utility.hasElement(criterias, "trId")){
+                    if(arr[1]!=null&&((TRight)arr[1]).getRightName()!=null){
+                        rightname=((TRight)arr[1]).getTrId()+"."+((TRight)arr[1]).getRightName()+"-"+((TRight)arr[1]).getRightDesc();
+                    }
+                    username="全部用户";
+
+                    rowName = rightname;
+                    columnName = username;
                 }
 
-                data.addValue(iad.getScount(), username, rightname);
+                data.addValue(((Long)arr[0]), rowName, columnName);
             }
         }
         return data;

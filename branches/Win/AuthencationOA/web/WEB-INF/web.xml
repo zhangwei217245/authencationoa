@@ -8,13 +8,15 @@
             <param-value>UTF-8</param-value>
         </init-param>
     </filter>
-
+    <filter>
+        <description>OpenSessionInViewFilter</description>
+        <filter-name>hibernatefilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>Set Character Encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
@@ -22,7 +24,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     <servlet>
         <description>StrutsAction</description>
         <servlet-name>action</servlet-name>
@@ -95,4 +96,4 @@
     <login-config>
         <auth-method>CLIENT-CERT</auth-method>
         </login-config>-->
-    </web-app>
+</web-app>

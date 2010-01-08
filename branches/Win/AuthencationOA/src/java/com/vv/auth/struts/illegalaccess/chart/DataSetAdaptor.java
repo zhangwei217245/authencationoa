@@ -14,6 +14,6 @@ import org.jfree.data.general.AbstractDataset;
  */
 public interface DataSetAdaptor {
 
-    AbstractDataset getDataset(List list, String criteria);
+    AbstractDataset getDataset(List list, String[] criteria);
 
 }

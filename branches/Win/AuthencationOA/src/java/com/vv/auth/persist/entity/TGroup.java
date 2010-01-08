@@ -8,10 +8,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,11 +59,11 @@ public class TGroup implements Serializable, IEntity {
     @Column(name = "tg_desc", length = 200)
     private String tgDesc;
     @JoinTable(name = "TGroupRightRelation", joinColumns = {@JoinColumn(name = "tg_id", referencedColumnName = "tg_id")}, inverseJoinColumns = {@JoinColumn(name = "tr_id", referencedColumnName = "tr_id")})
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private Collection<TRight> tRightCollection = new ArrayList<TRight>();
+    @ManyToMany(cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
+    private Set<TRight> tRightCollection = new HashSet<TRight>();
     @JoinTable(name = "TUserGroupRelation", joinColumns = {@JoinColumn(name = "tg_id", referencedColumnName = "tg_id")}, inverseJoinColumns = {@JoinColumn(name = "userid", referencedColumnName = "userid")})
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private Collection<Vcustomer> vcustomerCollection = new ArrayList<Vcustomer>();
+    @ManyToMany(cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
+    private Set<Vcustomer> vcustomerCollection = new HashSet<Vcustomer>();
 
     public TGroup() {
     }
@@ -122,19 +125,19 @@ public class TGroup implements Serializable, IEntity {
         this.tgDesc = tgDesc;
     }
 
-    public Collection<TRight> getTRightCollection() {
+    public Set<TRight> getTRightCollection() {
         return tRightCollection;
     }
 
-    public void setTRightCollection(Collection<TRight> tRightCollection) {
+    public void setTRightCollection(Set<TRight> tRightCollection) {
         this.tRightCollection = tRightCollection;
     }
 
-    public Collection<Vcustomer> getVcustomerCollection() {
+    public Set<Vcustomer> getVcustomerCollection() {
         return vcustomerCollection;
     }
 
-    public void setVcustomerCollection(Collection<Vcustomer> vcustomerCollection) {
+    public void setVcustomerCollection(Set<Vcustomer> vcustomerCollection) {
         this.vcustomerCollection = vcustomerCollection;
     }
 

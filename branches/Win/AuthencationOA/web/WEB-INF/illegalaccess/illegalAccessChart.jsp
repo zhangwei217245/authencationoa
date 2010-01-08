@@ -27,7 +27,7 @@
         
         <%@ include file="/WEB-INF/util/error.jsp"%>
         
-        <img alt="ChartImage" width="800" height="600" src="<%=request.getContextPath()%>/IllegalAccess/ChartView.do" usemap="#<%=ChartUtility.ImageMapKey%>"/>
+        <img alt="ChartImage" border="0" width="800" height="600" src="<%=request.getContextPath()%>/IllegalAccess/ChartView.do" usemap="#<%=ChartUtility.ImageMapKey%>"/>
 
         <%=request.getAttribute(ChartUtility.ImageMapKey)==null?"":request.getAttribute(ChartUtility.ImageMapKey)%>
     </body>

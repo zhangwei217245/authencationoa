@@ -16,6 +16,8 @@ import com.vv.auth.persist.entity.TRight;
 import java.util.ArrayList;
 import java.util.Collection;
 import com.vv.auth.persist.entity.Vcustomer;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -34,22 +36,22 @@ public class TGroupJpaController {
 
     public void create(TGroup TGroup) {
         if (TGroup.getTRightCollection() == null) {
-            TGroup.setTRightCollection(new ArrayList<TRight>());
+            TGroup.setTRightCollection(new HashSet<TRight>());
         }
         if (TGroup.getVcustomerCollection() == null) {
-            TGroup.setVcustomerCollection(new ArrayList<Vcustomer>());
+            TGroup.setVcustomerCollection(new HashSet<Vcustomer>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<TRight> attachedTRightCollection = new ArrayList<TRight>();
+            Set<TRight> attachedTRightCollection = new HashSet<TRight>();
             for (TRight TRightCollectionTRightToAttach : TGroup.getTRightCollection()) {
                 TRightCollectionTRightToAttach = em.getReference(TRightCollectionTRightToAttach.getClass(), TRightCollectionTRightToAttach.getTrId());
                 attachedTRightCollection.add(TRightCollectionTRightToAttach);
             }
             TGroup.setTRightCollection(attachedTRightCollection);
-            Collection<Vcustomer> attachedVcustomerCollection = new ArrayList<Vcustomer>();
+            Set<Vcustomer> attachedVcustomerCollection = new HashSet<Vcustomer>();
             for (Vcustomer vcustomerCollectionVcustomerToAttach : TGroup.getVcustomerCollection()) {
                 vcustomerCollectionVcustomerToAttach = em.getReference(vcustomerCollectionVcustomerToAttach.getClass(), vcustomerCollectionVcustomerToAttach.getUserid());
                 attachedVcustomerCollection.add(vcustomerCollectionVcustomerToAttach);
@@ -78,18 +80,18 @@ public class TGroupJpaController {
             em = getEntityManager();
             em.getTransaction().begin();
             TGroup persistentTGroup = em.find(TGroup.class, TGroup.getTgId());
-            Collection<TRight> TRightCollectionOld = persistentTGroup.getTRightCollection();
-            Collection<TRight> TRightCollectionNew = TGroup.getTRightCollection();
-            Collection<Vcustomer> vcustomerCollectionOld = persistentTGroup.getVcustomerCollection();
-            Collection<Vcustomer> vcustomerCollectionNew = TGroup.getVcustomerCollection();
-            Collection<TRight> attachedTRightCollectionNew = new ArrayList<TRight>();
+            Set<TRight> TRightCollectionOld = persistentTGroup.getTRightCollection();
+            Set<TRight> TRightCollectionNew = TGroup.getTRightCollection();
+            Set<Vcustomer> vcustomerCollectionOld = persistentTGroup.getVcustomerCollection();
+            Set<Vcustomer> vcustomerCollectionNew = TGroup.getVcustomerCollection();
+            Set<TRight> attachedTRightCollectionNew = new HashSet<TRight>();
             for (TRight TRightCollectionNewTRightToAttach : TRightCollectionNew) {
                 TRightCollectionNewTRightToAttach = em.getReference(TRightCollectionNewTRightToAttach.getClass(), TRightCollectionNewTRightToAttach.getTrId());
                 attachedTRightCollectionNew.add(TRightCollectionNewTRightToAttach);
             }
             TRightCollectionNew = attachedTRightCollectionNew;
             TGroup.setTRightCollection(TRightCollectionNew);
-            Collection<Vcustomer> attachedVcustomerCollectionNew = new ArrayList<Vcustomer>();
+            Set<Vcustomer> attachedVcustomerCollectionNew = new HashSet<Vcustomer>();
             for (Vcustomer vcustomerCollectionNewVcustomerToAttach : vcustomerCollectionNew) {
                 vcustomerCollectionNewVcustomerToAttach = em.getReference(vcustomerCollectionNewVcustomerToAttach.getClass(), vcustomerCollectionNewVcustomerToAttach.getUserid());
                 attachedVcustomerCollectionNew.add(vcustomerCollectionNewVcustomerToAttach);

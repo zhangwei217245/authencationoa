@@ -37,8 +37,11 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setSelect_clause(String select_clause) {
-        this.select_clause = this.select_clause+(this.select_clause.equals(SELECT)?" ":", ")+select_clause;
-        if(isEmptyString(select_clause)) this.select_clause = SELECT;
+        if(!isEmptyString(select_clause)){
+            this.select_clause = this.select_clause+(this.select_clause.equals(SELECT)?" ":", ")+select_clause;
+            if(SELECT.equalsIgnoreCase(select_clause)) this.select_clause = SELECT;
+        }
+        
         return this;
     }
 
@@ -48,8 +51,10 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setFrom_clause(String from_clause) {
-        this.from_clause = this.from_clause+(this.from_clause.equals(FROM)?" ":", ")+from_clause;
-        if(isEmptyString(from_clause)) this.from_clause = FROM;
+        if(!isEmptyString(from_clause)){
+            this.from_clause = this.from_clause+(this.from_clause.equals(FROM)?" ":", ")+from_clause;
+            if(FROM.equalsIgnoreCase(from_clause)) this.from_clause = FROM;
+        }
         return this;
     }
 
@@ -58,8 +63,10 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setWhere_clause(String logical_operator,String where_clause) {
-        this.where_clause = this.where_clause+(this.where_clause.equals(WHERE)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+where_clause;
-        if(isEmptyString(where_clause)) this.where_clause = WHERE;
+        if(!isEmptyString(where_clause)){
+            this.where_clause = this.where_clause+(this.where_clause.equals(WHERE)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+where_clause;
+            if(WHERE.equalsIgnoreCase(where_clause)) this.where_clause = WHERE;
+        }
         return this;
     }
 
@@ -68,8 +75,11 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setGroupby_clause(String groupby_clause) {
-        this.groupby_clause = this.groupby_clause+(this.groupby_clause.equals(GROUP_BY)?" ":", ")+groupby_clause;
-        if(isEmptyString(groupby_clause)) this.groupby_clause = GROUP_BY;
+        if(!isEmptyString(groupby_clause)){
+            this.groupby_clause = this.groupby_clause+(this.groupby_clause.equals(GROUP_BY)?" ":", ")+groupby_clause;
+            if(GROUP_BY.equalsIgnoreCase(groupby_clause)) this.groupby_clause = GROUP_BY;
+        }
+        
         return this;
     }
 
@@ -78,8 +88,10 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setHaving_clause(String logical_operator,String having_clause) {
-        this.having_clause = this.having_clause+(this.having_clause.equals(HAVING)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+having_clause;
-        if(isEmptyString(having_clause)) this.having_clause = HAVING;
+        if(!isEmptyString(having_clause)){
+            this.having_clause = this.having_clause+(this.having_clause.equals(HAVING)?" ":" "+(isEmptyString(logical_operator)?"AND":logical_operator)+" ")+having_clause;
+            if(HAVING.equalsIgnoreCase(having_clause)) this.having_clause = HAVING;
+        }
         return this;
     }
 
@@ -88,8 +100,10 @@ public class JPQLGenerator implements QLGenerator {
     }
 
     public JPQLGenerator setOrderby_clause(String orderby_clause,String ascOrDesc) {
-        this.orderby_clause = this.orderby_clause+(this.orderby_clause.equals(ORDER_BY)?" ":", ")+orderby_clause+" "+(isEmptyString(ascOrDesc)?"":ascOrDesc);
-        if(isEmptyString(orderby_clause)) this.orderby_clause = ORDER_BY;
+        if(!isEmptyString(orderby_clause)){
+            this.orderby_clause = this.orderby_clause+(this.orderby_clause.equals(ORDER_BY)?" ":", ")+orderby_clause+" "+(isEmptyString(ascOrDesc)?"":ascOrDesc);
+            if(ORDER_BY.equalsIgnoreCase(orderby_clause)) this.orderby_clause = ORDER_BY;
+        }
         return this;
     }
 
@@ -107,7 +121,7 @@ public class JPQLGenerator implements QLGenerator {
                     continue;
                 }
                 if(in.equals(IN)){
-                    in = in + "(" +s;
+                    in = in + " (" +s;
                 }else{
                     in = in + "," +s;
                 }

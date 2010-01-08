@@ -93,10 +93,10 @@
                 document.getElementById("addauser").disabled=bool;
                 document.getElementById("delauser").disabled=bool;
                 document.getElementById("userids").disabled=bool;
-                document.getElementById("upuserfirst").disabled=bool;
-                document.getElementById("upuser").disabled=bool;
-                document.getElementById("downuser").disabled=bool;
-                document.getElementById("downuserlast").disabled=bool;
+                //document.getElementById("upuserfirst").disabled=bool;
+                //document.getElementById("upuser").disabled=bool;
+                //document.getElementById("downuser").disabled=bool;
+                //document.getElementById("downuserlast").disabled=bool;
             }
             function enableRight(obj){
                 var bool = !obj.checked;
@@ -104,10 +104,10 @@
                 document.getElementById("addaright").disabled=bool;
                 document.getElementById("delaright").disabled=bool;
                 document.getElementById("rightids").disabled=bool;
-                document.getElementById("uprightfirst").disabled=bool;
-                document.getElementById("upright").disabled=bool;
-                document.getElementById("downright").disabled=bool;
-                document.getElementById("downrightlast").disabled=bool;
+                //document.getElementById("uprightfirst").disabled=bool;
+                //document.getElementById("upright").disabled=bool;
+                //document.getElementById("downright").disabled=bool;
+                //document.getElementById("downrightlast").disabled=bool;
             }
 
             function selectAllList(){
@@ -183,7 +183,7 @@
                                 <tr>
                                     <td width="40%">
                                         <select id="allusers" name="allusers" style="width:80%" ondblclick="adduser()" disabled="true" size="5">
-                                            <option value="null"><bean:message key="user.noname"/></option>
+                                            <!--<option value="null"><bean:message key="user.noname"/></option>-->
                                             <logic:notEmpty name="allusers" scope="request">
                                                 <logic:iterate id="user" name="allusers" type="com.vv.auth.persist.entity.Vcustomer" scope="request" indexId="uoid">
                                                     <option value="<bean:write name="user" property="userid"/>">
@@ -198,21 +198,21 @@
                                             </logic:notEmpty>
                                         </select>
                                     </td>
-                                    <td width="10%">
+                                    <td width="20%">
                                         <input id="addauser" type="button" value=">>" onclick="adduser()" disabled="true"/><br/>
-                                        <input id="delauser" type="button" value="<<" onclick="deluser()" disabled="true"/>
+                                        <input id="delauser" type="button" value="<<" onclick="deluser()" disabled="true"/><br/>
                                     </td>
                                     <td width="40%">
                                         <select id="userids" name="userids" style="width:80%" ondblclick="deluser()" disabled="true" size="5" multiple>
 
                                         </select>
                                     </td>
-                                    <td width="10%">
+                                    <!--<td width="10%">
                                         <input id="upuserfirst" style="width:100px" type="button" onclick="upUserToFirst()" disabled="true" value="<bean:message key="option.upfirst"/>" style="width:50px"/><br/>
                                         <input id="upuser" style="width:100px" type="button" onclick="moveUserUp()" disabled="true" value="<bean:message key="option.up"/>" style="width:50px"/><br/>
                                         <input id="downuser" style="width:100px" type="button" onclick="moveUserDown()" disabled="true" value="<bean:message key="option.down"/>" style="width:50px"/><br/>
                                         <input id="downuserlast" style="width:100px" type="button" onclick="downUserToLast()" disabled="true" value="<bean:message key="option.downlast"/>" style="width:50px"/><br/>
-                                    </td>
+                                    </td>-->
                                 </tr>
                             </table>
                         </td>
@@ -241,21 +241,21 @@
                                             </logic:notEmpty>
                                         </select>
                                     </td>
-                                    <td width="10%">
+                                    <td width="20%">
                                         <input id="addaright" type="button" value=">>" onclick="addright()" disabled="true"/><br/>
-                                        <input id="delaright" type="button" value="<<" onclick="delright()" disabled="true"/>
+                                        <input id="delaright" type="button" value="<<" onclick="delright()" disabled="true"/><br/>
                                     </td>
                                     <td width="40%">
                                         <select id="rightids" name="rightids" style="width:80%" ondblclick="delright()" disabled="true" size="5" multiple>
 
                                         </select>
                                     </td>
-                                    <td width="10%">
+                                    <!--<td width="10%">
                                         <input id="uprightfirst" style="width:100px" type="button" onclick="upRightToFirst()" disabled="true" value="<bean:message key="option.upfirst"/>" style="width:50px"/><br/>
                                         <input id="upright" style="width:100px" type="button" onclick="moveRightUp()" disabled="true" value="<bean:message key="option.up"/>" style="width:50px"/><br/>
                                         <input id="downright" style="width:100px" type="button" onclick="moveRightDown()" disabled="true" value="<bean:message key="option.down"/>" style="width:50px"/><br/>
                                         <input id="downrightlast" style="width:100px" type="button" onclick="downRightToLast()" disabled="true" value="<bean:message key="option.downlast"/>" style="width:50px"/><br/>
-                                    </td>
+                                    </td>-->
                                 </tr>
                             </table>
                         </td>

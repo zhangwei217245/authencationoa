@@ -7,9 +7,12 @@ package com.vv.auth.persist.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,8 +56,8 @@ public class TRight implements Serializable, IEntity {
     @Basic(optional = false)
     @Column(name = "right_path", nullable = false, length = 1000)
     private String rightPath;
-    @ManyToMany(mappedBy = "tRightCollection")
-    private Collection<TGroup> tGroupCollection = new ArrayList<TGroup>();
+    @ManyToMany(mappedBy = "tRightCollection",fetch=FetchType.EAGER)
+    private Set<TGroup> tGroupCollection = new HashSet<TGroup>();
 
     ;
 
@@ -128,11 +131,11 @@ public class TRight implements Serializable, IEntity {
         this.rightPath = rightPath;
     }
 
-    public Collection<TGroup> getTGroupCollection() {
+    public Set<TGroup> getTGroupCollection() {
         return tGroupCollection;
     }
 
-    public void setTGroupCollection(Collection<TGroup> tGroupCollection) {
+    public void setTGroupCollection(Set<TGroup> tGroupCollection) {
         this.tGroupCollection = tGroupCollection;
     }
 

@@ -4,13 +4,13 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     
     <properties>
-      <!--<property name="toplink.jdbc.user" value="sa"/>
-      <property name="toplink.jdbc.password" value="610"/>
-      <property name="toplink.jdbc.url" value="jdbc:jtds:sqlserver://localhost:1433/sslca"/>
-      <property name="toplink.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver"/>-->
-      <property name="hibernate.connection.username" value="sa"/>
-      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+      <!--<property name="hibernate.connection.username" value="sa"/>
       <property name="hibernate.connection.password" value="610"/>
+      <property name="hibernate.connection.url" value="jdbc:jtds:sqlserver://localhost:1433/sslca"/>
+      <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/>-->
+      <property name="hibernate.connection.username" value="sa"/>
+      <property name="hibernate.connection.password" value="610"/>
+      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/dbo"/>
     </properties>
   </persistence-unit>

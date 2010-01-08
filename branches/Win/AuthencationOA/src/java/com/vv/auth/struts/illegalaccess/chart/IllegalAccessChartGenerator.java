@@ -188,10 +188,7 @@ public class IllegalAccessChartGenerator {
             maxCount = -1;
         }
         
-        
         String jpql =  jpqlGenerator.toString();
-        System.out.println(jpql);
-
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
     }
     /**
@@ -235,63 +232,7 @@ public class IllegalAccessChartGenerator {
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
     }
 
-    /**
-     * 取出指定时间段内权限访问量的排名前5名
-     * @param beg
-     * @param over
-     * @return
-     */
-    private List getTop5ByRight(Date beg,Date over) throws Exception{
-        Map param = new HashMap();
-        jpqlGenerator.init();
-
-        jpqlGenerator.setFrom_clause("Illegalaccess i");
-        jpqlGenerator.setSelect_clause("COUNT(i)").setSelect_clause("i.trId");
-        if(beg!=null){
-            jpqlGenerator.setWhere_clause(null, "i.dataccesstime>=:beg");
-            param.put("beg", beg);
-        }
-        if(over!=null){
-            jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
-            param.put("over", over);
-        }
-
-        jpqlGenerator.setGroupby_clause("i.trId");
-        //jpqlGenerator.setOrderby_clause("scount", "DESC");
-        String jpql =  jpqlGenerator.toString();
-
-        return jpaDaoService.findEntities(jpql, param, false, 0, 5);
-    }
-    /**
-     * 取出指定时间段内用户访问量的排名前5名
-     * @param beg
-     * @param over
-     * @return
-     */
-    private List getTop5ByUser(Date beg,Date over) throws Exception{
-        Map param = new HashMap();
-        jpqlGenerator.init();
-
-        jpqlGenerator.setFrom_clause("Illegalaccess i");
-        jpqlGenerator.setSelect_clause("COUNT(i)").setSelect_clause("i.userid");
-        if(beg!=null){
-            jpqlGenerator.setWhere_clause(null, "i.dataccesstime>=:beg");
-            param.put("beg", beg);
-        }
-        if(over!=null){
-            jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
-            param.put("over", over);
-        }
-
-        jpqlGenerator.setGroupby_clause("i.userid");
-
-
-        //jpqlGenerator.setOrderby_clause("scount", "DESC");
-        String jpql =  jpqlGenerator.toString();
-
-        return jpaDaoService.findEntities(jpql, param, false, 0, 5);
-    }
-
+    
     private boolean hasNullString(String[] strs){
         if(Utility.isNotEmpty(strs)){
             for(String s:strs){

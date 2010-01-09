@@ -56,23 +56,23 @@
 
     <bean id="cerPathBean" class="com.vv.auth.certification.CerPath">
         <!-- The properies below is for Windows -->
-        <!--<property name="terminalCommand" value="cmd"/>
+        <property name="terminalCommand" value="cmd"/>
         <property name="terminalRtStr" value="&#xD;&#xA;"/>
         <property name="serverCerPath" value="D:\tomcat.keystore"/>
-        <property name="clientCerPath" value="D:\customercer"/>-->
+        <property name="clientCerPath" value="D:\customercer"/>
         <!-- The properies below is for Linux -->
-        <property name="terminalCommand" value="sh"/>
+        <!--<property name="terminalCommand" value="sh"/>
         <property name="terminalRtStr" value="&#xA;"/>
         <property name="serverCerPath" value="/home/x-spirit/tomcat.keystore"/>
-        <property name="clientCerPath" value="/home/x-spirit/customercer"/>
+        <property name="clientCerPath" value="/home/x-spirit/customercer"/>-->
     </bean>
     
 
     <bean id="attachmentPathBean" class="com.vv.auth.struts.document.AttachmentPathBean">
         <!-- The properies below is for Windows -->
-        <!--<property name="attachmentPath" value="D:\attachment"/>-->
+        <property name="attachmentPath" value="D:\attachment"/>
         <!-- The properies below is for Linux -->
-        <property name="attachmentPath" value="/home/x-spirit/attachment"/>
+        <!--<property name="attachmentPath" value="/home/x-spirit/attachment"/>-->
     </bean>
 
     <bean id="portConfig" class="com.vv.auth.struts.util.PortConfig">

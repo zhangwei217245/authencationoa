@@ -5,9 +5,13 @@
 package com.vv.auth.struts.illegalaccess;
 
 import com.vv.auth.persist.service.IJpaDaoService;
+import com.vv.auth.persist.service.qlgenerator.JPQLGenerator;
+import com.vv.auth.persist.service.qlgenerator.QLGenerator;
 import com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator;
 import com.vv.auth.struts.platform.base.BaseAction;
+import com.vv.auth.struts.util.Pagination;
 import com.vv.auth.struts.util.Utility;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +28,15 @@ import org.apache.struts.action.ActionMapping;
  */
 public class IllegalAccessAction extends BaseAction {
 
+    public static final String FORMATE_DATE = "yyyy-MM-dd HH:mm:ss";
     @Resource
     private IJpaDaoService jpaDaoService;
     @Resource
     private IllegalAccessChartGenerator illegalAccessChartGenerator;
+    @Resource
+    private JPQLGenerator jpqlGenerator;
+
+    private Pagination pagination;
 
     @Override
     public ActionForward executeAction(ActionMapping mapping, ActionForm aform,
@@ -118,10 +127,54 @@ public class IllegalAccessAction extends BaseAction {
 
     private ActionForward IllegalAccessShowDetail(ActionMapping mapping, ActionForm aform,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map param = new HashMap();
         String username = request.getParameter("username");
         String rightname = request.getParameter("rightname");
         String datbeg = request.getParameter("datbeg");
         String datover = request.getParameter("datover");
+        Date beg = Utility.isNotEmpty(datbeg) ? Utility.convertStringToDate(datbeg, FORMATE_DATE) : null;
+        Date over = Utility.isNotEmpty(datover) ? Utility.convertStringToDate(datover, FORMATE_DATE) : null;
+
+        jpqlGenerator.init();
+        jpqlGenerator.setSelect_clause("i").setFrom_clause("Illegalaccess i");
+        
+        String[] uarr = Utility.isNotEmpty(username)?username.split("\\."):null;
+        String[] rarr = Utility.isNotEmpty(rightname)?rightname.split("\\."):null;
+
+        String userid = null;
+        String trId = null;
+        if (beg != null) {
+            jpqlGenerator.setWhere_clause(null, "i.dataccesstime>=:beg");
+            param.put("beg", beg);
+        }
+        if (over != null) {
+            jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
+            param.put("over", over);
+        }
+
+        if(Utility.isNotEmpty(rarr)&&rarr.length>1){
+            trId = rarr[0];
+            jpqlGenerator.setWhere_clause(null, "i.trId.trId="+trId);
+            jpqlGenerator.setOrderby_clause("i.trId.trId", "ASC");
+        }
+        if(Utility.isNotEmpty(uarr)&&uarr.length>1){
+            userid = uarr[0];
+            jpqlGenerator.setWhere_clause(null, "i.userid.userid="+userid);
+            jpqlGenerator.setOrderby_clause("i.userid.userid", "ASC");
+        }
+        String jpql = jpqlGenerator.toString();
+        
+
+        int listCount = jpaDaoService.getEntityCount(jpqlGenerator.setSelect_clause(QLGenerator.SELECT)
+                .setOrderby_clause(QLGenerator.ORDER_BY, null)
+                .setSelect_clause("COUNT(i)").toString(), param).intValue();
+
+        pagination = new Pagination(request, response);
+        pagination.setRecordCount(listCount);
+
+        List rstlst = jpaDaoService.findEntities(jpql, param, false, pagination.getFirstResult(), pagination.getPageSize());
+        request.setAttribute("rstlst", rstlst);
+        request.setAttribute("pagination", pagination.toString());
         
         return mapping.findForward(SUCCESS);
     }

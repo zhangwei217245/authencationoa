@@ -109,19 +109,21 @@ public class IllegalAccessChartGenerator {
      * @return
      */
     private JFreeChart getPieChart(String title, PieDataset data, String queryUrl,String cateName,String indexName) {
-        JFreeChart chart = showChartIn3D ? ChartFactory.createPieChart3D(title, data, true, true, true)
-                : ChartFactory.createPieChart(title, data, true, true, true);
+        JFreeChart chart = showChartIn3D ? ChartFactory.createPieChart3D(title, data, true, true, showDetailRecord)
+                : ChartFactory.createPieChart(title, data, true, true, showDetailRecord);
         PiePlot plot = (PiePlot) chart.getPlot();
+        plot.setIgnoreNullValues(true);
+        plot.setIgnoreZeroValues(true);
+        
         //图形边框颜色
         plot.setBaseSectionOutlinePaint(Color.black);
-        //设置饼状图的绘制方向，可以按顺时针方向绘制，也可以按逆时针方向绘制
-        plot.setDirection(Rotation.CLOCKWISE);
+        //设置饼状图的绘制方向，可以按顺时针方向绘制，也可以按逆时针方向绘制(逆时针视觉上是从左向右)
+        plot.setDirection(Rotation.ANTICLOCKWISE);
         //设置背景色透明度
         plot.setBackgroundAlpha(0.7F);
         // 设置前景色透明度
         plot.setForegroundAlpha(0.8F);
-        // 扇区分离显示,对3D图不起效
-        plot.setExplodePercent(data.getKey(0), 0.3d);
+        
         // 图例显示百分比:自定义方式，{0} 表示选项， {1} 表示数值， {2} 表示所占比例 ,小数点后两位
         plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
                 "{0}:访问{1}次\r\n(占{2})", NumberFormat.getNumberInstance(),
@@ -131,6 +133,15 @@ public class IllegalAccessChartGenerator {
         plot.setNoDataMessage("找不到可用数据...");
         plot.setNoDataMessagePaint(Color.red);
         plot.setNoDataMessageFont(new Font("宋体", Font.BOLD, 36));
+
+        if(!showChartIn3D){
+            // 扇区分离显示,对3D图不起效
+            plot.setExplodePercent(data.getKey(0), 0.3d);
+        }else{
+            //3D饼状图显示为椭圆。
+            plot.setCircular(true);
+            plot.setMinimumArcAngleToDraw(70d);
+        }
 
         //设置鼠标悬停提示
         plot.setToolTipGenerator(new StandardPieToolTipGenerator("{0}:访问{1}次\r\n(占{2})", NumberFormat.getNumberInstance(),

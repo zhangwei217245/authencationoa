@@ -7,16 +7,16 @@
       <property name="hibernate.connection.password" value="610"/>
 
       <!-- This is For SqlServer 2000 -->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
       <property name="hibernate.connection.url" value="jdbc:jtds:sqlserver://localhost:1433/sslca"/>
-      <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/>
+      <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/>-->
 
       <!-- This is For MySQL -->
-      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-      <property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/dbo"/>-->
+      <property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/dbo"/>
 
-      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -163,9 +163,7 @@ public class JPQLGenerator implements QLGenerator {
         if(!this.orderby_clause.equals(ORDER_BY)){
             sb.append(this.orderby_clause).append(" ");
         }
+        System.out.println(sb.toString());
         return sb.toString().trim();
     }
-
-
-
 }

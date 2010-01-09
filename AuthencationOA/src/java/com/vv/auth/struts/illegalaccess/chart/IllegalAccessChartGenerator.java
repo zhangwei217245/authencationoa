@@ -32,6 +32,7 @@ import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
@@ -72,11 +73,11 @@ public class IllegalAccessChartGenerator {
 
         String queryUrl = "/IllegalAccess/illegalAccessShowDetail.do";
         String dateQuery = "?datbeg=" + begs + "&datover=" + overs;
-        String title = "错误访问量分布";
+        String title = "非法访问量分布";
         String cateName = "piecate",indexName="pieindex";
 
-        String[] uarr = username.split("\\.");
-        String[] rarr = rightname.split("\\.");
+        String[] uarr = Utility.isNotEmpty(username)?username.split("\\."):null;
+        String[] rarr = Utility.isNotEmpty(rightname)?rightname.split("\\."):null;
 
         String userid = null;
         String trId = null;
@@ -99,7 +100,7 @@ public class IllegalAccessChartGenerator {
         List rstlst = getCountByUser_RightCondition(conditionid, criteria, beg, over);
 
         DefaultPieDataset data = (DefaultPieDataset) pieDataAdaptor.getDataset(rstlst, new String[]{criteria});
-        JFreeChart chart = getPieChart(title, data, queryUrl, cateName, indexName);
+        JFreeChart chart = getPieChart(title, data, request.getContextPath() + queryUrl, cateName, indexName);
         saveChartImageInRequest(request, chart);
     }
 
@@ -114,20 +115,19 @@ public class IllegalAccessChartGenerator {
                 : ChartFactory.createPieChart(title, data, true, true, true);
         PiePlot plot = (PiePlot) chart.getPlot();
         //图形边框颜色
-        plot.setBaseSectionOutlinePaint(Color.GRAY);
+        plot.setBaseSectionOutlinePaint(Color.black);
         //设置饼状图的绘制方向，可以按顺时针方向绘制，也可以按逆时针方向绘制
         plot.setDirection(Rotation.CLOCKWISE);
         //设置背景色透明度
         plot.setBackgroundAlpha(0.7F);
         // 设置前景色透明度
-        plot.setForegroundAlpha(0.65F);
+        plot.setForegroundAlpha(0.8F);
         // 扇区分离显示,对3D图不起效
-        plot.setExplodePercent(data.getKey(1), 0.3d);
+        plot.setExplodePercent(data.getKey(0), 0.3d);
         // 图例显示百分比:自定义方式，{0} 表示选项， {1} 表示数值， {2} 表示所占比例 ,小数点后两位
         plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
-                "{0}:{1}\r\n({2})", NumberFormat.getNumberInstance(),
+                "{0}:访问{1}次\r\n(占{2})", NumberFormat.getNumberInstance(),
                 new DecimalFormat("0.00%")));
-
 
         // 没有数据的时候显示的内容
         plot.setNoDataMessage("找不到可用数据...");
@@ -135,7 +135,8 @@ public class IllegalAccessChartGenerator {
         plot.setNoDataMessageFont(new Font("宋体", Font.BOLD, 36));
 
         //设置鼠标悬停提示
-        plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+        plot.setToolTipGenerator(new StandardPieToolTipGenerator("{0}:访问{1}次\r\n(占{2})", NumberFormat.getNumberInstance(),
+                new DecimalFormat("0.00%")));
         //设置热点链接
         if (showDetailRecord) {
             plot.setURLGenerator(new StandardPieURLGenerator(queryUrl, cateName, indexName));
@@ -183,7 +184,7 @@ public class IllegalAccessChartGenerator {
         }
 
         String jpql = jpqlGenerator.toString();
-        System.out.println(jpql);
+        
 
         return jpaDaoService.findEntities(jpql, param, true, -1, -1);
     }
@@ -207,7 +208,6 @@ public class IllegalAccessChartGenerator {
         List rstlst = null;
         String[] userIDs = userids;
         String[] rightIDs = rightids;
-
 
         if (Utility.hasElement(criterias, "userid")) {
             rstlst = getCountBySelectedUser(userids, beg, over);
@@ -286,7 +286,7 @@ public class IllegalAccessChartGenerator {
             param.put("over", over);
         }
         String jpql = jpqlGenerator.toString();
-        System.out.println(jpql);
+        
         return jpaDaoService.findEntities(jpql, param, true, -1, -1);
     }
 
@@ -327,7 +327,7 @@ public class IllegalAccessChartGenerator {
         }
 
         String jpql = jpqlGenerator.toString();
-        System.out.println(jpql);
+        
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
     }
 
@@ -368,7 +368,7 @@ public class IllegalAccessChartGenerator {
         }
 
         String jpql = jpqlGenerator.toString();
-        System.out.println(jpql);
+        
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
     }
 
@@ -402,14 +402,14 @@ public class IllegalAccessChartGenerator {
         BarRenderer render = showChartIn3D ? new BarRenderer3D() : new BarRenderer();
         render.setDrawBarOutline(true);
         render.setBaseOutlinePaint(new ChartColor(0, 0, 0));
-        render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("访问 {2} 次", new DecimalFormat("###,###")));
         render.setBaseItemLabelsVisible(true);
-        if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowDetail.do")){
+        if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowPie.do")){
             if (showDetailRecord) {
                 render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
             }
         }
-        render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 被访问{2}次", new DecimalFormat("###,###")));
+        render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 访问{2}次", new DecimalFormat("###,###")));
 
         plot.setRenderer(render);
         plot.setForegroundAlpha(0.8f);

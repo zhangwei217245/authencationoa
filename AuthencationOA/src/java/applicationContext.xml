@@ -105,7 +105,7 @@
 
     <bean id="jpqlGenerator" class="com.vv.auth.persist.service.qlgenerator.JPQLGenerator"/>
     <bean id="illegalAccessChartGenerator" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessChartGenerator">
-        <property name="showDetailRecord" value="false"/>
+        <property name="showDetailRecord" value="true"/>
         <property name="showChartIn3D" value="false"/>
     </bean>
     <bean id="catagoryDataAdaptor" class="com.vv.auth.struts.illegalaccess.chart.IllegalAccessCatagoryDataAdaptor"></bean>

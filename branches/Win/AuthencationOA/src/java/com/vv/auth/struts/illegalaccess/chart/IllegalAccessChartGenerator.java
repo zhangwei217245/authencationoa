@@ -32,9 +32,7 @@ import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
@@ -100,7 +98,7 @@ public class IllegalAccessChartGenerator {
         List rstlst = getCountByUser_RightCondition(conditionid, criteria, beg, over);
 
         DefaultPieDataset data = (DefaultPieDataset) pieDataAdaptor.getDataset(rstlst, new String[]{criteria});
-        JFreeChart chart = getPieChart(title, data, request.getContextPath() + queryUrl, cateName, indexName);
+        JFreeChart chart = getPieChart(title, data, request.getContextPath() + queryUrl+dateQuery, cateName, indexName);
         saveChartImageInRequest(request, chart);
     }
 
@@ -182,6 +180,7 @@ public class IllegalAccessChartGenerator {
             jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
             param.put("over", over);
         }
+        jpqlGenerator.setWhere_clause(null, "i.trId.rightType='path'");
 
         String jpql = jpqlGenerator.toString();
         
@@ -285,6 +284,7 @@ public class IllegalAccessChartGenerator {
             jpqlGenerator.setWhere_clause(null, "i.dataccesstime<=:over");
             param.put("over", over);
         }
+        jpqlGenerator.setWhere_clause(null, "i.trId.rightType='path'");
         String jpql = jpqlGenerator.toString();
         
         return jpaDaoService.findEntities(jpql, param, true, -1, -1);
@@ -325,7 +325,7 @@ public class IllegalAccessChartGenerator {
             firstIndex = -1;
             maxCount = -1;
         }
-
+        jpqlGenerator.setWhere_clause(null, "i.trId.rightType='path'");
         String jpql = jpqlGenerator.toString();
         
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
@@ -362,11 +362,12 @@ public class IllegalAccessChartGenerator {
         if (Utility.isNotEmpty(rightids)) {
             jpqlGenerator.setHaving_clause(null, jpqlGenerator.getIn_clause("i.trId.trId", rightids));
             jpqlGenerator.setOrderby_clause("i.trId.trId", "ASC");
+
             all = true;
             firstIndex = -1;
             maxCount = -1;
         }
-
+        jpqlGenerator.setWhere_clause(null, "i.trId.rightType='path'");
         String jpql = jpqlGenerator.toString();
         
         return jpaDaoService.findEntities(jpql, param, all, firstIndex, maxCount);
@@ -402,13 +403,19 @@ public class IllegalAccessChartGenerator {
         BarRenderer render = showChartIn3D ? new BarRenderer3D() : new BarRenderer();
         render.setDrawBarOutline(true);
         render.setBaseOutlinePaint(new ChartColor(0, 0, 0));
-        render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("访问 {2} 次", new DecimalFormat("###,###")));
+        //设定柱状图的数据标签，做完整显示。
+        //render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("访问 {2} 次", new DecimalFormat("###,###")));
+        //设定柱状图的数据标签，只显示计数。
+        render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("###,###")));
+
         render.setBaseItemLabelsVisible(true);
-        if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowPie.do")){
-            if (showDetailRecord) {
-                render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
-            }
+        if (showDetailRecord) {
+            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
         }
+        if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowPie.do")){
+            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
+        }
+        
         render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 访问{2}次", new DecimalFormat("###,###")));
 
         plot.setRenderer(render);

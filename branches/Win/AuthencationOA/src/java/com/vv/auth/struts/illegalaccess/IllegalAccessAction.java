@@ -162,6 +162,7 @@ public class IllegalAccessAction extends BaseAction {
             jpqlGenerator.setWhere_clause(null, "i.userid.userid="+userid);
             jpqlGenerator.setOrderby_clause("i.userid.userid", "ASC");
         }
+        jpqlGenerator.setWhere_clause(null, "i.trId.rightType='path'");
         String jpql = jpqlGenerator.toString();
         
 

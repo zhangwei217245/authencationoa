@@ -7,10 +7,13 @@ package com.vv.auth.persist.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,10 +39,10 @@ public class Documenttype implements Serializable, IEntity {
     private Integer numtypeid;
     @Column(name = "vc2name", length = 50)
     private String vc2name;
-    @OneToMany(mappedBy = "numtypeid")
-    private Collection<Document> documentCollection = new ArrayList<Document>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numdoctypeid")
-    private Collection<Documentpath> documentpathCollection = new ArrayList<Documentpath>();
+    @OneToMany(mappedBy = "numtypeid",fetch=FetchType.EAGER)
+    private Set<Document> documentCollection = new HashSet<Document>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numdoctypeid",fetch=FetchType.EAGER)
+    private Set<Documentpath> documentpathCollection = new HashSet<Documentpath>();
 
     public Documenttype() {
     }
@@ -68,19 +71,19 @@ public class Documenttype implements Serializable, IEntity {
         this.vc2name = vc2name;
     }
 
-    public Collection<Document> getDocumentCollection() {
+    public Set<Document> getDocumentCollection() {
         return documentCollection;
     }
 
-    public void setDocumentCollection(Collection<Document> documentCollection) {
+    public void setDocumentCollection(Set<Document> documentCollection) {
         this.documentCollection = documentCollection;
     }
 
-    public Collection<Documentpath> getDocumentpathCollection() {
+    public Set<Documentpath> getDocumentpathCollection() {
         return documentpathCollection;
     }
 
-    public void setDocumentpathCollection(Collection<Documentpath> documentpathCollection) {
+    public void setDocumentpathCollection(Set<Documentpath> documentpathCollection) {
         this.documentpathCollection = documentpathCollection;
     }
 

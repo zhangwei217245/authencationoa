@@ -47,9 +47,7 @@ import org.jfree.util.Rotation;
  * 生成条状图或者饼状图。
  * @author x-spirit
  */
-public class IllegalAccessChartGenerator {
-
-    public static final String FORMATE_DATE = "yyyy-MM-dd HH:mm:ss";
+public class IllegalAccessChartGenerator implements IllegalChartGenerator {
     @Resource
     private IJpaDaoService jpaDaoService;
     @Resource
@@ -221,11 +219,15 @@ public class IllegalAccessChartGenerator {
 
         if (Utility.hasElement(criterias, "userid")) {
             rstlst = getCountBySelectedUser(userids, beg, over);
-            userIDs = getUseridsByTop5List(rstlst);
+            if(Utility.isNotEmpty(rstlst)){
+                userIDs = getUseridsByTop5List(rstlst);
+            }
         }
         if (Utility.hasElement(criterias, "trId")) {
             rstlst = getCountBySelectedRight(rightids, beg, over);
-            rightIDs = getRightidsByTop5List(rstlst);
+            if(Utility.isNotEmpty(rstlst)){
+                rightIDs = getRightidsByTop5List(rstlst);
+            }
         }
         String queryUrl = "/IllegalAccess/illegalAccessShowPie.do" + dateQuery;
         if (Utility.hasElement(criterias, "userid") && Utility.hasElement(criterias, "trId")) {
@@ -234,7 +236,7 @@ public class IllegalAccessChartGenerator {
         }
 
         DefaultCategoryDataset data = (DefaultCategoryDataset) catagoryDataAdaptor.getDataset(rstlst, criterias);
-        JFreeChart chart = getBarChar("非法访问量统计", "分类", "访问量", data, request.getContextPath() + queryUrl);
+        JFreeChart chart = getBarChar("非法访问量统计", "分类", "访问量", data, request.getContextPath() + queryUrl, criterias);
         saveChartImageInRequest(request, chart);
     }
 
@@ -329,7 +331,7 @@ public class IllegalAccessChartGenerator {
         jpqlGenerator.setGroupby_clause("i.userid");
         jpqlGenerator.setOrderby_clause("COUNT(i)", "DESC");
         if (Utility.isNotEmpty(userids)) {
-            String part = hasNullString(userids) ? "(i.userid.userid IS NULL OR " + jpqlGenerator.getIn_clause("i.userid.userid", userids) + ")" : jpqlGenerator.getIn_clause("i.userid.userid", userids);
+            String part = hasNullString(userids) ? "(i.userid.userid IS EMPTY OR " + jpqlGenerator.getIn_clause("i.userid.userid", userids) + ")" : jpqlGenerator.getIn_clause("i.userid.userid", userids);
             jpqlGenerator.setHaving_clause(null, part);
             jpqlGenerator.setOrderby_clause("i.userid.userid", "ASC");
             all = true;
@@ -405,7 +407,7 @@ public class IllegalAccessChartGenerator {
      * @param baseUrl
      * @return
      */
-    private JFreeChart getBarChar(String title, String catalable, String valuelabel, DefaultCategoryDataset data, String baseUrl) throws Exception {
+    private JFreeChart getBarChar(String title, String catalable, String valuelabel, DefaultCategoryDataset data, String baseUrl, String[] criterias) throws Exception {
         JFreeChart chart = ChartFactory.createBarChart3D(title, catalable, valuelabel, data,
                 PlotOrientation.VERTICAL, true,
                 true, true);
@@ -420,11 +422,14 @@ public class IllegalAccessChartGenerator {
         render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("###,###")));
 
         render.setBaseItemLabelsVisible(true);
+        String rowParamKey = (!Utility.hasElement(criterias, "userid")&&Utility.hasElement(criterias, "trId"))?"rightname":"username";
+        String columnParamKey = (!Utility.hasElement(criterias, "userid")&&Utility.hasElement(criterias, "trId"))?"username":"rightname";
+
         if (showDetailRecord) {
-            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
+            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, rowParamKey, columnParamKey));
         }
         if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowPie.do")){
-            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
+            render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, rowParamKey, columnParamKey));
         }
         
         render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 访问{2}次", new DecimalFormat("###,###")));

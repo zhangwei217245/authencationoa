@@ -70,7 +70,7 @@
                                     <div>
                                         <select id="groupsout" name="groupsout" style="width:80%" ondblclick="addopt()" size="15">
                                         <logic:iterate id="outgroup" name="outGroups" type="com.vv.auth.persist.entity.TGroup" scope="request" indexId="goid">
-                                            <option value="<bean:write name="outgroup" property="tgId"/>"><bean:write name="outgroup" property="groupName"/></option>
+                                            <option value="<bean:write name="outgroup" property="tgId"/>"><bean:write name="outgroup" property="tgDesc"/></option>
                                         </logic:iterate>
                                     </select>
                                     </div>
@@ -88,7 +88,7 @@
                                     <div style="text-align:center;vertical-align:middle">
                                         <select id="groupsin" name="groupsin" style="width:80%" ondblclick="delopt()" size="15" multiple>
                                         <logic:iterate id="ingroup" name="inGroups" type="com.vv.auth.persist.entity.TGroup" scope="request" indexId="giid">
-                                            <option value="<bean:write name="ingroup" property="tgId"/>"><bean:write name="ingroup" property="groupName"/></option>
+                                            <option value="<bean:write name="ingroup" property="tgId"/>"><bean:write name="ingroup" property="tgDesc"/></option>
                                         </logic:iterate>
                                         </select>
                                     </div>

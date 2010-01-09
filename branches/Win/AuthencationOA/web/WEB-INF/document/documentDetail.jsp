@@ -122,7 +122,7 @@
         </center>
                         <div style="visibility:${requestScope.showVerifyForm}">
                             <div class="divtopline"></div>
-        <html:form action="/Document/auditDocument.do" onsubmit="return validateDocumentForm(this)" method="post" enctype="multipart/form-data">
+        <html:form action="/Document/auditDocument.do" onsubmit="return validateDocumentAuditForm(this)" method="post" enctype="multipart/form-data">
             <html:hidden property="numdocid" value="${requestScope.docDetail.numdocid}"/>
             <html:hidden property="advicetag"/>
             <center>
@@ -153,7 +153,7 @@
                     </tr>
                 </table>
             </center>
-                        <html:javascript formName="documentForm"/>
+                        <html:javascript formName="documentAuditForm"/>
         </html:form>
         </div>
     </body>

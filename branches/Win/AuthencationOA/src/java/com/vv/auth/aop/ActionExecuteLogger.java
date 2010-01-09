@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DownloadAction.FileStreamInfo;
+import org.apache.struts.actions.DownloadAction.ResourceStreamInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -40,23 +42,24 @@ public class ActionExecuteLogger {
     private void anyActionExecute(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
     }
 
-    @Pointcut("execution(* com.vv.auth.struts..getStreamInfo(..))&& args(mapping,..,request,response)")//针对下载的切点
+    @Pointcut("execution(* com.vv.auth.struts..*.*Action.getStreamInfo(..))&& args(mapping,..,request,response)")//针对下载的切点
     private void anyGetStreamInfo(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) {
     }
 
-    private void recordMalForward(HttpServletRequest request,String requestPath) throws Throwable{
+    private void persistMalForward(HttpServletRequest request,String requestPath) throws Throwable{
         Integer userid = Utility.getCurrSessionUserid(request);
         Vcustomer user = null;
+        //仅当SESSION中的用户ID存在的时候，对错误访问进行记录。即不记录未注册用户的错误访问状况。
         if(userid!=null){
             user = jpaDaoService.findOneEntityById(Vcustomer.class, userid);
-        }
-        Map params = new HashMap();
-        params.put("rightType", "path");
-        params.put("rightPath", requestPath+".do");
-        List rstlst = jpaDaoService.findByNamedQueryAndNamedParams("TRight.findByRightTypeAndRightPath", params);
-        if(Utility.isNotEmpty(rstlst)){
-            TRight right = (TRight)rstlst.get(0);
-            jpaDaoService.create(new Illegalaccess(new Date(), user, right));
+            Map params = new HashMap();
+            params.put("rightType", "path");
+            params.put("rightPath", requestPath+".do");
+            List rstlst = jpaDaoService.findByNamedQueryAndNamedParams("TRight.findByRightTypeAndRightPath", params);
+            if(Utility.isNotEmpty(rstlst)){
+                TRight right = (TRight)rstlst.get(0);
+                jpaDaoService.create(new Illegalaccess(new Date(), user, right));
+            }
         }
     }
 
@@ -76,7 +79,7 @@ public class ActionExecuteLogger {
         System.out.println(retVal.equals(targetForward));
         try {
             if(!retVal.equals(targetForward)){
-                recordMalForward(request,requestPath);
+                persistMalForward(request,requestPath);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,9 +91,13 @@ public class ActionExecuteLogger {
     @Around("anyGetStreamInfo(mapping,request,response)")
     public Object recordMalDownload(ProceedingJoinPoint pjp,ActionMapping mapping, HttpServletRequest request, HttpServletResponse response) throws Throwable{
         // Before Execution
-        String targetForward = mapping.getPath();
-        System.out.println(targetForward);
+        String requestPath = mapping.getPath();
+        System.out.println(requestPath);
 	Object retVal = pjp.proceed();
+        String typeName = retVal.getClass().getCanonicalName();
+        if(Utility.isNotEmpty(typeName)&&typeName.contains("ResourceStreamInfo")){
+            persistMalForward(request, requestPath);
+        }
 	// After Execution
         System.out.println(retVal);
 	return retVal;

@@ -65,16 +65,42 @@ public class IllegalAccessChartGenerator {
     private boolean showDetailRecord;
     private boolean showChartIn3D;
 
-    public void generatePieChartForAny(HttpServletRequest request, String userid, String trId,
+    public void generatePieChartForAny(HttpServletRequest request, String username, String rightname,
             String begs, String overs) throws Exception {
         Date beg = Utility.isNotEmpty(begs) ? Utility.convertStringToDate(begs, FORMATE_DATE) : null;
         Date over = Utility.isNotEmpty(overs) ? Utility.convertStringToDate(overs, FORMATE_DATE) : null;
+
+        String queryUrl = "/IllegalAccess/illegalAccessShowDetail.do";
+        String dateQuery = "?datbeg=" + begs + "&datover=" + overs;
+        String title = "错误访问量分布";
+        String cateName = "piecate",indexName="pieindex";
+
+        String[] uarr = username.split("\\.");
+        String[] rarr = rightname.split("\\.");
+
+        String userid = null;
+        String trId = null;
+        if(Utility.isNotEmpty(uarr)&&uarr.length>1){
+            userid = uarr[0];
+            title = "用户["+username+"]"+title;
+            cateName = "rightname";
+            dateQuery = dateQuery + "&username=" + username;
+        }
+
+        if(Utility.isNotEmpty(rarr)&&rarr.length>1){
+            trId = rarr[0];
+            title = "权限["+rightname+"]"+title;
+            cateName = "username";
+            dateQuery = dateQuery + "&rightname=" + rightname;
+        }
+
         String criteria = Utility.isNotEmpty(userid) ? "trId" : (Utility.isNotEmpty(trId) ? "userid" : null);
         String conditionid = Utility.isNotEmpty(userid) ? userid : (Utility.isNotEmpty(trId) ? trId : null);
-        List rstlst = getCountByUser_RightCondition(userid, criteria, beg, over);
+        List rstlst = getCountByUser_RightCondition(conditionid, criteria, beg, over);
 
         DefaultPieDataset data = (DefaultPieDataset) pieDataAdaptor.getDataset(rstlst, new String[]{criteria});
-
+        JFreeChart chart = getPieChart(title, data, queryUrl, cateName, indexName);
+        saveChartImageInRequest(request, chart);
     }
 
     /**
@@ -83,7 +109,7 @@ public class IllegalAccessChartGenerator {
      * @param data
      * @return
      */
-    private JFreeChart getPie3DChart(String title, PieDataset data,String queryUrl) {
+    private JFreeChart getPieChart(String title, PieDataset data, String queryUrl,String cateName,String indexName) {
         JFreeChart chart = showChartIn3D ? ChartFactory.createPieChart3D(title, data, true, true, true)
                 : ChartFactory.createPieChart(title, data, true, true, true);
         PiePlot plot = (PiePlot) chart.getPlot();
@@ -111,7 +137,9 @@ public class IllegalAccessChartGenerator {
         //设置鼠标悬停提示
         plot.setToolTipGenerator(new StandardPieToolTipGenerator());
         //设置热点链接
-        plot.setURLGenerator(new StandardPieURLGenerator(queryUrl));
+        if (showDetailRecord) {
+            plot.setURLGenerator(new StandardPieURLGenerator(queryUrl, cateName, indexName));
+        }
         return chart;
     }
 
@@ -199,12 +227,13 @@ public class IllegalAccessChartGenerator {
         JFreeChart chart = getBarChar("非法访问量统计", "分类", "访问量", data, request.getContextPath() + queryUrl);
         saveChartImageInRequest(request, chart);
     }
+
     /**
      * 将生成的CHART变成BufferedImage存入Session，将相应的MAP存入Request
      * @param request
      * @param chart
      */
-    private void saveChartImageInRequest(HttpServletRequest request,JFreeChart chart){
+    private void saveChartImageInRequest(HttpServletRequest request, JFreeChart chart) {
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         BufferedImage bi = chart.createBufferedImage(800, 600, info);
         request.getSession().setAttribute(ChartUtility.ChartImageKey, bi);
@@ -375,11 +404,11 @@ public class IllegalAccessChartGenerator {
         render.setBaseOutlinePaint(new ChartColor(0, 0, 0));
         render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         render.setBaseItemLabelsVisible(true);
-        //if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowDetail.do")){
-            if(showDetailRecord){
+        if(Utility.isNotEmpty(baseUrl)&&baseUrl.contains("illegalAccessShowDetail.do")){
+            if (showDetailRecord) {
                 render.setBaseItemURLGenerator(new StandardCategoryURLGenerator(baseUrl, "username", "rightname"));
             }
-        //}
+        }
         render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 被访问{2}次", new DecimalFormat("###,###")));
 
         plot.setRenderer(render);

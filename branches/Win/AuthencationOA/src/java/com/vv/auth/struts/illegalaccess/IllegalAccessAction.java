@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.vv.auth.struts.illegalaccess;
 
 import com.vv.auth.persist.service.IJpaDaoService;
@@ -23,7 +22,7 @@ import org.apache.struts.action.ActionMapping;
  *
  * @author x-spirit
  */
-public class IllegalAccessAction extends BaseAction{
+public class IllegalAccessAction extends BaseAction {
 
     @Resource
     private IJpaDaoService jpaDaoService;
@@ -37,16 +36,16 @@ public class IllegalAccessAction extends BaseAction{
         String parameter = mapping.getParameter();
 
         if (parameter.equalsIgnoreCase("illegalAccessInit")) {
-            forward = IllegalAccessInit(mapping, aform,request, response);
+            forward = IllegalAccessInit(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("illegalAccessShowCata")) {
-            forward = IllegalAccessShowCata(mapping, aform,request, response);
+            forward = IllegalAccessShowCata(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("illegalAccessShowPie")) {
-            forward = IllegalAccessShowPie(mapping, aform,request, response);
+            forward = IllegalAccessShowPie(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("illegalAccessShowDetail")) {
-            forward = IllegalAccessShowDetail(mapping, aform,request, response);
+            forward = IllegalAccessShowDetail(mapping, aform, request, response);
         } else if (parameter.equalsIgnoreCase("ChartView")) {
-            ChartView(mapping, aform,request, response);
-        } 
+            ChartView(mapping, aform, request, response);
+        }
         return forward;
     }
 
@@ -60,7 +59,7 @@ public class IllegalAccessAction extends BaseAction{
      * @throws Exception
      */
     private ActionForward IllegalAccessInit(ActionMapping mapping, ActionForm aform,
-            HttpServletRequest request, HttpServletResponse response) throws Exception{
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             List allusers = jpaDaoService.findByNamedQueryAndNamedParams("Vcustomer.findAll", null);
             Map param = new HashMap();
@@ -69,10 +68,10 @@ public class IllegalAccessAction extends BaseAction{
             request.setAttribute("allusers", allusers);
             request.setAttribute("allrights", allrights);
         } catch (Exception e) {
-            log.error(e+"");
+            log.error(e + "");
             e.printStackTrace();
         }
-        
+
         return mapping.findForward(SUCCESS);
     }
 
@@ -86,50 +85,48 @@ public class IllegalAccessAction extends BaseAction{
      * @throws Exception
      */
     private ActionForward IllegalAccessShowCata(ActionMapping mapping, ActionForm aform,
-            HttpServletRequest request, HttpServletResponse response) throws Exception{
-        IllegalAccessForm form = (IllegalAccessForm)aform;
-        String[] criterias=form.getCriterias();
-        String[] userids=form.getUserids();
-        String[] rightids=form.getRightids();
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IllegalAccessForm form = (IllegalAccessForm) aform;
+        String[] criterias = form.getCriterias();
+        String[] userids = form.getUserids();
+        String[] rightids = form.getRightids();
         try {
             illegalAccessChartGenerator.generateCataChartForAny(request, userids, rightids, form.getBeg(), form.getOver(), form.getCriterias());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(e+"");
+            log.error(e + "");
         }
-        
+
         return mapping.findForward(SUCCESS);
     }
 
-
     private ActionForward IllegalAccessShowPie(ActionMapping mapping, ActionForm aform,
-            HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String username = new String(request.getParameter("username").getBytes("ISO8859_1"), "utf-8");
-        String rightname = new String(request.getParameter("rightname").getBytes("ISO8859_1"), "utf-8");
-        
-        String[] uarr = username.split("\\.");
-        String[] rarr = rightname.split("\\.");
-        
-        if(Utility.isNotEmpty(uarr)){
-            int userid = Integer.parseInt(uarr[0]);
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String username = request.getParameter("username");
+        String rightname = request.getParameter("rightname");
+        String datbeg = request.getParameter("datbeg");
+        String datover = request.getParameter("datover");
+        try {
+            illegalAccessChartGenerator.generatePieChartForAny(request, username, rightname, datbeg, datover);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e+"");
         }
 
-        
-        if(Utility.isNotEmpty(rarr)){
-            int trId = Integer.parseInt(rarr[0]);
-        }
         return mapping.findForward(SUCCESS);
     }
 
     private ActionForward IllegalAccessShowDetail(ActionMapping mapping, ActionForm aform,
-            HttpServletRequest request, HttpServletResponse response) throws Exception{
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String username = request.getParameter("username");
+        String rightname = request.getParameter("rightname");
+        String datbeg = request.getParameter("datbeg");
+        String datover = request.getParameter("datover");
         
         return mapping.findForward(SUCCESS);
     }
 
     private void ChartView(ActionMapping mapping, ActionForm aform, HttpServletRequest request,
-            HttpServletResponse response) throws Exception{
-        
+            HttpServletResponse response) throws Exception {
     }
-
 }

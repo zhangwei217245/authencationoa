@@ -5,6 +5,7 @@
 
 package com.vv.auth.struts.illegalaccess.chart;
 
+import com.vv.auth.persist.entity.TGroup;
 import com.vv.auth.persist.entity.TRight;
 import com.vv.auth.persist.entity.Vcustomer;
 import com.vv.auth.struts.util.Utility;
@@ -20,7 +21,7 @@ public class IllegalAccessPieDataAdaptor implements DataSetAdaptor {
     public AbstractDataset getDataset(List list,String[] criterias){
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        if(!list.isEmpty()){
+        if(Utility.isNotEmpty(list)){
             int i=0;
             for(Object o:list){
                 String cri = (++i)+"";
@@ -30,6 +31,15 @@ public class IllegalAccessPieDataAdaptor implements DataSetAdaptor {
                 if(Utility.hasElement(criterias, "userid")){
                     if(arr[1]!=null&&((Vcustomer)arr[1]).getName()!=null){
                         username=((Vcustomer)arr[1]).getUserid()+"."+((Vcustomer)arr[1]).getName();
+                        if(Utility.isNotEmpty(((Vcustomer)arr[1]).getTGroupCollection())){
+                            for(TGroup group:((Vcustomer)arr[1]).getTGroupCollection()){
+                                if(username.contains("@")){
+                                    username = username + " & " + group.getTgDesc();
+                                }else{
+                                    username = username + " @ " + group.getTgDesc();
+                                }
+                            }
+                        }
                     }
                     cri = username;
                 }else if(Utility.hasElement(criterias, "trId")){

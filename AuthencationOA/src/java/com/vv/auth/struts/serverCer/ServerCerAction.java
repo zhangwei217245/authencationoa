@@ -69,6 +69,7 @@ public class ServerCerAction extends BaseAction {
 
             try {
                 BeanUtils.copyProperties(cereg, sform); //哪里是对数据库的操作？
+                cereg.setKsdid(null);
                 Calendar now = Calendar.getInstance();
                 cereg.setDdaybeg(now.getTime());
                 int nowadays = now.get(Calendar.DAY_OF_YEAR);

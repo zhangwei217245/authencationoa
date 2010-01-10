@@ -68,7 +68,9 @@ public class ServerCerAction extends BaseAction {
         if (isTokenValid(request, true)) {
 
             try {
-                BeanUtils.copyProperties(cereg, sform); //哪里是对数据库的操作？
+                BeanUtils.copyProperties(cereg, sform);
+                //copyProperties之后，主键居然被置为0了。Hibernate要求实体类如果指定了具体的主键生成策略
+                //则在实体对象被持久化之前，其ID不能为具体值，必须是NULL。否则就会抛错：detached entity passed to persist
                 cereg.setKsdid(null);
                 Calendar now = Calendar.getInstance();
                 cereg.setDdaybeg(now.getTime());

@@ -405,8 +405,11 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
      * @param valuelabel
      * @param data
      * @param baseUrl
+     * @param criterias
      * @return
+     * @throws Exception
      */
+    
     private JFreeChart getBarChar(String title, String catalable, String valuelabel, DefaultCategoryDataset data, String baseUrl, String[] criterias) throws Exception {
         JFreeChart chart = ChartFactory.createBarChart3D(title, catalable, valuelabel, data,
                 PlotOrientation.VERTICAL, true,

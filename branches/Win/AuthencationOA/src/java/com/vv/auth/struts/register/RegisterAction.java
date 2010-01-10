@@ -46,6 +46,7 @@ public class RegisterAction extends BaseAction {
         RegisterForm regform = (RegisterForm) aform;
         Vcustomer user = new Vcustomer();
         BeanUtils.copyProperties(user, regform);
+        user.setUserid(null);
         user.setPassword(new MD5Text().MD5Encode(user.getPassword()));
         try {
             tuserService.saveUser(user);

@@ -106,6 +106,7 @@ public class ClientCerAction extends BaseAction {
         if (isTokenValid(request, true)) {
             try {
                 BeanUtils.copyProperties(vc, ccf);
+                vc.setUserid(null);
                 Calendar now = Calendar.getInstance();
                 vc.setDdaybeg(now.getTime());
                 int nowadays = now.get(Calendar.DAY_OF_YEAR);

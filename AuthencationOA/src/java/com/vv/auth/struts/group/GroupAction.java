@@ -118,11 +118,13 @@ public class GroupAction extends BaseAction {
             TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             group.getTRightCollection().clear();
             String[] rights = form.getTgright();
-            for (String rightid : rights) {
-                TRight right = trightJpaControl.findTRight(new Integer(rightid));
-                //right.getTGroupCollection().clear();//保证一个用户只能属于一个组
-                right.getTGroupCollection().add(group);
-                group.getTRightCollection().add(right);
+            if(rights!=null){
+                for (String rightid : rights) {
+                    TRight right = trightJpaControl.findTRight(new Integer(rightid));
+                    //right.getTGroupCollection().clear();//保证一个用户只能属于一个组
+                    right.getTGroupCollection().add(group);
+                    group.getTRightCollection().add(right);
+                }
             }
             tgroupJpaControl.edit(group);
         } catch (Exception e) {
@@ -175,11 +177,13 @@ public class GroupAction extends BaseAction {
             TGroup group = tgroupJpaControl.findTGroup(new Integer(groupid));
             group.getVcustomerCollection().clear();
             String[] users = form.getTguser();
-            for (String userid : users) {
-                Vcustomer vcustomer = vcustomerJpaController.findVcustomer(new Integer(userid));
-                vcustomer.getTGroupCollection().clear();//保证一个用户只能属于一个组
-                vcustomer.getTGroupCollection().add(group);
-                group.getVcustomerCollection().add(vcustomer);
+            if(users!=null){
+                for (String userid : users) {
+                    Vcustomer vcustomer = vcustomerJpaController.findVcustomer(new Integer(userid));
+                    vcustomer.getTGroupCollection().clear();//保证一个用户只能属于一个组
+                    vcustomer.getTGroupCollection().add(group);
+                    group.getVcustomerCollection().add(vcustomer);
+                }
             }
             tgroupJpaControl.edit(group);
         } catch (Exception e) {

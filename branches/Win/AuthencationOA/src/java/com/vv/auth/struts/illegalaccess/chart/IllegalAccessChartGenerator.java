@@ -36,6 +36,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BarRenderer3D;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.urls.StandardCategoryURLGenerator;
 import org.jfree.chart.urls.StandardPieURLGenerator;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -112,7 +113,12 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
         PiePlot plot = (PiePlot) chart.getPlot();
         plot.setIgnoreNullValues(true);
         plot.setIgnoreZeroValues(true);
-        
+
+        //设定每块饼的说明标签字体
+        plot.setLabelFont(new Font("宋体", Font.PLAIN, 16));
+
+
+
         //图形边框颜色
         plot.setBaseSectionOutlinePaint(Color.black);
         //设置饼状图的绘制方向，可以按顺时针方向绘制，也可以按逆时针方向绘制(逆时针视觉上是从左向右)
@@ -148,6 +154,7 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
         if (showDetailRecord) {
             plot.setURLGenerator(new StandardPieURLGenerator(queryUrl, cateName, indexName));
         }
+        
         return chart;
     }
 
@@ -246,6 +253,8 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
      * @param chart
      */
     private void saveChartImageInRequest(HttpServletRequest request, JFreeChart chart) {
+        chart.getTitle().setFont(new Font("宋体", Font.BOLD, 28));
+        chart.getLegend().setItemFont(new Font("宋体", Font.PLAIN, 16));
         ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
         BufferedImage bi = chart.createBufferedImage(800, 600, info);
         request.getSession().setAttribute(ChartUtility.ChartImageKey, bi);
@@ -423,6 +432,10 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
         //render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("访问 {2} 次", new DecimalFormat("###,###")));
         //设定柱状图的数据标签，只显示计数。
         render.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("###,###")));
+        //设定每根柱子上的标签值的字体
+        render.setBaseItemLabelFont(new Font("宋体", Font.PLAIN, 16));
+        //设定图例区的字体
+        //render.setBaseLegendTextFont(new Font("宋体", Font.PLAIN, 16));
 
         render.setBaseItemLabelsVisible(true);
         String rowParamKey = (!Utility.hasElement(criterias, "userid")&&Utility.hasElement(criterias, "trId"))?"rightname":"username";
@@ -436,6 +449,15 @@ public class IllegalAccessChartGenerator implements IllegalChartGenerator {
         }
         
         render.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator("{0}<-->{1}: 访问{2}次", new DecimalFormat("###,###")));
+        Font ticklabelFont = new Font("宋体", Font.PLAIN, 18);
+        Font labelFont = new Font("宋体", Font.PLAIN, 20);
+
+        //设定X轴和Y轴的数值标签字体
+        plot.getDomainAxis().setTickLabelFont(ticklabelFont);
+        plot.getRangeAxis().setTickLabelFont(ticklabelFont);
+        //设定X轴和Y轴的名称标签字体
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelFont(labelFont);
 
         plot.setRenderer(render);
         plot.setForegroundAlpha(0.8f);
